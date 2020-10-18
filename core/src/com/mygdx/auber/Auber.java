@@ -11,7 +11,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 public class Auber extends ApplicationAdapter {
 	SpriteBatch batch;
 	Texture texture;
-	Sprite sprite;
+	Sprite room;
 	Sprite character;
 	
 	@Override
@@ -19,7 +19,7 @@ public class Auber extends ApplicationAdapter {
 		batch = new SpriteBatch();
 		texture = new Texture("Room 1.png");
 		character = new Sprite(new Texture("Construction worker.png"));
-		sprite = new Sprite(texture);
+		room = new Sprite(texture);
 	}
 
 	@Override
@@ -41,7 +41,7 @@ public class Auber extends ApplicationAdapter {
 		}
 
 		batch.begin();
-		sprite.draw(batch);
+		room.draw(batch);
 		character.draw(batch);
 		batch.end();
 	}
