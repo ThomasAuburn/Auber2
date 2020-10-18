@@ -10,17 +10,13 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 
 public class Auber extends ApplicationAdapter {
 	SpriteBatch batch;
-	Sprite room;
+	Room room;
 	Character userCharacter;
 	
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
-		room = new Sprite(new Texture("Room 1.png"));
-		room.setPosition(Gdx.graphics.getWidth()/2f - room.getWidth()/2,
-				Gdx.graphics.getHeight()/2f - room.getHeight()/2);
-		room.scale(0.1f);
-
+		room = new Room("Room 1.png", batch);
 		userCharacter = new Character("Construction worker.png", batch);
 	}
 
@@ -43,7 +39,7 @@ public class Auber extends ApplicationAdapter {
 		}
 
 		batch.begin();
-		room.draw(batch);
+		room.sprite.draw(batch);
 		userCharacter.sprite.draw(batch);
 		batch.end();
 	}
