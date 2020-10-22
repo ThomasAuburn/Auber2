@@ -47,5 +47,7 @@ public class Auber extends ApplicationAdapter {
 	@Override
 	public void dispose () {
 		batch.dispose();
+		userCharacter.texture.dispose();
+		room.texture.dispose();
 	}
 }
