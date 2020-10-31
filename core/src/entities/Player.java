@@ -80,12 +80,21 @@ public class Player extends Sprite implements InputProcessor {
 
     public boolean collidesRight()
     {
-        boolean collides = false;
-        for(float step = collisionLayer.getTileHeight()/2; step < getHeight(); step += collisionLayer.getTileHeight()/2)
+        /**
+         * "Function that scans the blocks directly right of the sprite, for the height of the sprite, and returns a bool based on if they are blocked or not"
+         *
+         * Args: None
+         *
+         * Returns:
+         *  bool: True if there is a on the right of the sprite that contains "blocked", else returns false
+
+         */
+        boolean collides = false; //By default, no collision is detected
+        for(float step = collisionLayer.getTileHeight()/2; step < getHeight(); step += collisionLayer.getTileHeight()/2) //A for loop iterating across the amount of tiles tall the sprite is
         {
-            collides = isCellBlocked(getX() + getWidth()  - 5, getY() + step);
+            collides = isCellBlocked(getX() + getWidth()  - 5, getY() + step); //Calls isCellBlocked for each tile, if the cell contains "blocked" sets collides = true
             if(collides)
-                break;
+                break; //If collides is true, no longer need to run the loop, break and return collides
         }
 
         return collides;
@@ -116,6 +125,7 @@ public class Player extends Sprite implements InputProcessor {
         return collides;
     }
 
+
     public boolean collidesBottom()
     {
         boolean collides = false;
@@ -132,8 +142,18 @@ public class Player extends Sprite implements InputProcessor {
 
     private boolean isCellBlocked(float x,float y)
     {
-        TiledMapTileLayer.Cell cell = collisionLayer.getCell((int) (x / collisionLayer.getTileWidth()), (int) (y / collisionLayer.getTileHeight()));
-        return cell != null && cell.getTile() != null && cell.getTile().getProperties().containsKey("blocked");
+        /**
+         * "A function that checks a cell and returns a bool for whether the cell contains the key "blocked" or not
+         *
+         * Args:
+         *      x (float): X coordinate of the cell to check
+         *      y(float): Y coordinate of the cell to check
+         *
+         * Returns:
+         *      bool: True if cell contains "blocked", else false
+         */
+        TiledMapTileLayer.Cell cell = collisionLayer.getCell((int) (x / collisionLayer.getTileWidth()), (int) (y / collisionLayer.getTileHeight())); //Set variable cell to the cell at specified x,y coordinate
+        return cell != null && cell.getTile() != null && cell.getTile().getProperties().containsKey("blocked"); //If cell is not null, and the cell contains "blocked", return true, else false
     }
 
     @Override
@@ -152,7 +172,6 @@ public class Player extends Sprite implements InputProcessor {
                 velocity.y = -speed;
                 break;
         }
-        System.out.println(velocity);
         return true;
     }
 
