@@ -83,7 +83,7 @@ public class Player extends Sprite implements InputProcessor {
         boolean collides = false;
         for(float step = collisionLayer.getTileHeight()/2; step < getHeight(); step += collisionLayer.getTileHeight()/2)
         {
-            collides = isCellBlocked(getX() + getWidth(), getY() + step);
+            collides = isCellBlocked(getX() + getWidth()  - 5, getY() + step);
             if(collides)
                 break;
         }
@@ -96,7 +96,7 @@ public class Player extends Sprite implements InputProcessor {
         boolean collides = false;
         for(float step = collisionLayer.getTileHeight()/2; step < getHeight(); step += collisionLayer.getTileHeight()/2)
         {
-            collides = isCellBlocked(getX(), getY() + step);
+            collides = isCellBlocked(getX()  + 5, getY() + step);
             if(collides)
                 break;
         }
@@ -108,7 +108,7 @@ public class Player extends Sprite implements InputProcessor {
         boolean collides = false;
         for(float step = collisionLayer.getTileWidth()/2; step < getWidth(); step += collisionLayer.getTileWidth()/2)
         {
-            collides = isCellBlocked(getX() + step, getY() + getHeight());
+            collides = isCellBlocked(getX() + step, getY() + getHeight()  - 5);
             if(collides)
                 break;
         }
@@ -121,7 +121,7 @@ public class Player extends Sprite implements InputProcessor {
         boolean collides = false;
         for(float step = collisionLayer.getTileWidth()/2; step < getWidth(); step += collisionLayer.getTileWidth()/2)
         {
-            collides = isCellBlocked(getX() + step, getY());
+            collides = isCellBlocked(getX() + step, getY() + 5);
             if(collides)
                 break;
         }

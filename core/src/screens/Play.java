@@ -28,7 +28,8 @@ public class Play implements Screen {
         renderer = new OrthogonalTiledMapRenderer(map);
         camera = new OrthographicCamera();
 
-        player = new Player(new Sprite(new Texture("Sprite64.png")),(TiledMapTileLayer)map.getLayers().get(0));
+        player = new Player(new Sprite(new Texture("SpriteTest.png")),(TiledMapTileLayer)map.getLayers().get(0));
+        player.setScale(.4f);
         player.setPosition(player.getX() + 30, player.getY() + 30);
 
         camera.position.set(player.getX(),player.getY(),0);
@@ -45,12 +46,11 @@ public class Play implements Screen {
         camera.position.set(player.getX() + player.getWidth()/2,player.getY() + player.getHeight()/2,0);
         camera.update();
 
-        renderer.render();
-
-        update(delta);
-
         renderer.getBatch().begin();
+        renderer.renderTileLayer((TiledMapTileLayer) map.getLayers().get(0));
+        update(delta);
         player.draw(renderer.getBatch());
+        renderer.renderTileLayer((TiledMapTileLayer) map.getLayers().get(1));
         renderer.getBatch().end();
     }
 
