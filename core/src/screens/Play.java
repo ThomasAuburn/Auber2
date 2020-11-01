@@ -1,7 +1,6 @@
 package screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -37,7 +36,6 @@ public class Play implements Screen {
         Gdx.input.setInputProcessor(player);
     }
 
-
     @Override
     public void render(float delta) {
         Gdx.gl.glClearColor(0,0,0,1);
@@ -61,22 +59,7 @@ public class Play implements Screen {
     }
 
     public void handleInput(float time) {
-//        if(Gdx.input.isKeyPressed(Input.Keys.W))
-//        {
-//            camera.position.y += 100 * time;
-//        }
-//        if(Gdx.input.isKeyPressed(Input.Keys.S))
-//        {
-//            camera.position.y -= 100 * time;
-//        }
-//        if(Gdx.input.isKeyPressed(Input.Keys.A))
-//        {
-//            camera.position.x -= 100 * time;
-//        }
-//        if(Gdx.input.isKeyPressed(Input.Keys.D))
-//        {
-//            camera.position.x += 100 * time;
-//        }
+
     }
 
     public void update(float time) {
