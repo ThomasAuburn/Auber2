@@ -9,16 +9,17 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Vector2;
 
 public class Player extends Sprite implements InputProcessor {
-
-
-
     /**The movement velocity */
     private Vector2 velocity = new Vector2(0,0);
 
-    private float speed = 1;
+    private final float SPEED = 1;
     private float elapsedTime = 0;
     private float interpolationTime = 1;
 
+    private boolean isWHeld;
+    private boolean isAHeld;
+    private boolean isSHeld;
+    private boolean isDHeld;
 
     private TiledMapTileLayer collisionLayer;
 
@@ -35,8 +36,27 @@ public class Player extends Sprite implements InputProcessor {
     }
 
     public void update(float delta) {
-        float oldX = getX(), oldY = getY(), tileWidth = collisionLayer.getTileWidth(), tileHeight = collisionLayer.getTileHeight();
+        float oldX = getX(), oldY = getY();
         boolean collideX = false, collideY = false;
+
+        velocity.x = 0; velocity.y = 0;
+
+        if(isWHeld)
+        {
+            velocity.y += SPEED;
+        }
+        if(isSHeld)
+        {
+            velocity.y -= SPEED;
+        }
+        if(isAHeld)
+        {
+            velocity.x -= SPEED;
+        }
+        if(isDHeld)
+        {
+            velocity.x += SPEED;
+        }
 
         //move on x
         if(velocity.x < 0)
@@ -72,10 +92,8 @@ public class Player extends Sprite implements InputProcessor {
             velocity.y = 0;
         }
 
-
-        setX((float) getX() + velocity.x);
-        setY((float) getY() + velocity.y);
-
+        setX(getX() + velocity.x);
+        setY(getY() + velocity.y);
     }
 
     public boolean collidesRight()
@@ -87,7 +105,6 @@ public class Player extends Sprite implements InputProcessor {
          *
          * Returns:
          *  bool: True if there is a on the right of the sprite that contains "blocked", else returns false
-
          */
         boolean collides = false; //By default, no collision is detected
         for(float step = collisionLayer.getTileHeight()/2; step < getHeight(); step += collisionLayer.getTileHeight()/2) //A for loop iterating across the amount of tiles tall the sprite is
@@ -112,19 +129,16 @@ public class Player extends Sprite implements InputProcessor {
         return collides;
     }
 
-    public boolean collidesTop()
-    {
+    public boolean collidesTop() {
         boolean collides = false;
-        for(float step = collisionLayer.getTileWidth()/2; step < getWidth(); step += collisionLayer.getTileWidth()/2)
-        {
-            collides = isCellBlocked(getX() + step, getY() + getHeight()  - 5);
-            if(collides)
+        for (float step = collisionLayer.getTileWidth() / 2; step < getWidth(); step += collisionLayer.getTileWidth() / 2) {
+            collides = isCellBlocked(getX() + step, getY() + getHeight() - 5);
+            if (collides)
                 break;
         }
 
         return collides;
     }
-
 
     public boolean collidesBottom()
     {
@@ -138,7 +152,6 @@ public class Player extends Sprite implements InputProcessor {
 
         return collides;
     }
-
 
     private boolean isCellBlocked(float x,float y)
     {
@@ -160,16 +173,20 @@ public class Player extends Sprite implements InputProcessor {
     public boolean keyDown(int keycode) {
         switch (keycode) {
             case Input.Keys.W:
-                velocity.y = speed;
+                //velocity.y = SPEED;
+                isWHeld = true;
                 break;
             case Input.Keys.A:
-                velocity.x = -speed;
+                //velocity.x = -SPEED;
+                isAHeld = true;
                 break;
             case Input.Keys.D:
-                velocity.x = speed;
+                //velocity.x = SPEED;
+                isDHeld = true;
                 break;
             case Input.Keys.S:
-                velocity.y = -speed;
+                //velocity.y = -SPEED;
+                isSHeld = true;
                 break;
         }
         return true;
@@ -179,23 +196,26 @@ public class Player extends Sprite implements InputProcessor {
     public boolean keyUp(int keycode) {
         switch (keycode) {
             case Input.Keys.W:
-                if(velocity.y > 0)
-                {velocity.y = 0;}
+                isWHeld = false;
+                //if(velocity.y > 0)
+                //{velocity.y = 0;}
                 break;
             case Input.Keys.S:
-                if(velocity.y < 0)
-                {velocity.y = 0;}
+                isSHeld = false;
+                //if(velocity.y < 0)
+                //{velocity.y = 0;}
                 break;
             case Input.Keys.A:
-                if(velocity.x < 0)
-                {velocity.x = 0;}
+                isAHeld = false;
+                //if(velocity.x < 0)
+                //{velocity.x = 0;}
                 break;
             case Input.Keys.D:
-                if(velocity.x > 0)
-                {velocity.x = 0;}
+                isDHeld = false;
+                //if(velocity.x > 0)
+                //{velocity.x = 0;}
                 break;
         }
-        System.out.println(velocity);
         return true;
     }
 
