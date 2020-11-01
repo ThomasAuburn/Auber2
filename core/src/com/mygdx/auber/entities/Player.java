@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.auber.Scenes.Hud;
 
 
 public class Player extends Sprite implements InputProcessor {
@@ -22,7 +23,9 @@ public class Player extends Sprite implements InputProcessor {
     private boolean isSHeld;
     private boolean isDHeld;
 
+
     private TiledMapTileLayer collisionLayer;
+
 
     public Player(Sprite sprite, TiledMapTileLayer collisionLayer)
     {
@@ -58,6 +61,7 @@ public class Player extends Sprite implements InputProcessor {
         {
             velocity.x += SPEED;
         }
+
 
         //move on x
         if(velocity.x < 0)
@@ -188,6 +192,10 @@ public class Player extends Sprite implements InputProcessor {
             case Input.Keys.S:
                 //velocity.y = -SPEED;
                 isSHeld = true;
+                break;
+            case Input.Keys.X:
+                //Test Health values
+                Hud.health -= 1;
                 break;
         }
         return true;

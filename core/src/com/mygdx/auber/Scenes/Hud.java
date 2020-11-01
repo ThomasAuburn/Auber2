@@ -19,6 +19,8 @@ public class Hud {
     private Integer ImposterCount;
     private Integer CrewmateCount;
 
+    public static int health = 10; //Hud.health
+
     Label imposterCountLabel;
     Label crewmateCountLabel;
 
@@ -36,8 +38,8 @@ public class Hud {
         imposterCountLabel = new Label(String.format("Imposter Arrests: %02d", ImposterCount), new Label.LabelStyle(new BitmapFont(), Color.RED));
         crewmateCountLabel = new Label(String.format("Crewmate Arrests: %02d", CrewmateCount), new Label.LabelStyle(new BitmapFont(), Color.RED));
 
-        hudTable.add(imposterCountLabel).expandX().left();
-        hudTable.add(crewmateCountLabel).expandX().right();
+        hudTable.add(imposterCountLabel).expandX().left().padLeft(10);
+        hudTable.add(crewmateCountLabel).expandX().right().padRight(10);
 
 
         stage.addActor(hudTable);

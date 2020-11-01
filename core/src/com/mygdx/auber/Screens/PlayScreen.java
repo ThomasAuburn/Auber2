@@ -56,6 +56,13 @@ public class PlayScreen implements Screen {
 
     }
 
+    public boolean gameOver(){
+        if(hud.health <= 0){
+            return true;
+        }
+        return false;
+    }
+
 
 
     public void handleInput(float time){
@@ -100,6 +107,11 @@ public class PlayScreen implements Screen {
         game.batch.setProjectionMatrix(hud.stage.getCamera().combined);//Tells the game batch to only render what is in the game camera
         hud.stage.draw();
         renderer.getBatch().end();
+
+        if(gameOver()){
+            game.setScreen(new GameOverScreen(game));
+            dispose();
+        }
     }
 
     @Override
