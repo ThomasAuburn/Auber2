@@ -21,7 +21,6 @@ public class Menu implements Screen, InputProcessor {
     public void show() {
     }
 
-
     @Override
     public void render(float delta) {
         stage.draw();

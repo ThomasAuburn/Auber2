@@ -6,7 +6,6 @@ import screens.Play;
 
 public class Auber extends Game{
 
-
 	@Override
 	public void create() {
 		setScreen(new Play());

@@ -28,7 +28,6 @@ public class Play implements Screen {
         camera = new OrthographicCamera();
 
         player = new Player(new Sprite(new Texture("SpriteTest.png")),(TiledMapTileLayer)map.getLayers().get(0));
-        player.setScale(.4f);
         player.setPosition(player.getX() + 30, player.getY() + 30);
 
         camera.position.set(player.getX(),player.getY(),0);
@@ -42,7 +41,6 @@ public class Play implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         camera.position.set(player.getX() + player.getWidth()/2,player.getY() + player.getHeight()/2,0);
-        camera.update();
 
         renderer.getBatch().begin();
         renderer.renderTileLayer((TiledMapTileLayer) map.getLayers().get(0));
