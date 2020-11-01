@@ -110,7 +110,7 @@ public class Player extends Sprite implements InputProcessor {
         boolean collides = false; //By default, no collision is detected
         for(float step = collisionLayer.getTileHeight()/2; step < getHeight(); step += collisionLayer.getTileHeight()/2) //A for loop iterating across the amount of tiles tall the sprite is
         {
-            collides = isCellBlocked(getX() + getWidth()  - 5, getY() + step); //Calls isCellBlocked for each tile, if the cell contains "blocked" sets collides = true
+            collides = isCellBlocked(getX() + getWidth(), getY() + step); //Calls isCellBlocked for each tile, if the cell contains "blocked" sets collides = true
             if(collides)
                 break; //If collides is true, no longer need to run the loop, break and return collides
         }
@@ -123,7 +123,7 @@ public class Player extends Sprite implements InputProcessor {
         boolean collides = false;
         for(float step = collisionLayer.getTileHeight()/2; step < getHeight(); step += collisionLayer.getTileHeight()/2)
         {
-            collides = isCellBlocked(getX()  + 5, getY() + step);
+            collides = isCellBlocked(getX() , getY() + step);
             if(collides)
                 break;
         }
@@ -133,7 +133,7 @@ public class Player extends Sprite implements InputProcessor {
     public boolean collidesTop() {
         boolean collides = false;
         for (float step = collisionLayer.getTileWidth() / 2; step < getWidth(); step += collisionLayer.getTileWidth() / 2) {
-            collides = isCellBlocked(getX() + step, getY() + getHeight() - 5);
+            collides = isCellBlocked(getX() + step, getY() + getHeight());
             if (collides)
                 break;
         }
@@ -146,7 +146,7 @@ public class Player extends Sprite implements InputProcessor {
         boolean collides = false;
         for(float step = collisionLayer.getTileWidth()/2; step < getWidth(); step += collisionLayer.getTileWidth()/2)
         {
-            collides = isCellBlocked(getX() + step, getY() + 5);
+            collides = isCellBlocked(getX() + step, getY());
             if(collides)
                 break;
         }
