@@ -17,7 +17,7 @@ public class MapGraph implements IndexedGraph<Node> {
     static Array<Node> nodes = new Array<>();
     static Array<Path> paths = new Array<>();
 
-    ObjectMap<Node, Array<Connection<Node>>> pathsMap = new ObjectMap<>();
+    static ObjectMap<Node, Array<Connection<Node>>> pathsMap = new ObjectMap<>();
 
     private static int lastNodeIndex = 0;
 
@@ -32,12 +32,25 @@ public class MapGraph implements IndexedGraph<Node> {
         nodes.add(node);
     }
 
+    public static Node getNode(float x, float y)
+    {
+        for (Node node: nodes)
+        {
+            if(node.x == x && node.y == y)
+            {
+                return node;
+            }
+        }
+
+        return null;
+    }
+
     /**
      * Creates a path from one node to another
      * @param fromNode
      * @param toNode
      */
-    public void connectNodes(Node fromNode, Node toNode)
+    public static void connectNodes(Node fromNode, Node toNode)
     {
         Path path = new Path(fromNode,toNode);
         if(!pathsMap.containsKey(fromNode))

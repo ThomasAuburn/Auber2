@@ -53,7 +53,7 @@ public class PlayScreen implements Screen {
         Gdx.input.setInputProcessor(player);
         //camera.position.set(viewport.getScreenWidth() / 2, viewport.getScreenHeight() / 2, 0);
 
-        graphCreator = new GraphCreator((TiledMapTileLayer)map.getLayers().get(1));
+        graphCreator = new GraphCreator((TiledMapTileLayer)map.getLayers().get(0));
     }
 
     @Override

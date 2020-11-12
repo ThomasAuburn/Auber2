@@ -1,13 +1,12 @@
 package com.mygdx.auber.Pathfinding;
 
 import com.badlogic.gdx.ApplicationAdapter;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ai.pfa.GraphPath;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.utils.Array;
 
 public class GraphCreator extends ApplicationAdapter {
     ShapeRenderer shapeRenderer;
@@ -44,16 +43,22 @@ public class GraphCreator extends ApplicationAdapter {
         }
     }
 
+    /**
+     * Generates a node on every tile in the map, if it matches the id
+     * Called when the GraphCreator object is instantiated
+     */
     public void generateNodeMap()
     {
         for (int i = 0; i < tileLayer.getWidth(); i++)
         {
             for(int j = 0; j < tileLayer.getHeight(); j++)
             {
-                TiledMapTileLayer.Cell cell = tileLayer.getCell((int) (i * tileLayer.getTileWidth()), (int) (j * tileLayer.getTileHeight()));
-                if(cell != null && cell.getTile() != null && (cell.getTile().getId() == 12))
+                int x = i * tileLayer.getTileWidth();
+                int y = j * tileLayer.getTileHeight();
+                TiledMapTileLayer.Cell cell = tileLayer.getCell(i, j);
+                if(cell != null && cell.getTile() != null && (cell.getTile().getId() == 11 || cell.getTile().getId() == 12))
                 {
-                    Node node = new Node((int) (i * tileLayer.getTileWidth()), (int) (j * tileLayer.getTileHeight()));
+                    Node node = new Node(x,y);
                     MapGraph.addNode(node);
                 }
             }
@@ -64,13 +69,25 @@ public class GraphCreator extends ApplicationAdapter {
     {
         for (Node node: MapGraph.nodes)
         {
-            return;
+            for (Node neighbourNode: getNeighbourNodes(node))
+            {
+                MapGraph.connectNodes(node, neighbourNode);
+            }
         }
     }
 
-    public void getNeighbourNodes()
+    public Array<Node> getNeighbourNodes(Node node)
     {
-        return;
+        Array<Node> nodes = new Array<>();
+        float x = node.x;
+        float y = node.y;
+
+        nodes.add(MapGraph.getNode(x + tileLayer.getTileWidth(), y));
+        nodes.add(MapGraph.getNode(x - tileLayer.getTileWidth(), y));
+        nodes.add(MapGraph.getNode(x, y + tileLayer.getTileHeight()));
+        nodes.add(MapGraph.getNode(x, y - tileLayer.getTileHeight()));
+
+        return nodes;
     }
 
     @Override
