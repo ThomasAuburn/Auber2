@@ -14,6 +14,8 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.auber.Auber;
+import com.mygdx.auber.Pathfinding.GraphCreator;
+import com.mygdx.auber.Pathfinding.MapGraph;
 import com.mygdx.auber.Scenes.Hud;
 import com.mygdx.auber.entities.Infiltrator;
 import com.mygdx.auber.entities.Player;
@@ -26,6 +28,7 @@ public class PlayScreen implements Screen {
     private TmxMapLoader mapLoader;
     private TiledMap map;
     private OrthogonalTiledMapRenderer renderer;
+    private GraphCreator graphCreator;
 
     private Player player;
     private Infiltrator infiltrator;
@@ -49,6 +52,8 @@ public class PlayScreen implements Screen {
 
         Gdx.input.setInputProcessor(player);
         //camera.position.set(viewport.getScreenWidth() / 2, viewport.getScreenHeight() / 2, 0);
+
+        graphCreator = new GraphCreator((TiledMapTileLayer)map.getLayers().get(1));
     }
 
     @Override
@@ -99,9 +104,8 @@ public class PlayScreen implements Screen {
         player.draw(renderer.getBatch());
         infiltrator.draw(renderer.getBatch());
         renderer.renderTileLayer((TiledMapTileLayer) map.getLayers().get(1));
+        graphCreator.render();
         update(delta);
-
-
 
         game.batch.setProjectionMatrix(hud.stage.getCamera().combined);//Tells the game batch to only render what is in the game camera
         hud.stage.draw();

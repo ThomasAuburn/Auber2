@@ -20,22 +20,15 @@ public class Node {
         this.index = index;
     }
 
-    public void render(ShapeRenderer shapeRenderer, SpriteBatch batch, BitmapFont font, boolean inPath){
+    public void render(ShapeRenderer shapeRenderer, SpriteBatch batch, BitmapFont font){
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        if(inPath) {
-            // green
-            shapeRenderer.setColor(.57f, .76f, .48f, 1);
-        }
-        else{
-            // blue
-            shapeRenderer.setColor(.8f, .88f, .95f, 1);
-        }
-        shapeRenderer.circle(x, y, 20);
+        shapeRenderer.setColor(.8f, .88f, .95f, 1);
+        shapeRenderer.circle(x, y, 10);
         shapeRenderer.end();
 
         shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
         shapeRenderer.setColor(0, 0, 0, 1);
-        shapeRenderer.circle(x, y, 20);
+        shapeRenderer.circle(x, y, 10);
         shapeRenderer.end();
 
         batch.begin();
