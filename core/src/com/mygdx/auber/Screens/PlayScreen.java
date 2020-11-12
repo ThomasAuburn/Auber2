@@ -39,7 +39,7 @@ public class PlayScreen implements Screen {
 
 
         mapLoader = new TmxMapLoader();
-        map = mapLoader.load("testmap.tmx");
+        map = mapLoader.load("AuberMap1.0.tmx");
         player = new Player(new Sprite(new Texture("SpriteTest.png")),(TiledMapTileLayer)map.getLayers().get(0));
         player.setPosition(player.getX() + 30, player.getY() + 30);
 
