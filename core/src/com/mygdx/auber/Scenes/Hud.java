@@ -19,8 +19,6 @@ public class Hud {
     private Integer ImposterCount;
     private Integer CrewmateCount;
 
-    public static int health = 10; //Hud.health
-
     Label imposterCountLabel;
     Label crewmateCountLabel;
 
