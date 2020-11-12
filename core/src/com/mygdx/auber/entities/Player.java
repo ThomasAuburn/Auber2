@@ -14,6 +14,8 @@ public class Player extends Sprite implements InputProcessor {
     /**The movement velocity */
     private Vector2 velocity = new Vector2(0,0);
 
+    public int health = 100;
+
     private final float SPEED = 1;
     private float elapsedTime = 0;
     private float interpolationTime = 1;
@@ -257,5 +259,17 @@ public class Player extends Sprite implements InputProcessor {
     @Override
     public boolean scrolled(int amount) {
         return false;
+    }
+
+
+    public void heal(int amount) {
+        health += amount;
+        if (health > 100) {
+            health = 100;
+        }
+    }
+
+    public void heal() {
+        health = 100;
     }
 }
