@@ -18,7 +18,6 @@ import com.mygdx.auber.Scenes.Hud;
 import com.mygdx.auber.entities.Infiltrator;
 import com.mygdx.auber.entities.Player;
 
-
 public class PlayScreen implements Screen {
     private Auber game;
     private OrthographicCamera camera;

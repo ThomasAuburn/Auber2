@@ -13,10 +13,6 @@ public class Infiltrator extends NPC{
     private Vector2 velocity = new Vector2(0,0);
 
     private final float SPEED = 1;
-    private float elapsedTime = 0;
-    private float interpolationTime = 1;
-
-
 
     public Infiltrator(Sprite sprite, TiledMapTileLayer collisionLayer, float x, float y) {
         super(sprite, collisionLayer, x, y);
@@ -27,8 +23,6 @@ public class Infiltrator extends NPC{
     }
 
     public void update(float dt){
-        elapsedTime += dt;
-
     }
 }
 
