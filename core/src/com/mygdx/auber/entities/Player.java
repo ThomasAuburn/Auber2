@@ -17,8 +17,6 @@ public class Player extends Sprite implements InputProcessor {
     public int health = 100;
 
     private final float SPEED = 1;
-    private float elapsedTime = 0;
-    private float interpolationTime = 1;
 
     private boolean isWHeld;
     private boolean isAHeld;
@@ -115,7 +113,7 @@ public class Player extends Sprite implements InputProcessor {
          *  bool: True if there is a on the right of the sprite that contains "blocked", else returns false
          */
         boolean collides = false; //By default, no collision is detected
-        for(float step = collisionLayer.getTileHeight()/2; step < getHeight(); step += collisionLayer.getTileHeight()/2) //A for loop iterating across the amount of tiles tall the sprite is
+        for(float step = collisionLayer.getTileHeight()/2f; step < getHeight(); step += collisionLayer.getTileHeight()/2f) //A for loop iterating across the amount of tiles tall the sprite is
         {
             collides = isCellBlocked(getX() + getWidth(), getY() + step); //Calls isCellBlocked for each tile, if the cell contains "blocked" sets collides = true
             if(collides)
@@ -128,7 +126,7 @@ public class Player extends Sprite implements InputProcessor {
     public boolean collidesLeft()
     {
         boolean collides = false;
-        for(float step = collisionLayer.getTileHeight()/2; step < getHeight(); step += collisionLayer.getTileHeight()/2)
+        for(float step = collisionLayer.getTileHeight()/2f; step < getHeight(); step += collisionLayer.getTileHeight()/2f)
         {
             collides = isCellBlocked(getX() , getY() + step);
             if(collides)
@@ -139,7 +137,7 @@ public class Player extends Sprite implements InputProcessor {
 
     public boolean collidesTop() {
         boolean collides = false;
-        for (float step = collisionLayer.getTileWidth() / 2; step < getWidth(); step += collisionLayer.getTileWidth() / 2) {
+        for (float step = collisionLayer.getTileWidth() / 2f; step < getWidth(); step += collisionLayer.getTileWidth() / 2f) {
             collides = isCellBlocked(getX() + step, getY() + getHeight());
             if (collides)
                 break;
@@ -151,7 +149,7 @@ public class Player extends Sprite implements InputProcessor {
     public boolean collidesBottom()
     {
         boolean collides = false;
-        for(float step = collisionLayer.getTileWidth()/2; step < getWidth(); step += collisionLayer.getTileWidth()/2)
+        for(float step = collisionLayer.getTileWidth()/2f; step < getWidth(); step += collisionLayer.getTileWidth()/2f)
         {
             collides = isCellBlocked(getX() + step, getY());
             if(collides)
