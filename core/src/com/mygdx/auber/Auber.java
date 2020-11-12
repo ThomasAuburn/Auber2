@@ -1,53 +1,38 @@
 package com.mygdx.auber;
 
-import com.badlogic.gdx.ApplicationAdapter;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.mygdx.auber.Screens.PlayScreen;
 
-public class Auber extends ApplicationAdapter {
-	SpriteBatch batch;
-	Room room;
-	Character userCharacter;
-	
+import java.util.HashMap;
+
+public class Auber extends Game {
+	public static final int VirtualWidth = 800;
+	public static final int VirtualHeight = 480;//Virtual dimensions for the game
+
+	public SpriteBatch batch;
+	Texture img;
+
+
+	final HashMap<String, Sprite> sprites = new HashMap<String, Sprite>(); //Hashmap to store sprites inside of to reduce memory consumption of creating multiple sprite instances
+
+
+
+
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
-		room = new Room("Room 1.png", batch);
-		userCharacter = new Character("Construction worker.png", batch);
+		setScreen(new PlayScreen(this));
+
+
 	}
 
 	@Override
 	public void render () {
-		Gdx.gl.glClearColor(1, 1, 1, 1);
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
-		if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-			userCharacter.translate(-5, 0);
-		}
-		if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-			userCharacter.translate(5, 0);
-		}
-		if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
-			userCharacter.translate(0, 5);
-		}
-		if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
-			userCharacter.translate(0, -5);
-		}
-
-		batch.begin();
-		room.sprite.draw(batch);
-		userCharacter.sprite.draw(batch);
-		batch.end();
-	}
-	
-	@Override
-	public void dispose () {
-		batch.dispose();
-		userCharacter.texture.dispose();
-		room.texture.dispose();
+		super.render();//delegates render method to current active screen
 	}
 }
+
+
