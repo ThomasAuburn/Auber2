@@ -14,7 +14,7 @@ public class Player extends Sprite implements InputProcessor {
     /**The movement velocity */
     private final Vector2 velocity = new Vector2(0,0);
 
-    public static int health = 100;
+    public static int health = 10;
 
     private boolean isWHeld;
     private boolean isAHeld;
@@ -177,7 +177,7 @@ public class Player extends Sprite implements InputProcessor {
                 break;
             case Input.Keys.X:
                 //Test Health values
-                Hud.health -= 1;
+                health -= 1;
                 break;
         }
         return true;
