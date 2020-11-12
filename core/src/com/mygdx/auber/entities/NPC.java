@@ -10,6 +10,5 @@ public class NPC extends Sprite {
         super(sprite);
         this.collisionLayer = collisionLayer;
         setPosition(x, y);
-
     }
 }

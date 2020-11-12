@@ -15,8 +15,6 @@ public class Player extends Sprite implements InputProcessor {
     private Vector2 velocity = new Vector2(0,0);
 
     private final float SPEED = 1;
-    private float elapsedTime = 0;
-    private float interpolationTime = 1;
 
     private boolean isWHeld;
     private boolean isAHeld;

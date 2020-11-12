@@ -15,6 +15,7 @@ import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.auber.Auber;
 import com.mygdx.auber.Scenes.Hud;
+import com.mygdx.auber.entities.Infiltrator;
 import com.mygdx.auber.entities.Player;
 
 
@@ -28,20 +29,21 @@ public class PlayScreen implements Screen {
     private OrthogonalTiledMapRenderer renderer;
 
     private Player player;
+    private Infiltrator infiltrator;
 
     public PlayScreen(Auber game){
         this.game = game;
-
 
         camera = new OrthographicCamera();
         viewport = new ExtendViewport(Auber.VirtualWidth, Auber.VirtualHeight, camera);
         hud = new Hud(game.batch);
 
-
         mapLoader = new TmxMapLoader();
         map = mapLoader.load("AuberMap1.0.tmx");
         player = new Player(new Sprite(new Texture("SpriteTest.png")),(TiledMapTileLayer)map.getLayers().get(0));
-        player.setPosition(player.getX() + 30, player.getY() + 30);
+        player.setPosition(player.getX() + 150, player.getY() + 100);
+
+        infiltrator = new Infiltrator(new Sprite(new Texture("SpriteTest.png")),(TiledMapTileLayer)map.getLayers().get(0),player.getX(), player.getY());
 
         renderer = new OrthogonalTiledMapRenderer(map);
         camera.position.set(player.getX(),player.getY(),0);
@@ -62,8 +64,6 @@ public class PlayScreen implements Screen {
         }
         return false;
     }
-
-
 
     public void handleInput(float time){
         /*if(Gdx.input.isKeyPressed(Input.Keys.W))
@@ -98,6 +98,7 @@ public class PlayScreen implements Screen {
 
         renderer.renderTileLayer((TiledMapTileLayer) map.getLayers().get(0));
         player.draw(renderer.getBatch());
+        infiltrator.draw(renderer.getBatch());
         renderer.renderTileLayer((TiledMapTileLayer) map.getLayers().get(1));
         update(delta);
 

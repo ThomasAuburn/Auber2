@@ -20,6 +20,7 @@ public class Infiltrator extends NPC{
 
     public Infiltrator(Sprite sprite, TiledMapTileLayer collisionLayer, float x, float y) {
         super(sprite, collisionLayer, x, y);
+
         Map map;
         //infiltrator = new NPC(new Sprite(new Texture("SpriteTest.png")),(TiledMapTileLayer) PlayScreen.map.getLayers().get(0), 20, 20);
         //infiltrator.setPosition(infiltrator.getX(), infiltrator.getY());
