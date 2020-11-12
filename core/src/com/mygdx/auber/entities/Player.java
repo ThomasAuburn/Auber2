@@ -31,6 +31,7 @@ public class Player extends Sprite implements InputProcessor {
     {
         super(sprite);
         this.collisionLayer = collisionLayer;
+        this.setPosition(16*35, 16*31);
     }
 
     @Override
