@@ -1,4 +1,4 @@
-package entities;
+package com.mygdx.auber.entities;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -7,19 +7,25 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.auber.Scenes.Hud;
+
 
 public class Player extends Sprite implements InputProcessor {
     /**The movement velocity */
     private Vector2 velocity = new Vector2(0,0);
 
     private final float SPEED = 1;
+    private float elapsedTime = 0;
+    private float interpolationTime = 1;
 
     private boolean isWHeld;
     private boolean isAHeld;
     private boolean isSHeld;
     private boolean isDHeld;
 
+
     private TiledMapTileLayer collisionLayer;
+
 
     public Player(Sprite sprite, TiledMapTileLayer collisionLayer)
     {
@@ -56,6 +62,7 @@ public class Player extends Sprite implements InputProcessor {
             velocity.x += SPEED;
         }
 
+
         //move on x
         if(velocity.x < 0)
         {
@@ -90,7 +97,6 @@ public class Player extends Sprite implements InputProcessor {
             velocity.y = 0;
         }
 
-        //move sprite by velocity
         setX(getX() + velocity.x);
         setY(getY() + velocity.y);
     }
@@ -121,7 +127,7 @@ public class Player extends Sprite implements InputProcessor {
         boolean collides = false;
         for(float step = collisionLayer.getTileHeight()/2; step < getHeight(); step += collisionLayer.getTileHeight()/2)
         {
-            collides = isCellBlocked(getX(), getY() + step);
+            collides = isCellBlocked(getX() , getY() + step);
             if(collides)
                 break;
         }
@@ -186,6 +192,10 @@ public class Player extends Sprite implements InputProcessor {
             case Input.Keys.S:
                 //velocity.y = -SPEED;
                 isSHeld = true;
+                break;
+            case Input.Keys.X:
+                //Test Health values
+                Hud.health -= 1;
                 break;
         }
         return true;
