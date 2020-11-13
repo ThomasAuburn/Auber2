@@ -83,6 +83,7 @@ public class PlayScreen implements Screen {
     public void update(float time){
         handleInput(time);
 
+        infiltrator.step();
         camera.update();
         renderer.setView(camera);
     }
