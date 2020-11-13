@@ -62,11 +62,8 @@ public class PlayScreen implements Screen {
 
     }
 
-    public boolean gameOver(){
-        if(hud.health <= 0){
-            return true;
-        }
-        return false;
+    public boolean gameOver() {
+        return Player.health <= 0;
     }
 
     public void handleInput(float time){
