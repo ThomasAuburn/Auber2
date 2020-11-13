@@ -240,7 +240,6 @@ public class Player extends Sprite implements InputProcessor {
         return false;
     }
 
-
     public void heal(int amount) {
         health += amount;
         if (health > 100) {
