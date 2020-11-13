@@ -15,18 +15,12 @@ public class Auber extends Game {
 	public SpriteBatch batch;
 	Texture img;
 
-
 	final HashMap<String, Sprite> sprites = new HashMap<String, Sprite>(); //Hashmap to store sprites inside of to reduce memory consumption of creating multiple sprite instances
-
-
-
 
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
 		setScreen(new PlayScreen(this));
-
-
 	}
 
 	@Override

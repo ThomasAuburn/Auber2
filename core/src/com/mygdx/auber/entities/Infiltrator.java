@@ -13,21 +13,16 @@ public class Infiltrator extends NPC{
     private Vector2 velocity = new Vector2(0,0);
 
     private final float SPEED = 1;
-    private float elapsedTime = 0;
-    private float interpolationTime = 1;
-
-
 
     public Infiltrator(Sprite sprite, TiledMapTileLayer collisionLayer, float x, float y) {
         super(sprite, collisionLayer, x, y);
+
         Map map;
         //infiltrator = new NPC(new Sprite(new Texture("SpriteTest.png")),(TiledMapTileLayer) PlayScreen.map.getLayers().get(0), 20, 20);
         //infiltrator.setPosition(infiltrator.getX(), infiltrator.getY());
     }
 
     public void update(float dt){
-        elapsedTime += dt;
-
     }
 }
 

@@ -14,9 +14,11 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.auber.Auber;
+import com.mygdx.auber.Pathfinding.GraphCreator;
+import com.mygdx.auber.Pathfinding.MapGraph;
 import com.mygdx.auber.Scenes.Hud;
+import com.mygdx.auber.entities.Infiltrator;
 import com.mygdx.auber.entities.Player;
-
 
 public class PlayScreen implements Screen {
     private Auber game;
@@ -26,28 +28,32 @@ public class PlayScreen implements Screen {
     private TmxMapLoader mapLoader;
     private TiledMap map;
     private OrthogonalTiledMapRenderer renderer;
+    private GraphCreator graphCreator;
 
     private Player player;
+    private Infiltrator infiltrator;
 
     public PlayScreen(Auber game){
         this.game = game;
-
 
         camera = new OrthographicCamera();
         viewport = new ExtendViewport(Auber.VirtualWidth, Auber.VirtualHeight, camera);
         hud = new Hud(game.batch);
 
-
         mapLoader = new TmxMapLoader();
         map = mapLoader.load("AuberMap1.0.tmx");
         player = new Player(new Sprite(new Texture("SpriteTest.png")),(TiledMapTileLayer)map.getLayers().get(0));
-        player.setPosition(player.getX() + 30, player.getY() + 30);
+        player.setPosition(player.getX() + 150, player.getY() + 100);
+
+        infiltrator = new Infiltrator(new Sprite(new Texture("SpriteTest.png")),(TiledMapTileLayer)map.getLayers().get(0),player.getX(), player.getY());
 
         renderer = new OrthogonalTiledMapRenderer(map);
         camera.position.set(player.getX(),player.getY(),0);
 
         Gdx.input.setInputProcessor(player);
         //camera.position.set(viewport.getScreenWidth() / 2, viewport.getScreenHeight() / 2, 0);
+
+        graphCreator = new GraphCreator((TiledMapTileLayer)map.getLayers().get(0));
     }
 
     @Override
@@ -59,8 +65,6 @@ public class PlayScreen implements Screen {
     public boolean gameOver() {
         return Player.health <= 0;
     }
-
-
 
     public void handleInput(float time){
         /*if(Gdx.input.isKeyPressed(Input.Keys.W))
@@ -90,16 +94,15 @@ public class PlayScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         camera.position.set(player.getX() + player.getWidth()/2,player.getY() + player.getHeight()/2,0);
-        camera.update();
 
         renderer.getBatch().begin();
 
         renderer.renderTileLayer((TiledMapTileLayer) map.getLayers().get(0));
         player.draw(renderer.getBatch());
+        infiltrator.draw(renderer.getBatch());
         renderer.renderTileLayer((TiledMapTileLayer) map.getLayers().get(1));
+        //graphCreator.render(); //Debugging
         update(delta);
-
-
 
         game.batch.setProjectionMatrix(hud.stage.getCamera().combined);//Tells the game batch to only render what is in the game camera
         hud.stage.draw();
