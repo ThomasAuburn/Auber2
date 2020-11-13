@@ -14,12 +14,13 @@ public class Path implements Connection<Node> {
     {
          this.fromNode = fromNode;
          this.toNode = toNode;
-         System.out.println(fromNode);
-         System.out.println(toNode);
          cost = Vector2.dst(fromNode.x,fromNode.y,toNode.x,toNode.y);
-         System.out.println(cost);
     }
 
+    /**
+     * Render method for rendering the paths between nodes, used for debugging purposes
+     * @param shapeRenderer The shape renderer being used
+     */
     public void render(ShapeRenderer shapeRenderer)
     {
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
@@ -28,16 +29,28 @@ public class Path implements Connection<Node> {
         shapeRenderer.end();
     }
 
+    /**
+     * Returns the cost of the path
+     * @return An Int, the cost
+     */
     @Override
     public float getCost() {
         return cost;
     }
 
+    /**
+     * Returns the node the path comes from
+     * @return A Node, the from node
+     */
     @Override
     public Node getFromNode() {
         return fromNode;
     }
 
+    /**
+     * Returns the node the path goes to
+     * @return A Node, the to node
+     */
     @Override
     public Node getToNode() {
         return toNode;

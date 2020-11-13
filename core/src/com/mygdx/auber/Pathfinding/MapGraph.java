@@ -11,26 +11,34 @@ import com.badlogic.gdx.utils.ObjectMap;
 public class MapGraph implements IndexedGraph<Node> {
 
     PathHeuristic pathHeuristic = new PathHeuristic();
-    public static Array<Node> nodes = new Array<>();
-    public static Array<Path> paths = new Array<>();
+    public static Array<Node> nodes = new Array<>(); //Array holding all nodes on map
+    public static Array<Path> paths = new Array<>(); //Array holding all paths on map
 
     static ObjectMap<Node, Array<Connection<Node>>> pathsMap = new ObjectMap<>();
 
-    private static int lastNodeIndex = 0;
+    private static int lastNodeIndex = 0; //Increment counter to give each node a unique index
 
     /**
      * Adds a node to the list of nodes in the graph, sets the node index and increases the index by one
      */
     public static void addNode(Node node)
     {
+        //Sets node index to current lastNodeIndex, increments index by one, adds node to the list of nodes
         node.index = lastNodeIndex;
         lastNodeIndex++;
 
         nodes.add(node);
     }
 
+    /**
+     * Returns a node based on the x,y position of the node
+     * @param x X coord of the node to find
+     * @param y Y coord of the node to find
+     * @return The node at x,y
+     */
     public static Node getNode(float x, float y)
     {
+        //Searches every node for x,y coordinate, returns node with matching coords
         for (Node node: nodes)
         {
             if(node.x == x && node.y == y && node != null)
@@ -44,11 +52,12 @@ public class MapGraph implements IndexedGraph<Node> {
 
     /**
      * Creates a path from one node to another
-     * @param fromNode
-     * @param toNode
+     * @param fromNode Node path comes from
+     * @param toNode Node path goes to
      */
     public static void connectNodes(Node fromNode, Node toNode)
     {
+        //Adds a path from node to node, unless node is already in the pathsMap
         Path path = new Path(fromNode,toNode);
         if(!pathsMap.containsKey(fromNode))
         {
@@ -60,9 +69,9 @@ public class MapGraph implements IndexedGraph<Node> {
 
     /**
      * Calculates a path from one node to another, populates the nodePath variable with the path it finds
-     * @param startNode
-     * @param goalNode
-     * @return
+     * @param startNode Node to start the search from
+     * @param goalNode Node to finish search at
+     * @return A path of nodes to follow to get from start to finish
      */
     public GraphPath<Node> findPath(Node startNode, Node goalNode)
     {
@@ -73,8 +82,8 @@ public class MapGraph implements IndexedGraph<Node> {
 
     /**
      * Returns the index of a particular Node instance.
-     * @param node
-     * @return
+     * @param node Node to get index for
+     * @return Int index for the node
      */
     @Override
     public int getIndex(Node node) {
@@ -83,7 +92,7 @@ public class MapGraph implements IndexedGraph<Node> {
 
     /**
      * Return the count of how many nodes are in our search space
-     * @return
+     * @return Int sum of nodes on map
      */
     @Override
     public int getNodeCount() {
@@ -92,8 +101,8 @@ public class MapGraph implements IndexedGraph<Node> {
 
     /**
      * Returns the list of paths that start at a particular node
-     * @param fromNode
-     * @return
+     * @param fromNode Node to get paths from
+     * @return Array of paths from node
      */
     @Override
     public Array<Connection<Node>> getConnections(Node fromNode) {
