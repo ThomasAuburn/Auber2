@@ -27,19 +27,20 @@ public class GraphCreator extends ApplicationAdapter {
         this.tileLayer = tileLayer;
 
         generateNodeMap();
+        generateConnections();
     }
 
     @Override
     public void render() {
 
-        //for(Path path : MapGraph.paths)
-        //{
-        //    path.render(shapeRenderer);
-        //}
+        for(Path path : MapGraph.paths)
+        {
+           path.render(shapeRenderer);
+        }
 
         for(Node node : MapGraph.nodes)
         {
-            node.render(shapeRenderer, batch, font);
+            //node.render(shapeRenderer, batch, font);
         }
     }
 
@@ -67,9 +68,11 @@ public class GraphCreator extends ApplicationAdapter {
     
     public void generateConnections()
     {
-        for (Node node: MapGraph.nodes)
+        for (int i = 0; i < MapGraph.nodes.size; i++)
         {
-            for (Node neighbourNode: getNeighbourNodes(node))
+            Node node = MapGraph.nodes.get(i);
+            Array<Node> neighbourNodes = getNeighbourNodes(node);
+            for (Node neighbourNode: neighbourNodes)
             {
                 MapGraph.connectNodes(node, neighbourNode);
             }
@@ -82,10 +85,22 @@ public class GraphCreator extends ApplicationAdapter {
         float x = node.x;
         float y = node.y;
 
-        nodes.add(MapGraph.getNode(x + tileLayer.getTileWidth(), y));
-        nodes.add(MapGraph.getNode(x - tileLayer.getTileWidth(), y));
-        nodes.add(MapGraph.getNode(x, y + tileLayer.getTileHeight()));
-        nodes.add(MapGraph.getNode(x, y - tileLayer.getTileHeight()));
+        if(MapGraph.getNode(x + tileLayer.getTileWidth(), y) != null)
+        {
+            nodes.add(MapGraph.getNode(x + tileLayer.getTileWidth(), y));
+        }
+        if(MapGraph.getNode(x - tileLayer.getTileWidth(), y) != null)
+        {
+            nodes.add(MapGraph.getNode(x - tileLayer.getTileWidth(), y));
+        }
+        if(MapGraph.getNode(x, y + tileLayer.getTileHeight()) != null)
+        {
+            nodes.add(MapGraph.getNode(x, y + tileLayer.getTileHeight()));
+        }
+        if(MapGraph.getNode(x, y - tileLayer.getTileHeight()) != null)
+        {
+            nodes.add(MapGraph.getNode(x, y - tileLayer.getTileHeight()));
+        }
 
         return nodes;
     }

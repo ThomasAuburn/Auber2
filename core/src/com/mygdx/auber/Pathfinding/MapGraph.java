@@ -5,17 +5,14 @@ import com.badlogic.gdx.ai.pfa.DefaultGraphPath;
 import com.badlogic.gdx.ai.pfa.GraphPath;
 import com.badlogic.gdx.ai.pfa.indexed.IndexedAStarPathFinder;
 import com.badlogic.gdx.ai.pfa.indexed.IndexedGraph;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 
 public class MapGraph implements IndexedGraph<Node> {
 
     PathHeuristic pathHeuristic = new PathHeuristic();
-    static Array<Node> nodes = new Array<>();
-    static Array<Path> paths = new Array<>();
+    public static Array<Node> nodes = new Array<>();
+    public static Array<Path> paths = new Array<>();
 
     static ObjectMap<Node, Array<Connection<Node>>> pathsMap = new ObjectMap<>();
 
@@ -36,7 +33,7 @@ public class MapGraph implements IndexedGraph<Node> {
     {
         for (Node node: nodes)
         {
-            if(node.x == x && node.y == y)
+            if(node.x == x && node.y == y && node != null)
             {
                 return node;
             }

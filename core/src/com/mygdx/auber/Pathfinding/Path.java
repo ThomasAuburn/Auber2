@@ -7,14 +7,17 @@ import com.mygdx.auber.Pathfinding.Node;
 
 public class Path implements Connection<Node> {
 
-    Node fromNode,toNode;
-    float cost;
+    public Node fromNode,toNode;
+    public float cost;
 
     public Path(Node fromNode, Node toNode)
     {
          this.fromNode = fromNode;
          this.toNode = toNode;
+         System.out.println(fromNode);
+         System.out.println(toNode);
          cost = Vector2.dst(fromNode.x,fromNode.y,toNode.x,toNode.y);
+         System.out.println(cost);
     }
 
     public void render(ShapeRenderer shapeRenderer)

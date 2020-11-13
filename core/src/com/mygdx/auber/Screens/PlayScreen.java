@@ -104,7 +104,7 @@ public class PlayScreen implements Screen {
         player.draw(renderer.getBatch());
         infiltrator.draw(renderer.getBatch());
         renderer.renderTileLayer((TiledMapTileLayer) map.getLayers().get(1));
-        graphCreator.render();
+        //graphCreator.render(); //Debugging
         update(delta);
 
         game.batch.setProjectionMatrix(hud.stage.getCamera().combined);//Tells the game batch to only render what is in the game camera
