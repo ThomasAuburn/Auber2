@@ -12,11 +12,9 @@ import com.mygdx.auber.Scenes.Hud;
 
 public class Player extends Sprite implements InputProcessor {
     /**The movement velocity */
-    private Vector2 velocity = new Vector2(0,0);
+    private final Vector2 velocity = new Vector2(0,0);
 
-    private final float SPEED = 1;
-    private float elapsedTime = 0;
-    private float interpolationTime = 1;
+    public static int health = 10;
 
     private boolean isWHeld;
     private boolean isAHeld;
@@ -24,75 +22,65 @@ public class Player extends Sprite implements InputProcessor {
     private boolean isDHeld;
 
 
-    private TiledMapTileLayer collisionLayer;
+    private final TiledMapTileLayer collisionLayer;
 
 
-    public Player(Sprite sprite, TiledMapTileLayer collisionLayer)
-    {
+    public Player(Sprite sprite, TiledMapTileLayer collisionLayer) {
         super(sprite);
         this.collisionLayer = collisionLayer;
+        this.setPosition(16*35, 16*31);
     }
 
     @Override
     public void draw(Batch batch) {
-        update(Gdx.graphics.getDeltaTime());
+        update();
         super.draw(batch);
     }
 
-    public void update(float delta) {
+    public void update() {
         float oldX = getX(), oldY = getY();
         boolean collideX = false, collideY = false;
 
         velocity.x = 0; velocity.y = 0;
 
-        if(isWHeld)
-        {
+        float SPEED = 1;
+        if(isWHeld) {
             velocity.y += SPEED;
         }
-        if(isSHeld)
-        {
+        if(isSHeld) {
             velocity.y -= SPEED;
         }
-        if(isAHeld)
-        {
+        if(isAHeld) {
             velocity.x -= SPEED;
         }
-        if(isDHeld)
-        {
+        if(isDHeld) {
             velocity.x += SPEED;
         }
 
-
-        //move on x
-        if(velocity.x < 0)
-        {
+        // Move on x
+        if(velocity.x < 0) {
             collideX = collidesLeft();
         }
-        else if(velocity.x > 0)
-        {
+        else if(velocity.x > 0) {
             collideX = collidesRight();
         }
 
-        //react to x
-        if(collideX)
-        {
+        // React to x
+        if (collideX) {
             setX(oldX);
             velocity.x = 0;
         }
 
-        //move on y
-        if(velocity.y < 0)
-        {
+        // Move on y
+        if (velocity.y < 0) {
             collideY = collidesBottom();
         }
-        else if(velocity.y > 0)
-        {
+        else if(velocity.y > 0) {
             collideY = collidesTop();
         }
 
-        //react to y
-        if(collideY)
-        {
+        // React to y
+        if(collideY) {
             setY(oldY);
             velocity.y = 0;
         }
@@ -101,75 +89,69 @@ public class Player extends Sprite implements InputProcessor {
         setY(getY() + velocity.y);
     }
 
-    public boolean collidesRight()
-    {
-        /**
-         * "Function that scans the blocks directly right of the sprite, for the height of the sprite, and returns a bool based on if they are blocked or not"
-         *
-         * Args: None
-         *
-         * Returns:
-         *  bool: True if there is a on the right of the sprite that contains "blocked", else returns false
-         */
-        boolean collides = false; //By default, no collision is detected
-        for(float step = collisionLayer.getTileHeight()/2; step < getHeight(); step += collisionLayer.getTileHeight()/2) //A for loop iterating across the amount of tiles tall the sprite is
-        {
-            collides = isCellBlocked(getX() + getWidth(), getY() + step); //Calls isCellBlocked for each tile, if the cell contains "blocked" sets collides = true
-            if(collides)
-                break; //If collides is true, no longer need to run the loop, break and return collides
+    /**
+     * "Function that scans the blocks directly right of the sprite, for the height of the sprite, and returns a bool based on if they are blocked or not"
+     *
+     * Args: None
+     *
+     * Returns:
+     *  bool: True if there is a on the right of the sprite that contains "blocked", else returns false
+     */
+    public boolean collidesRight() {
+        // Iterate across the amount of tiles tall the sprite is
+        for (float step = collisionLayer.getTileHeight() / 2f; step < getHeight(); step += collisionLayer.getTileHeight() / 2f) {
+            // Check if cell contains blocked property
+            boolean collides = isCellBlocked(getX() + getWidth(), getY() + step);
+            if (collides)
+                return true;
         }
-
-        return collides;
+        return false;
     }
 
-    public boolean collidesLeft()
-    {
-        boolean collides = false;
-        for(float step = collisionLayer.getTileHeight()/2; step < getHeight(); step += collisionLayer.getTileHeight()/2)
-        {
-            collides = isCellBlocked(getX() , getY() + step);
+    public boolean collidesLeft() {
+        // Iterate across the amount of tiles tall the sprite is
+        for (float step = collisionLayer.getTileHeight() / 2f; step < getHeight(); step += collisionLayer.getTileHeight() / 2f) {
+            // Check if cell contains blocked property
+            boolean collides = isCellBlocked(getX() , getY() + step);
             if(collides)
-                break;
+                return true;
         }
-        return collides;
+        return false;
     }
 
     public boolean collidesTop() {
-        boolean collides = false;
-        for (float step = collisionLayer.getTileWidth() / 2; step < getWidth(); step += collisionLayer.getTileWidth() / 2) {
-            collides = isCellBlocked(getX() + step, getY() + getHeight());
+        // Iterate across the amount of tiles tall the sprite is
+        for (float step = collisionLayer.getTileWidth() / 2f; step < getWidth(); step += collisionLayer.getTileWidth() / 2f) {
+            // Check if cell contains blocked property
+            boolean collides = isCellBlocked(getX() + step, getY() + getHeight());
             if (collides)
-                break;
+                return true;
         }
-
-        return collides;
+        return false;
     }
 
-    public boolean collidesBottom()
-    {
-        boolean collides = false;
-        for(float step = collisionLayer.getTileWidth()/2; step < getWidth(); step += collisionLayer.getTileWidth()/2)
-        {
-            collides = isCellBlocked(getX() + step, getY());
+    public boolean collidesBottom() {
+        // Iterate across the amount of tiles tall the sprite is
+        for (float step = collisionLayer.getTileWidth()/2f; step < getWidth(); step += collisionLayer.getTileWidth()/2f) {
+            // Check if cell contains blocked property
+            boolean collides = isCellBlocked(getX() + step, getY());
             if(collides)
-                break;
+                return true;
         }
-
-        return collides;
+        return false;
     }
 
-    private boolean isCellBlocked(float x,float y)
-    {
-        /**
-         * "A function that checks a cell and returns a bool for whether the cell contains the key "blocked" or not
-         *
-         * Args:
-         *      x (float): X coordinate of the cell to check
-         *      y(float): Y coordinate of the cell to check
-         *
-         * Returns:
-         *      bool: True if cell contains "blocked", else false
-         */
+    /**
+     * "A function that checks a cell and returns a bool for whether the cell contains the key "blocked" or not
+     *
+     * Args:
+     *      x (float): X coordinate of the cell to check
+     *      y(float): Y coordinate of the cell to check
+     *
+     * Returns:
+     *      bool: True if cell contains "blocked", else false
+     */
+    private boolean isCellBlocked(float x,float y) {
         TiledMapTileLayer.Cell cell = collisionLayer.getCell((int) (x / collisionLayer.getTileWidth()), (int) (y / collisionLayer.getTileHeight())); //Set variable cell to the cell at specified x,y coordinate
         return cell != null && cell.getTile() != null && cell.getTile().getProperties().containsKey("blocked"); //If cell is not null, and the cell contains "blocked", return true, else false
     }
@@ -195,7 +177,7 @@ public class Player extends Sprite implements InputProcessor {
                 break;
             case Input.Keys.X:
                 //Test Health values
-                Hud.health -= 1;
+                health -= 1;
                 break;
         }
         return true;
@@ -256,5 +238,17 @@ public class Player extends Sprite implements InputProcessor {
     @Override
     public boolean scrolled(int amount) {
         return false;
+    }
+
+
+    public void heal(int amount) {
+        health += amount;
+        if (health > 100) {
+            health = 100;
+        }
+    }
+
+    public void heal() {
+        health = 100;
     }
 }
