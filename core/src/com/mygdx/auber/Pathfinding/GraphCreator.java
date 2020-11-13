@@ -9,13 +9,13 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.Array;
 
 public class GraphCreator extends ApplicationAdapter {
-    ShapeRenderer shapeRenderer;
-    SpriteBatch batch;
-    BitmapFont font;
+    private ShapeRenderer shapeRenderer;
+    private SpriteBatch batch;
+    private BitmapFont font;
 
-    MapGraph mapGraph;
-    GraphPath<Node> nodeGraphPath;
-    TiledMapTileLayer tileLayer;
+    public MapGraph mapGraph;
+    public GraphPath<Node> nodeGraphPath;
+    private TiledMapTileLayer tileLayer;
 
     public GraphCreator(TiledMapTileLayer tileLayer)
     {
@@ -43,7 +43,7 @@ public class GraphCreator extends ApplicationAdapter {
 
         for(Node node : MapGraph.nodes)
         {
-            //node.render(shapeRenderer, batch, font);
+            node.render(shapeRenderer, batch, font);
         }
     }
 

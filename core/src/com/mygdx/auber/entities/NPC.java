@@ -21,10 +21,12 @@ public class NPC extends Sprite {
     Node previousNode;
     Queue<Node> pathQueue = new Queue<>();
 
-    public NPC(Sprite sprite, TiledMapTileLayer collisionLayer, float x, float y){
+    public NPC(Sprite sprite, TiledMapTileLayer collisionLayer, Node start, MapGraph mapGraph){
         super(sprite);
         this.collisionLayer = collisionLayer;
-        sprite.setPosition(x,y);
+        sprite.setPosition(start.x ,start.y);
+        this.mapGraph = mapGraph;
+        this.previousNode =start;
     }
 
     public void moveToLocation(int x, int y)
