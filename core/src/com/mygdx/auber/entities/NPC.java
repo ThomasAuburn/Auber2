@@ -32,14 +32,20 @@ public class NPC extends Sprite {
         this.setGoal(mapGraph.getRandomNode());
     }
 
+    /**
+     * Step needs to be called in the update method, makes the NPC move and check if it has reached its next node
+     */
     public void step()
     {
-        System.out.println(velocity);
         this.setX(this.getX() + velocity.x);
         this.setY(this.getY() + velocity.y);
         checkCollision();
     }
 
+    /**
+     * Sets the goal node and calculates the path to take there
+     * @param goal Node to move NPC to
+     */
     public void setGoal(Node goal)
     {
         GraphPath<Node> graphPath = mapGraph.findPath(previousNode, goal);
@@ -50,6 +56,9 @@ public class NPC extends Sprite {
         setSpeedToNextNode();
     }
 
+    /**
+     * Checks whether the NPC has made it to the next node
+     */
     private void checkCollision()
     {
         if(pathQueue.size > 0){
@@ -61,6 +70,9 @@ public class NPC extends Sprite {
         }
     }
 
+    /**
+     * Called when NPC has reached a node, sets the next node to be moved to, or if the path queue is empty, destination is reached
+     */
     private void reachNextNode()
     {
         Node nextNode = pathQueue.first();
@@ -76,6 +88,9 @@ public class NPC extends Sprite {
         }
     }
 
+    /**
+     * Sets the velocity towards the next node
+     */
     private void setSpeedToNextNode()
     {
         velocity.x = 0;
@@ -86,6 +101,9 @@ public class NPC extends Sprite {
         velocity.y += MathUtils.sin(angle) * SPEED;
     }
 
+    /**
+     * Called when the path queue is empty
+     */
     private void reachDestination()
     {
         velocity.x = 0;
