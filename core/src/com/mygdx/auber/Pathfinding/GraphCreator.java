@@ -118,7 +118,6 @@ public class GraphCreator extends ApplicationAdapter {
         return nodes;
     }
 
-
     @Override
     public void dispose() {
         shapeRenderer.dispose();

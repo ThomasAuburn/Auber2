@@ -31,7 +31,7 @@ public class PlayScreen implements Screen {
     private MapGraph mapGraph;
 
     private Player player;
-    private int numberOfInfiltrators = 6;
+    private int numberOfInfiltrators = 1;
     private Infiltrator[] infiltrators = new Infiltrator[numberOfInfiltrators];
 
     public PlayScreen(Auber game){
