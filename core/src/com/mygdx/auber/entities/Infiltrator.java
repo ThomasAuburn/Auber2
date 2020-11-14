@@ -5,6 +5,8 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.maps.Map;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.auber.Pathfinding.MapGraph;
+import com.mygdx.auber.Pathfinding.Node;
 import com.mygdx.auber.Screens.PlayScreen;
 
 public class Infiltrator extends NPC{
@@ -14,8 +16,9 @@ public class Infiltrator extends NPC{
 
     private final float SPEED = 1;
 
-    public Infiltrator(Sprite sprite, TiledMapTileLayer collisionLayer, float x, float y) {
-        super(sprite, collisionLayer, x, y);
+    public Infiltrator(Sprite sprite, TiledMapTileLayer collisionLayer, Node node, MapGraph mapGraph) {
+        super(sprite, collisionLayer, node, mapGraph);
+        this.setPosition(node.x, node.y);
 
         Map map;
         //infiltrator = new NPC(new Sprite(new Texture("SpriteTest.png")),(TiledMapTileLayer) PlayScreen.map.getLayers().get(0), 20, 20);

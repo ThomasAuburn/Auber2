@@ -29,6 +29,7 @@ public class PlayScreen implements Screen {
     private TiledMap map;
     private OrthogonalTiledMapRenderer renderer;
     private GraphCreator graphCreator;
+    private MapGraph mapGraph;
 
     private Player player;
     private Infiltrator infiltrator;
@@ -45,15 +46,14 @@ public class PlayScreen implements Screen {
         player = new Player(new Sprite(new Texture("SpriteTest.png")),(TiledMapTileLayer)map.getLayers().get(0));
         player.setPosition(player.getX() + 150, player.getY() + 100);
 
-        infiltrator = new Infiltrator(new Sprite(new Texture("SpriteTest.png")),(TiledMapTileLayer)map.getLayers().get(0),player.getX(), player.getY());
+        graphCreator = new GraphCreator((TiledMapTileLayer)map.getLayers().get(0));
+        infiltrator = new Infiltrator(new Sprite(new Texture("SpriteTest.png")),(TiledMapTileLayer)map.getLayers().get(0), MapGraph.getRandomNode(), graphCreator.mapGraph);
 
         renderer = new OrthogonalTiledMapRenderer(map);
         camera.position.set(player.getX(),player.getY(),0);
 
         Gdx.input.setInputProcessor(player);
         //camera.position.set(viewport.getScreenWidth() / 2, viewport.getScreenHeight() / 2, 0);
-
-        graphCreator = new GraphCreator((TiledMapTileLayer)map.getLayers().get(0));
     }
 
     @Override

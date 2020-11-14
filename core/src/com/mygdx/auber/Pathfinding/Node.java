@@ -34,19 +34,19 @@ public class Node {
         //Drawing the Circle which holds the node
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         shapeRenderer.setColor(.8f, .88f, .95f, 1);
-        shapeRenderer.circle(x * 16, y * 16, 10);
+        shapeRenderer.circle(x, y, 20);
         shapeRenderer.end();
 
         //Drawing the outline of the circle
         shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
         shapeRenderer.setColor(0, 0, 0, 1);
-        shapeRenderer.circle(x * 16, y * 16, 10);
+        shapeRenderer.circle(x, y, 20);
         shapeRenderer.end();
 
         //Writing the nodes index in the circle
         batch.begin();
         font.setColor(0, 0, 0, 255);
-        font.draw(batch, Integer.toString(index), x  * 16, y  * 16);
+        font.draw(batch, Integer.toString(index), x, y);
         batch.end();
     }
 }
