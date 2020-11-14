@@ -28,8 +28,6 @@ public class PlayScreen implements Screen {
     private TiledMap map;
     private OrthogonalTiledMapRenderer renderer;
     private GraphCreator graphCreator;
-    private MapGraph mapGraph;
-
     private Player player;
     private int numberOfInfiltrators = 1;
     private Infiltrator[] infiltrators = new Infiltrator[numberOfInfiltrators];
