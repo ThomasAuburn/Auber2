@@ -16,6 +16,7 @@ import com.mygdx.auber.Auber;
 import com.mygdx.auber.Pathfinding.GraphCreator;
 import com.mygdx.auber.Pathfinding.MapGraph;
 import com.mygdx.auber.Scenes.Hud;
+import com.mygdx.auber.ScrollingBackground;
 import com.mygdx.auber.entities.Infiltrator;
 import com.mygdx.auber.entities.Player;
 
@@ -29,8 +30,9 @@ public class PlayScreen implements Screen {
     private OrthogonalTiledMapRenderer renderer;
     private GraphCreator graphCreator;
     private Player player;
-    private int numberOfInfiltrators = 25;
+    private int numberOfInfiltrators = 50;
     private Infiltrator[] infiltrators = new Infiltrator[numberOfInfiltrators];
+    private ScrollingBackground scrollingBackground;
 
     public PlayScreen(Auber game){
         this.game = game;
@@ -38,6 +40,7 @@ public class PlayScreen implements Screen {
         camera = new OrthographicCamera();
         viewport = new ExtendViewport(Auber.VirtualWidth, Auber.VirtualHeight, camera);
         hud = new Hud(game.batch);
+        this.scrollingBackground = new ScrollingBackground();
 
         mapLoader = new TmxMapLoader();
         map = mapLoader.load("testmap2.tmx");
@@ -121,6 +124,7 @@ public class PlayScreen implements Screen {
         camera.viewportWidth = width/2f;
         camera.viewportHeight = height/2f;
         camera.update();
+        this.scrollingBackground.resize(width, height);
     }
 
     @Override
