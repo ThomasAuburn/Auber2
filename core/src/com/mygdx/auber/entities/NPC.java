@@ -1,6 +1,10 @@
 package com.mygdx.auber.entities;
 
 import com.badlogic.gdx.ai.pfa.GraphPath;
+import com.badlogic.gdx.ai.pfa.PathSmoother;
+import com.badlogic.gdx.ai.utils.Collision;
+import com.badlogic.gdx.ai.utils.Ray;
+import com.badlogic.gdx.ai.utils.RaycastCollisionDetector;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.MathUtils;
@@ -8,16 +12,13 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Queue;
 import com.mygdx.auber.Pathfinding.MapGraph;
 import com.mygdx.auber.Pathfinding.Node;
-import java.util.concurrent.ThreadLocalRandom;
 
 public class NPC extends Sprite {
-    private final TiledMapTileLayer collisionLayer;
+    private TiledMapTileLayer collisionLayer;
     private boolean arrested;
-    private boolean moving;
-    private float elapsedTime = 0f;
+    private final Vector2 velocity = new Vector2(0,0);
 
-    float deltaX,deltaY;
-    float SPEED = 1f;
+    float SPEED = .5f;
     MapGraph mapGraph;
     Node previousNode;
     Queue<Node> pathQueue = new Queue<>();
@@ -31,26 +32,11 @@ public class NPC extends Sprite {
         this.setGoal(mapGraph.getRandomNode());
     }
 
-//    public void moveToLocation(Node node)
-//    {
-//        setGoal(node);
-//        step();
-//    }
-//
-//    public void waitForMovement(float delta)
-//    {
-//        elapsedTime += delta;
-//        if(elapsedTime > ThreadLocalRandom.current().nextInt(10, 60)) //Random number between 10 and 60
-//        {
-//            moveToLocation(mapGraph.getRandomNode());
-//        }
-//        return;
-//    }
-
     public void step()
     {
-        this.setX(this.getX() + deltaX);
-        this.setY(this.getY() + deltaY);
+        System.out.println(velocity);
+        this.setX(this.getX() + velocity.x);
+        this.setY(this.getY() + velocity.y);
         checkCollision();
     }
 
@@ -92,16 +78,18 @@ public class NPC extends Sprite {
 
     private void setSpeedToNextNode()
     {
+        velocity.x = 0;
+        velocity.y = 0;
         Node nextNode = pathQueue.first();
         float angle = MathUtils.atan2(nextNode.y - previousNode.y, nextNode.x - previousNode.x);
-        deltaX = MathUtils.cos(angle) * SPEED;
-        deltaY = MathUtils.sin(angle) * SPEED;
+        velocity.x += MathUtils.cos(angle) * SPEED;
+        velocity.y += MathUtils.sin(angle) * SPEED;
     }
 
     private void reachDestination()
     {
-        deltaX = 0;
-        deltaY = 0;
+        velocity.x = 0;
+        velocity.y = 0;
 
         Node newGoal;
         do {
