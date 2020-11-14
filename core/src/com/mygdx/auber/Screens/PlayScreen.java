@@ -40,7 +40,7 @@ public class PlayScreen implements Screen {
         hud = new Hud(game.batch);
 
         mapLoader = new TmxMapLoader();
-        map = mapLoader.load("AuberMap1.0.tmx");
+        map = mapLoader.load("testmap2.tmx");
         player = new Player(new Sprite(new Texture("AuberStand.png")),(TiledMapTileLayer)map.getLayers().get(0));
         player.setPosition(player.getX() + 150, player.getY() + 100);
 
@@ -68,16 +68,6 @@ public class PlayScreen implements Screen {
     }
 
     public void handleInput(float time){
-        /*if(Gdx.input.isKeyPressed(Input.Keys.W))
-            camera.position.y += 100 * time;
-        if(Gdx.input.isKeyPressed(Input.Keys.D))
-            camera.position.x += 100 * time;
-        if(Gdx.input.isKeyPressed(Input.Keys.S))
-            camera.position.y -= 100 * time;
-        if(Gdx.input.isKeyPressed(Input.Keys.A))
-            camera.position.x -= 100 * time;
-        */
-
 
     }
 
@@ -95,43 +85,40 @@ public class PlayScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        update(delta);
         Gdx.gl.glClearColor(0.57f, 0.77f, 0.85f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         camera.position.set(player.getX() + player.getWidth()/2,player.getY() + player.getHeight()/2,0);
-
         renderer.getBatch().begin();
-
         renderer.renderTileLayer((TiledMapTileLayer) map.getLayers().get(0));
+
         player.draw(renderer.getBatch());
         for (Infiltrator infiltrator:
              infiltrators) {
             infiltrator.draw(renderer.getBatch());
         }
 
-        renderer.renderTileLayer((TiledMapTileLayer) map.getLayers().get(1));
-        graphCreator.shapeRenderer.setProjectionMatrix(camera.combined);
         game.batch.setProjectionMatrix(camera.combined);
+        hud.stage.draw();
+
+        graphCreator.shapeRenderer.setProjectionMatrix(camera.combined);
+        graphCreator.render(); //Debugging
 
         update(delta);
-
-        game.batch.setProjectionMatrix(hud.stage.getCamera().combined);//Tells the game batch to only render what is in the game camera
-        hud.stage.draw();
-        //graphCreator.render(); //Debugging
         renderer.getBatch().end();
 
         if(gameOver()){
             game.setScreen(new GameOverScreen(game));
             dispose();
         }
+
     }
 
     @Override
     public void resize(int width, int height) {
         viewport.update(width, height);
-        camera.viewportWidth = width/4f;
-        camera.viewportHeight = height/4f;
+        camera.viewportWidth = width/2f;
+        camera.viewportHeight = height/2f;
         camera.update();
     }
 
@@ -152,6 +139,9 @@ public class PlayScreen implements Screen {
 
     @Override
     public void dispose() {
-
+        game.dispose();
+        map.dispose();
+        renderer.dispose();
+        graphCreator.dispose();
     }
 }
