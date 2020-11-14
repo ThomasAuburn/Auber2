@@ -85,32 +85,33 @@ public class PlayScreen implements Screen {
 
     @Override
     public void render(float delta) {
+        /** Clears the screen and sets it to the colour light blue or whatever colour it is */
         Gdx.gl.glClearColor(0.57f, 0.77f, 0.85f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        camera.position.set(player.getX() + player.getWidth()/2,player.getY() + player.getHeight()/2,0);
-        game.batch.setProjectionMatrix(camera.combined);
-        renderer.getBatch().begin();
-        renderer.renderTileLayer((TiledMapTileLayer) map.getLayers().get(0));
+        camera.position.set(player.getX() + player.getWidth()/2,player.getY() + player.getHeight()/2,0); //Sets camera to centre of player position
+        game.batch.setProjectionMatrix(camera.combined); //Ensures everything is rendered properly, only renders things in viewport
+        renderer.getBatch().begin();  //Start the sprite batch
+        renderer.renderTileLayer((TiledMapTileLayer) map.getLayers().get(0)); //Renders the bottom layer of the map
 
         player.draw(renderer.getBatch());
         for (Infiltrator infiltrator:
              infiltrators) {
             infiltrator.draw(renderer.getBatch());
-        }
+        } //Renders the player and all infiltrators
 
-        update(delta);
-        hud.stage.draw();
+        update(delta); //Updates the game camera and NPCs
+        hud.stage.draw(); //Draws the HUD on the game
 
-        graphCreator.shapeRenderer.setProjectionMatrix(camera.combined);
-        graphCreator.render(); //Debugging
+        graphCreator.shapeRenderer.setProjectionMatrix(camera.combined); //Ensures nodes are rendered properly
+        graphCreator.render(); //Debugging shows nodes and paths
 
-        renderer.getBatch().end();
+        renderer.getBatch().end(); //Finishes the sprite batch
 
         if(gameOver()){
             game.setScreen(new GameOverScreen(game));
             dispose();
-        }
+        } //If game over, show game over screen and dispose of all assets
 
     }
 
