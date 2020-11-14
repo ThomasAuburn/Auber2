@@ -9,9 +9,9 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.Array;
 
 public class GraphCreator extends ApplicationAdapter {
-    private ShapeRenderer shapeRenderer;
-    private SpriteBatch batch;
-    private BitmapFont font;
+    public ShapeRenderer shapeRenderer;
+    public SpriteBatch batch;
+    public BitmapFont font;
 
     public MapGraph mapGraph;
     public GraphPath<Node> nodeGraphPath;
@@ -57,8 +57,8 @@ public class GraphCreator extends ApplicationAdapter {
         {
             for(int j = 0; j < tileLayer.getHeight(); j++) //Scans every tile
             {
-                int x = (i * tileLayer.getTileWidth()) ;//+ tileLayer.getTileWidth()/2;
-                int y = (j * tileLayer.getTileHeight());// + tileLayer.getTileHeight()/2; //x,y coord of the centre of the tile
+                int x = (i * tileLayer.getTileWidth()) + tileLayer.getTileWidth()/2;
+                int y = (j * tileLayer.getTileHeight()) + tileLayer.getTileHeight()/2; //x,y coord of the centre of the tile
                 TiledMapTileLayer.Cell cell = tileLayer.getCell(i, j); //Returns the cell at the x,y coord
                 if(cell != null && cell.getTile() != null && (cell.getTile().getId() == 11 || cell.getTile().getId() == 12)) //If ID matches floor/corridor tiles, and is not null
                 {

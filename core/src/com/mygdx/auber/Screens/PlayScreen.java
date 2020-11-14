@@ -115,11 +115,14 @@ public class PlayScreen implements Screen {
         }
 
         renderer.renderTileLayer((TiledMapTileLayer) map.getLayers().get(1));
-        //graphCreator.render(); //Debugging
+        graphCreator.shapeRenderer.setProjectionMatrix(camera.combined);
+        game.batch.setProjectionMatrix(camera.combined);
+
         update(delta);
 
         game.batch.setProjectionMatrix(hud.stage.getCamera().combined);//Tells the game batch to only render what is in the game camera
         hud.stage.draw();
+        //graphCreator.render(); //Debugging
         renderer.getBatch().end();
 
         if(gameOver()){
@@ -131,8 +134,8 @@ public class PlayScreen implements Screen {
     @Override
     public void resize(int width, int height) {
         viewport.update(width, height);
-        camera.viewportWidth = width/2;
-        camera.viewportHeight = height/2;
+        camera.viewportWidth = width/2f;
+        camera.viewportHeight = height/2f;
         camera.update();
     }
 

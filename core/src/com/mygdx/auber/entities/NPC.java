@@ -8,9 +8,13 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Queue;
+import com.mygdx.auber.Pathfinding.GraphCreator;
 import com.mygdx.auber.Pathfinding.MapGraph;
 import com.mygdx.auber.Pathfinding.Node;
+
+import java.util.Random;
 
 public class NPC extends Sprite {
     private TiledMapTileLayer collisionLayer;
@@ -38,7 +42,6 @@ public class NPC extends Sprite {
      */
     public void step()
     {
-        collision.checkForCollision(this, collisionLayer, velocity, collision);
         this.setX(this.getX() + velocity.x);
         this.setY(this.getY() + velocity.y);
         checkCollision();

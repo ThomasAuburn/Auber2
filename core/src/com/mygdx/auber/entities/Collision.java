@@ -7,6 +7,8 @@ import com.badlogic.gdx.math.Vector2;
 
 class Collision {
 
+    public boolean collideX, collideY;
+
     public Collision() {
 
     }
@@ -81,7 +83,7 @@ class Collision {
     public void checkForCollision(Sprite sprite, TiledMapTileLayer collisionLayer, Vector2 velocity, Collision collision)
     {
         float oldX = sprite.getX(), oldY = sprite.getY();
-        boolean collideX = false, collideY = false;
+        collideX = false; collideY = false;
 
         // Move on x
         if(velocity.x < 0) {
