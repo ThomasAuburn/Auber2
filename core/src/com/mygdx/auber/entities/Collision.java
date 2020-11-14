@@ -80,7 +80,15 @@ class Collision {
         return cell != null && cell.getTile() != null && cell.getTile().getProperties().containsKey("blocked"); //If cell is not null, and the cell contains "blocked", return true, else false
     }
 
-    public void checkForCollision(Sprite sprite, TiledMapTileLayer collisionLayer, Vector2 velocity, Collision collision)
+    /**
+     * Checks for collision in the direction of movement
+     * @param sprite Sprite being used by object
+     * @param collisionLayer TiledMapTileLayer to search for tiles to collide with on
+     * @param velocity Vector2 velocity of the object
+     * @param collision Collision object
+     * @return Returns a vector with x/y changed to account for collision
+     */
+    public Vector2 checkForCollision(Sprite sprite, TiledMapTileLayer collisionLayer, Vector2 velocity, Collision collision)
     {
         float oldX = sprite.getX(), oldY = sprite.getY();
         collideX = false; collideY = false;
@@ -110,5 +118,7 @@ class Collision {
             sprite.setY(oldY);
             velocity.y = 0;
         }
+
+        return velocity;
     }
 }

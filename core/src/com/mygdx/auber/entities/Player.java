@@ -10,7 +10,7 @@ import com.badlogic.gdx.math.Vector2;
 
 public class Player extends Sprite implements InputProcessor {
     /**The movement velocity */
-    private final Vector2 velocity = new Vector2(0,0);
+    private Vector2 velocity = new Vector2(0,0);
 
     private final Collision collision;
 
@@ -54,8 +54,7 @@ public class Player extends Sprite implements InputProcessor {
             velocity.x += SPEED;
         }
 
-       collision.checkForCollision(this, collisionLayer, velocity,collision);
-
+        velocity = collision.checkForCollision(this, collisionLayer, velocity, collision);
         setX(getX() + velocity.x);
         setY(getY() + velocity.y);
     }
