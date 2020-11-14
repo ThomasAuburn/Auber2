@@ -29,7 +29,7 @@ public class PlayScreen implements Screen {
     private OrthogonalTiledMapRenderer renderer;
     private GraphCreator graphCreator;
     private Player player;
-    private int numberOfInfiltrators = 1;
+    private int numberOfInfiltrators = 2;
     private Infiltrator[] infiltrators = new Infiltrator[numberOfInfiltrators];
 
     public PlayScreen(Auber game){
@@ -41,12 +41,12 @@ public class PlayScreen implements Screen {
 
         mapLoader = new TmxMapLoader();
         map = mapLoader.load("AuberMap1.0.tmx");
-        player = new Player(new Sprite(new Texture("SpriteTest.png")),(TiledMapTileLayer)map.getLayers().get(0));
+        player = new Player(new Sprite(new Texture("AuberStand.png")),(TiledMapTileLayer)map.getLayers().get(0));
         player.setPosition(player.getX() + 150, player.getY() + 100);
 
         graphCreator = new GraphCreator((TiledMapTileLayer)map.getLayers().get(0));
         for (int i = 0; i < numberOfInfiltrators; i++) {
-            infiltrators[i] = new Infiltrator(new Sprite(new Texture("SpriteTest.png")),(TiledMapTileLayer)map.getLayers().get(0), MapGraph.getRandomNode(), graphCreator.mapGraph);
+            infiltrators[i] = new Infiltrator(new Sprite(new Texture("HumanInfiltratorStand.png")),(TiledMapTileLayer)map.getLayers().get(0), MapGraph.getRandomNode(), graphCreator.mapGraph);
         }
 
 
@@ -130,8 +130,8 @@ public class PlayScreen implements Screen {
     @Override
     public void resize(int width, int height) {
         viewport.update(width, height);
-        camera.viewportWidth = width/2f;
-        camera.viewportHeight = height/2f;
+        camera.viewportWidth = width/4f;
+        camera.viewportHeight = height/4f;
         camera.update();
     }
 

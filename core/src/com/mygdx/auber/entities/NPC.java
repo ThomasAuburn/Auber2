@@ -47,6 +47,7 @@ public class NPC extends Sprite {
     public void setGoal(Node goal)
     {
         GraphPath<Node> graphPath = mapGraph.findPath(previousNode, goal);
+
         for(int i = 1; i < graphPath.getCount(); i++)
         {
             pathQueue.addLast(graphPath.get(i));
@@ -61,8 +62,7 @@ public class NPC extends Sprite {
     {
         if(pathQueue.size > 0){
             Node targetNode = pathQueue.first();
-            System.out.println(Vector2.dst(this.getX(),this.getY(),targetNode.x,targetNode.y) );
-            if(Vector2.dst(this.getX(),this.getY(),targetNode.x,targetNode.y) < 5)
+            if(Vector2.dst(this.getX(),this.getY(),targetNode.x,targetNode.y) < 1)
             {
                 reachNextNode();
             }

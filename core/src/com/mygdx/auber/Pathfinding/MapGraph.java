@@ -76,9 +76,9 @@ public class MapGraph implements IndexedGraph<Node> {
      */
     public GraphPath<Node> findPath(Node startNode, Node goalNode)
     {
-        GraphPath<Node> nodePath = new DefaultGraphPath<>();
-        new IndexedAStarPathFinder<>(this).searchNodePath(startNode, goalNode, pathHeuristic, nodePath);
-        return nodePath;
+        GraphPath<Node> nodeGraphPath = new DefaultGraphPath<>();
+        new IndexedAStarPathFinder<>(this).searchNodePath(startNode, goalNode, pathHeuristic, nodeGraphPath);
+        return nodeGraphPath;
     }
 
     /**

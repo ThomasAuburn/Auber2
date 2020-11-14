@@ -3,6 +3,7 @@ package com.mygdx.auber.Pathfinding;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.sun.org.apache.xpath.internal.operations.Bool;
 
 public class Node {
     public float x,y;
@@ -30,9 +31,17 @@ public class Node {
      * @param batch The sprite batch being used
      * @param font The font to use
      */
-    public void render(ShapeRenderer shapeRenderer, SpriteBatch batch, BitmapFont font){
+    public void render(ShapeRenderer shapeRenderer, SpriteBatch batch, BitmapFont font, boolean inPath){
         //Drawing the Circle which holds the node
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        if(inPath) {
+            // green
+            shapeRenderer.setColor(.57f, .76f, .48f, 1);
+        }
+        else{
+            // blue
+            shapeRenderer.setColor(.8f, .88f, .95f, 1);
+        }
         shapeRenderer.setColor(.8f, .88f, .95f, 1);
         shapeRenderer.circle(x, y, 5);
         shapeRenderer.end();

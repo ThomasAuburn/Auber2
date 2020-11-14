@@ -43,8 +43,14 @@ public class GraphCreator extends ApplicationAdapter {
 
         for(Node node : MapGraph.nodes)
         {
-            node.render(shapeRenderer, batch, font);
+            node.render(shapeRenderer, batch, font, false);
         }
+
+//        {
+//            for (Node node : nodeGraphPath) {
+//                node.render(shapeRenderer, batch, font, true);
+//            }
+//        }
     }
 
     /**
