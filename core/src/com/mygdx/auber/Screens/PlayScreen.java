@@ -1,7 +1,6 @@
 package com.mygdx.auber.Screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -29,10 +28,9 @@ public class PlayScreen implements Screen {
     private TiledMap map;
     private OrthogonalTiledMapRenderer renderer;
     private GraphCreator graphCreator;
-    private MapGraph mapGraph;
-
     private Player player;
-    private Infiltrator infiltrator;
+    private int numberOfInfiltrators = 1;
+    private Infiltrator[] infiltrators = new Infiltrator[numberOfInfiltrators];
 
     public PlayScreen(Auber game){
         this.game = game;
@@ -47,7 +45,10 @@ public class PlayScreen implements Screen {
         player.setPosition(player.getX() + 150, player.getY() + 100);
 
         graphCreator = new GraphCreator((TiledMapTileLayer)map.getLayers().get(0));
-        infiltrator = new Infiltrator(new Sprite(new Texture("SpriteTest.png")),(TiledMapTileLayer)map.getLayers().get(0), MapGraph.getRandomNode(), graphCreator.mapGraph);
+        for (int i = 0; i < numberOfInfiltrators; i++) {
+            infiltrators[i] = new Infiltrator(new Sprite(new Texture("SpriteTest.png")),(TiledMapTileLayer)map.getLayers().get(0), MapGraph.getRandomNode(), graphCreator.mapGraph);
+        }
+
 
         renderer = new OrthogonalTiledMapRenderer(map);
         camera.position.set(player.getX(),player.getY(),0);
@@ -83,6 +84,11 @@ public class PlayScreen implements Screen {
     public void update(float time){
         handleInput(time);
 
+        for (Infiltrator infiltrator:
+             infiltrators) {
+            infiltrator.step();
+        }
+
         camera.update();
         renderer.setView(camera);
     }
@@ -99,13 +105,20 @@ public class PlayScreen implements Screen {
 
         renderer.renderTileLayer((TiledMapTileLayer) map.getLayers().get(0));
         player.draw(renderer.getBatch());
-        infiltrator.draw(renderer.getBatch());
+        for (Infiltrator infiltrator:
+             infiltrators) {
+            infiltrator.draw(renderer.getBatch());
+        }
+
         renderer.renderTileLayer((TiledMapTileLayer) map.getLayers().get(1));
-        //graphCreator.render(); //Debugging
+        graphCreator.shapeRenderer.setProjectionMatrix(camera.combined);
+        game.batch.setProjectionMatrix(camera.combined);
+
         update(delta);
 
         game.batch.setProjectionMatrix(hud.stage.getCamera().combined);//Tells the game batch to only render what is in the game camera
         hud.stage.draw();
+        //graphCreator.render(); //Debugging
         renderer.getBatch().end();
 
         if(gameOver()){
@@ -117,8 +130,8 @@ public class PlayScreen implements Screen {
     @Override
     public void resize(int width, int height) {
         viewport.update(width, height);
-        camera.viewportWidth = width/2;
-        camera.viewportHeight = height/2;
+        camera.viewportWidth = width/2f;
+        camera.viewportHeight = height/2f;
         camera.update();
     }
 

@@ -5,7 +5,6 @@ import com.badlogic.gdx.ai.pfa.DefaultGraphPath;
 import com.badlogic.gdx.ai.pfa.GraphPath;
 import com.badlogic.gdx.ai.pfa.indexed.IndexedAStarPathFinder;
 import com.badlogic.gdx.ai.pfa.indexed.IndexedGraph;
-import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.ObjectMap;
 
@@ -15,7 +14,7 @@ public class MapGraph implements IndexedGraph<Node> {
     public static Array<Node> nodes = new Array<>(); //Array holding all nodes on map
     public static Array<Path> paths = new Array<>(); //Array holding all paths on map
 
-    static ObjectMap<Node, Array<Connection<Node>>> pathsMap = new ObjectMap<>();
+    public static ObjectMap<Node, Array<Connection<Node>>> pathsMap = new ObjectMap<>();
 
     private static int lastNodeIndex = 0; //Increment counter to give each node a unique index
 
