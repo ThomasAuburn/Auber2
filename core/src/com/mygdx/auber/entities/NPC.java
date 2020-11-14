@@ -1,20 +1,13 @@
 package com.mygdx.auber.entities;
 
 import com.badlogic.gdx.ai.pfa.GraphPath;
-import com.badlogic.gdx.ai.pfa.PathSmoother;
-import com.badlogic.gdx.ai.utils.Ray;
-import com.badlogic.gdx.ai.utils.RaycastCollisionDetector;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Queue;
-import com.mygdx.auber.Pathfinding.GraphCreator;
 import com.mygdx.auber.Pathfinding.MapGraph;
 import com.mygdx.auber.Pathfinding.Node;
-
-import java.util.Random;
 
 public class NPC extends Sprite {
     private TiledMapTileLayer collisionLayer;
