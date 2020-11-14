@@ -42,7 +42,7 @@ public class PlayScreen implements Screen {
         hud = new Hud(game.batch);
 
         mapLoader = new TmxMapLoader();
-        map = mapLoader.load("AuberMap1.0.tmx");
+        map = mapLoader.load("AuberMap2.0.tmx");
         player = new Player(new Sprite(new Texture("SpriteTest.png")),(TiledMapTileLayer)map.getLayers().get(0));
         player.setPosition(player.getX() + 150, player.getY() + 100);
 
@@ -100,7 +100,7 @@ public class PlayScreen implements Screen {
         renderer.renderTileLayer((TiledMapTileLayer) map.getLayers().get(0));
         player.draw(renderer.getBatch());
         infiltrator.draw(renderer.getBatch());
-        renderer.renderTileLayer((TiledMapTileLayer) map.getLayers().get(1));
+        //renderer.renderTileLayer((TiledMapTileLayer) map.getLayers().get(1));
         //graphCreator.render(); //Debugging
         update(delta);
 
