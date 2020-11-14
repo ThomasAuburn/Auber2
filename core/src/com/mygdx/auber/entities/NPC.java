@@ -15,7 +15,7 @@ public class NPC extends Sprite {
     private final Vector2 velocity = new Vector2(0,0);
     private final Collision collision;
 
-    float SPEED = .5f;
+    float SPEED = 1f;
     MapGraph mapGraph;
     Node previousNode;
     Queue<Node> pathQueue = new Queue<>();

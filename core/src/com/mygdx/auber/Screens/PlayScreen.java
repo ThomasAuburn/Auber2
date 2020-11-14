@@ -29,7 +29,7 @@ public class PlayScreen implements Screen {
     private OrthogonalTiledMapRenderer renderer;
     private GraphCreator graphCreator;
     private Player player;
-    private int numberOfInfiltrators = 2;
+    private int numberOfInfiltrators = 25;
     private Infiltrator[] infiltrators = new Infiltrator[numberOfInfiltrators];
 
     public PlayScreen(Auber game){
@@ -75,7 +75,7 @@ public class PlayScreen implements Screen {
         handleInput(time);
 
         for (Infiltrator infiltrator:
-             infiltrators) {
+                infiltrators) {
             infiltrator.step();
         }
 
@@ -89,6 +89,7 @@ public class PlayScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         camera.position.set(player.getX() + player.getWidth()/2,player.getY() + player.getHeight()/2,0);
+        game.batch.setProjectionMatrix(camera.combined);
         renderer.getBatch().begin();
         renderer.renderTileLayer((TiledMapTileLayer) map.getLayers().get(0));
 
@@ -98,13 +99,12 @@ public class PlayScreen implements Screen {
             infiltrator.draw(renderer.getBatch());
         }
 
-        game.batch.setProjectionMatrix(camera.combined);
+        update(delta);
         hud.stage.draw();
 
         graphCreator.shapeRenderer.setProjectionMatrix(camera.combined);
         graphCreator.render(); //Debugging
 
-        update(delta);
         renderer.getBatch().end();
 
         if(gameOver()){
