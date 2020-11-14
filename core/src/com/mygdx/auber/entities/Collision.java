@@ -2,9 +2,12 @@ package com.mygdx.auber.entities;
 
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.math.Vector2;
 
 
 class Collision {
+
+    public boolean collideX, collideY;
 
     public Collision() {
 
@@ -75,5 +78,37 @@ class Collision {
     private boolean isCellBlocked(TiledMapTileLayer collisionLayer, float x,float y) {
         TiledMapTileLayer.Cell cell = collisionLayer.getCell((int) (x / collisionLayer.getTileWidth()), (int) (y / collisionLayer.getTileHeight())); //Set variable cell to the cell at specified x,y coordinate
         return cell != null && cell.getTile() != null && cell.getTile().getProperties().containsKey("blocked"); //If cell is not null, and the cell contains "blocked", return true, else false
+    }
+
+    public void checkForCollision(Sprite sprite, TiledMapTileLayer collisionLayer, Vector2 velocity, Collision collision)
+    {
+        float oldX = sprite.getX(), oldY = sprite.getY();
+        collideX = false; collideY = false;
+
+        // Move on x
+        if(velocity.x < 0) {
+            collideX = collision.collidesLeft(sprite, collisionLayer);
+        }
+        else if(velocity.x > 0) {
+            collideX = collision.collidesRight(sprite, collisionLayer);
+        }
+        // React to x
+        if (collideX) {
+            sprite.setX(oldX);
+            velocity.x = 0;
+        }
+
+        // Move on y
+        if (velocity.y < 0) {
+            collideY = collision.collidesBottom(sprite, collisionLayer);
+        }
+        else if(velocity.y > 0) {
+            collideY = collision.collidesTop(sprite, collisionLayer);
+        }
+        // React to y
+        if(collideY) {
+            sprite.setY(oldY);
+            velocity.y = 0;
+        }
     }
 }

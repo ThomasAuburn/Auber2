@@ -3,8 +3,6 @@ package com.mygdx.auber.Pathfinding;
 import com.badlogic.gdx.ai.pfa.Connection;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
-import com.mygdx.auber.Pathfinding.Node;
-
 public class Path implements Connection<Node> {
 
     public Node fromNode,toNode;
