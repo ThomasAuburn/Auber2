@@ -11,6 +11,7 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.auber.Auber;
@@ -32,7 +33,8 @@ public class PlayScreen implements Screen {
     private MapGraph mapGraph;
 
     private Player player;
-    private Infiltrator infiltrator;
+    private int numberOfInfiltrators = 6;
+    private Infiltrator[] infiltrators = new Infiltrator[numberOfInfiltrators];
 
     public PlayScreen(Auber game){
         this.game = game;
@@ -47,7 +49,10 @@ public class PlayScreen implements Screen {
         player.setPosition(player.getX() + 150, player.getY() + 100);
 
         graphCreator = new GraphCreator((TiledMapTileLayer)map.getLayers().get(0));
-        infiltrator = new Infiltrator(new Sprite(new Texture("SpriteTest.png")),(TiledMapTileLayer)map.getLayers().get(0), MapGraph.getRandomNode(), graphCreator.mapGraph);
+        for (int i = 0; i < numberOfInfiltrators; i++) {
+            infiltrators[i] = new Infiltrator(new Sprite(new Texture("SpriteTest.png")),(TiledMapTileLayer)map.getLayers().get(0), MapGraph.getRandomNode(), graphCreator.mapGraph);
+        }
+
 
         renderer = new OrthogonalTiledMapRenderer(map);
         camera.position.set(player.getX(),player.getY(),0);
@@ -83,7 +88,11 @@ public class PlayScreen implements Screen {
     public void update(float time){
         handleInput(time);
 
-        infiltrator.step();
+        for (Infiltrator infiltrator:
+             infiltrators) {
+            infiltrator.step();
+        }
+
         camera.update();
         renderer.setView(camera);
     }
@@ -100,7 +109,11 @@ public class PlayScreen implements Screen {
 
         renderer.renderTileLayer((TiledMapTileLayer) map.getLayers().get(0));
         player.draw(renderer.getBatch());
-        infiltrator.draw(renderer.getBatch());
+        for (Infiltrator infiltrator:
+             infiltrators) {
+            infiltrator.draw(renderer.getBatch());
+        }
+
         renderer.renderTileLayer((TiledMapTileLayer) map.getLayers().get(1));
         //graphCreator.render(); //Debugging
         update(delta);

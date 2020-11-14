@@ -114,22 +114,6 @@ public class GraphCreator extends ApplicationAdapter {
         {
             nodes.add(MapGraph.getNode(x, y - tileLayer.getTileHeight()));
         }
-        if(MapGraph.getNode(x + tileLayer.getTileWidth(), y + tileLayer.getTileHeight()) != null)
-        {
-            nodes.add(MapGraph.getNode(x + tileLayer.getTileWidth(), y + tileLayer.getTileHeight()));
-        }
-        if(MapGraph.getNode(x + tileLayer.getTileWidth(), y - tileLayer.getTileHeight()) != null)
-        {
-            nodes.add(MapGraph.getNode(x + tileLayer.getTileWidth(), y - tileLayer.getTileHeight()));
-        }
-        if(MapGraph.getNode(x - tileLayer.getTileWidth(), y + tileLayer.getTileHeight()) != null)
-        {
-            nodes.add(MapGraph.getNode(x - tileLayer.getTileWidth(), y + tileLayer.getTileHeight()));
-        }
-        if(MapGraph.getNode(x - tileLayer.getTileWidth(), y +- tileLayer.getTileHeight()) != null)
-        {
-            nodes.add(MapGraph.getNode(x - tileLayer.getTileWidth(), y +- tileLayer.getTileHeight()));
-        }
 
         return nodes;
     }

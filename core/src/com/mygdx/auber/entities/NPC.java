@@ -2,7 +2,6 @@ package com.mygdx.auber.entities;
 
 import com.badlogic.gdx.ai.pfa.GraphPath;
 import com.badlogic.gdx.ai.pfa.PathSmoother;
-import com.badlogic.gdx.ai.utils.Collision;
 import com.badlogic.gdx.ai.utils.Ray;
 import com.badlogic.gdx.ai.utils.RaycastCollisionDetector;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -17,6 +16,7 @@ public class NPC extends Sprite {
     private TiledMapTileLayer collisionLayer;
     private boolean arrested;
     private final Vector2 velocity = new Vector2(0,0);
+    private final Collision collision;
 
     float SPEED = .5f;
     MapGraph mapGraph;
@@ -30,6 +30,7 @@ public class NPC extends Sprite {
         this.mapGraph = mapGraph;
         this.previousNode = start;
         this.setGoal(mapGraph.getRandomNode());
+        this.collision = new Collision();
     }
 
     /**
@@ -37,6 +38,7 @@ public class NPC extends Sprite {
      */
     public void step()
     {
+        collision.checkForCollision(this, collisionLayer, velocity, collision);
         this.setX(this.getX() + velocity.x);
         this.setY(this.getY() + velocity.y);
         checkCollision();
@@ -63,9 +65,14 @@ public class NPC extends Sprite {
     {
         if(pathQueue.size > 0){
             Node targetNode = pathQueue.first();
+            System.out.println(Vector2.dst(this.getX(),this.getY(),targetNode.x,targetNode.y) );
             if(Vector2.dst(this.getX(),this.getY(),targetNode.x,targetNode.y) < 5)
             {
                 reachNextNode();
+            }
+            else
+            {
+                setSpeedToNextNode();
             }
         }
     }
