@@ -12,12 +12,24 @@ public class CrewMembers extends NPC{
     public int index;
     private final float SPEED = 1;
 
+
     public CrewMembers(Sprite sprite, TiledMapTileLayer collisionLayer, Node node, MapGraph mapGraph)
     {
         super(sprite, collisionLayer, node, mapGraph);
+        this.setPosition(node.x, node.y);
     }
 
     public void setIndex(int index)
+    {
+        this.index = index;
+    }
+
+    public static void dispose()
+    {
+        return;
+    }
+
+    public void addCrewMember(int index)
     {
         this.index = index;
     }

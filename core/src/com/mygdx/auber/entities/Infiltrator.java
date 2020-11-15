@@ -15,14 +15,19 @@ public class Infiltrator extends NPC{
 
     public Infiltrator(Sprite sprite, TiledMapTileLayer collisionLayer, Node node, MapGraph mapGraph) {
         super(sprite, collisionLayer, node, mapGraph);
-    }
-
-    public void update(float dt){
+        this.setPosition(node.x, node.y);
     }
 
     public void setIndex(int index)
     {
         this.index = index;
+        System.out.println(index);
     }
+
+    public static void dispose()
+    {
+        return;
+    }
+
 }
 

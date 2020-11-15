@@ -11,6 +11,7 @@ public class ScrollingBackground {
     public static int SPEED = 30; //In pixels per second
     float imageScale;
 
+    //TODO Finish this
     public ScrollingBackground()
     {
         image = new Texture("Background.png");

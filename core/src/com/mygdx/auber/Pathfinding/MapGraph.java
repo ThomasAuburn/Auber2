@@ -11,12 +11,13 @@ import com.badlogic.gdx.utils.ObjectMap;
 public class MapGraph implements IndexedGraph<Node> {
 
     PathHeuristic pathHeuristic = new PathHeuristic();
+
     public static Array<Node> nodes = new Array<>(); //Array holding all nodes on map
     public static Array<Path> paths = new Array<>(); //Array holding all paths on map
 
     public static ObjectMap<Node, Array<Connection<Node>>> pathsMap = new ObjectMap<>();
 
-    private static int lastNodeIndex = 0; //Increment counter to give each node a unique index
+    public static int lastNodeIndex = 0; //Increment counter to give each node a unique index
 
 
     /**
