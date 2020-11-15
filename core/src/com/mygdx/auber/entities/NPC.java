@@ -1,10 +1,14 @@
 package com.mygdx.auber.entities;
 
 import com.badlogic.gdx.ai.pfa.GraphPath;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Queue;
 import com.mygdx.auber.Pathfinding.MapGraph;
 import com.mygdx.auber.Pathfinding.Node;
@@ -15,29 +19,50 @@ public class NPC extends Sprite {
     private final Vector2 velocity = new Vector2(0,0);
     private final Collision collision;
 
-    float SPEED = .5f;
-    MapGraph mapGraph;
-    Node previousNode;
-    Queue<Node> pathQueue = new Queue<>();
+    public static Array<Infiltrator> infiltrators = new Array<>();
+    public static Array<CrewMembers> crew = new Array<>();
+
+    float SPEED = 1f;
+    float elapsedTime = 0f;
+    boolean move = true;
+
+    private MapGraph mapGraph;
+    private Node previousNode;
+    private Queue<Node> pathQueue = new Queue<>();
 
     public NPC(Sprite sprite, TiledMapTileLayer collisionLayer, Node start, MapGraph mapGraph){
         super(sprite);
+
         this.collisionLayer = collisionLayer;
-        sprite.setPosition(start.x ,start.y);
         this.mapGraph = mapGraph;
         this.previousNode = start;
-        this.setGoal(mapGraph.getRandomNode());
+        this.setGoal(MapGraph.getRandomNode());
         this.collision = new Collision();
+
+        sprite.setPosition(start.x ,start.y);
     }
 
     /**
      * Step needs to be called in the update method, makes the NPC move and check if it has reached its next node
      */
-    public void step()
+    public void step(float delta)
     {
         this.setX(this.getX() + velocity.x);
         this.setY(this.getY() + velocity.y);
+        this.elapsedTime += delta;
         checkCollision();
+    }
+
+    public static void updateNPC(float delta)
+    {
+        for (CrewMembers crewMember:
+             crew) {
+            crewMember.step(delta);
+        }
+        for (Infiltrator infiltrator:
+                infiltrators) {
+            infiltrator.step(delta);
+        }
     }
 
     /**
@@ -47,9 +72,10 @@ public class NPC extends Sprite {
     public void setGoal(Node goal)
     {
         GraphPath<Node> graphPath = mapGraph.findPath(previousNode, goal);
+
         for(int i = 1; i < graphPath.getCount(); i++)
         {
-            pathQueue.addLast(graphPath.get(i));
+            this.pathQueue.addLast(graphPath.get(i));
         }
         setSpeedToNextNode();
     }
@@ -57,11 +83,10 @@ public class NPC extends Sprite {
     /**
      * Checks whether the NPC has made it to the next node
      */
-    private void checkCollision()
+    public void checkCollision()
     {
-        if(pathQueue.size > 0){
-            Node targetNode = pathQueue.first();
-            System.out.println(Vector2.dst(this.getX(),this.getY(),targetNode.x,targetNode.y) );
+        if(this.pathQueue.size > 0){
+            Node targetNode = this.pathQueue.first();
             if(Vector2.dst(this.getX(),this.getY(),targetNode.x,targetNode.y) < 5)
             {
                 reachNextNode();
@@ -78,12 +103,12 @@ public class NPC extends Sprite {
      */
     private void reachNextNode()
     {
-        Node nextNode = pathQueue.first();
+        Node nextNode = this.pathQueue.first();
 
         this.previousNode = nextNode;
-        pathQueue.removeFirst();
+        this.pathQueue.removeFirst();
 
-        if(pathQueue.size == 0)
+        if(this.pathQueue.size == 0)
         {
             reachDestination();
         }else{
@@ -114,11 +139,38 @@ public class NPC extends Sprite {
 
         Node newGoal;
         do {
-            newGoal = mapGraph.nodes.random();
+            newGoal = MapGraph.nodes.random();
         }while(newGoal == previousNode);
         {
             setGoal(newGoal);
         }
     }
 
+    /** Render method for rendering all NPCs */
+    public static void render(Batch batch)
+    {
+        for (Infiltrator infiltrator: infiltrators)
+        {
+            infiltrator.draw(batch);
+
+        }
+
+        for (CrewMembers crewMember: crew)
+        {
+            crewMember.draw(batch);
+        }
+    }
+
+    public static void dispose()
+    {
+        for (Infiltrator infiltrator: infiltrators)
+        {
+            infiltrator.dispose();
+
+        }
+        for (CrewMembers crewMember: crew)
+        {
+            crewMember.dispose();
+        }
+    }
 }
