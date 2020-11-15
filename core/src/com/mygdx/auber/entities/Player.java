@@ -10,7 +10,7 @@ import com.badlogic.gdx.math.Vector2;
 
 public class Player extends Sprite implements InputProcessor {
     /**The movement velocity */
-    private final Vector2 velocity = new Vector2(0,0);
+    private Vector2 velocity = new Vector2(0,0);
 
     private final Collision collision;
 
@@ -20,7 +20,6 @@ public class Player extends Sprite implements InputProcessor {
     private boolean isAHeld;
     private boolean isSHeld;
     private boolean isDHeld;
-
 
     private final TiledMapTileLayer collisionLayer;
 
@@ -39,9 +38,6 @@ public class Player extends Sprite implements InputProcessor {
     }
 
     public void update() {
-        float oldX = getX(), oldY = getY();
-        boolean collideX = false, collideY = false;
-
         velocity.x = 0; velocity.y = 0;
 
         float SPEED = 1;
@@ -58,34 +54,7 @@ public class Player extends Sprite implements InputProcessor {
             velocity.x += SPEED;
         }
 
-        // Move on x
-        if(velocity.x < 0) {
-            collideX = collision.collidesLeft(this, collisionLayer);
-        }
-        else if(velocity.x > 0) {
-            collideX = collision.collidesRight(this, collisionLayer);
-        }
-
-        // React to x
-        if (collideX) {
-            setX(oldX);
-            velocity.x = 0;
-        }
-
-        // Move on y
-        if (velocity.y < 0) {
-            collideY = collision.collidesBottom(this, collisionLayer);
-        }
-        else if(velocity.y > 0) {
-            collideY = collision.collidesTop(this, collisionLayer);
-        }
-
-        // React to y
-        if(collideY) {
-            setY(oldY);
-            velocity.y = 0;
-        }
-
+        velocity = collision.checkForCollision(this, collisionLayer, velocity, collision);
         setX(getX() + velocity.x);
         setY(getY() + velocity.y);
     }
