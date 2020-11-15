@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Queue;
 import com.mygdx.auber.Pathfinding.MapGraph;
 import com.mygdx.auber.Pathfinding.Node;
@@ -15,6 +16,11 @@ public class NPC extends Sprite {
     private final Vector2 velocity = new Vector2(0,0);
     private final Collision collision;
 
+    public static Array<Infiltrator> infiltrators = new Array<>();
+    public static Array<CrewMembers> crew = new Array<>();
+
+    private static int lastNPCIndex = 0;
+
     float SPEED = 1f;
     MapGraph mapGraph;
     Node previousNode;
@@ -22,12 +28,14 @@ public class NPC extends Sprite {
 
     public NPC(Sprite sprite, TiledMapTileLayer collisionLayer, Node start, MapGraph mapGraph){
         super(sprite);
+
         this.collisionLayer = collisionLayer;
-        sprite.setPosition(start.x ,start.y);
         this.mapGraph = mapGraph;
         this.previousNode = start;
         this.setGoal(mapGraph.getRandomNode());
         this.collision = new Collision();
+
+        sprite.setPosition(start.x ,start.y);
     }
 
     /**

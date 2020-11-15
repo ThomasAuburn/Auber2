@@ -30,7 +30,7 @@ public class PlayScreen implements Screen {
     private OrthogonalTiledMapRenderer renderer;
     private GraphCreator graphCreator;
     private Player player;
-    private int numberOfInfiltrators = 50;
+    private int numberOfInfiltrators = 3;
     private Infiltrator[] infiltrators = new Infiltrator[numberOfInfiltrators];
     private ScrollingBackground scrollingBackground;
 
