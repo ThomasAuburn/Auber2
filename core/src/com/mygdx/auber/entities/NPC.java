@@ -19,9 +19,6 @@ public class NPC extends Sprite {
     public Vector2 velocity = new Vector2(0,0);
     private final Collision collision;
 
-    public static Array<Infiltrator> infiltrators = new Array<>();
-    public static Array<CrewMembers> crew = new Array<>();
-
     public int index;
     public final float SPEED = 1;
     float elapsedTime = 0f;
@@ -46,11 +43,11 @@ public class NPC extends Sprite {
     public static void updateNPC(float delta)
     {
         for (CrewMembers crewMember:
-             crew) {
+             NPCCreator.crew) {
             crewMember.step(delta);
         }
         for (Infiltrator infiltrator:
-                infiltrators) {
+                NPCCreator.infiltrators) {
             infiltrator.step(delta);
         }
     }
@@ -122,13 +119,13 @@ public class NPC extends Sprite {
     /** Render method for rendering all NPCs */
     public static void render(Batch batch)
     {
-        for (Infiltrator infiltrator: infiltrators)
+        for (Infiltrator infiltrator: NPCCreator.infiltrators)
         {
             infiltrator.draw(batch);
 
         }
 
-        for (CrewMembers crewMember: crew)
+        for (CrewMembers crewMember: NPCCreator.crew)
         {
             crewMember.draw(batch);
         }
@@ -136,12 +133,12 @@ public class NPC extends Sprite {
 
     public static void dispose()
     {
-        for (Infiltrator infiltrator: infiltrators)
+        for (Infiltrator infiltrator: NPCCreator.infiltrators)
         {
             infiltrator.dispose();
 
         }
-        for (CrewMembers crewMember: crew)
+        for (CrewMembers crewMember: NPCCreator.crew)
         {
             crewMember.dispose();
         }
