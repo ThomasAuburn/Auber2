@@ -8,10 +8,8 @@ import com.mygdx.auber.Pathfinding.Node;
 
 public class CrewMembers extends NPC{
 
-    private Vector2 velocity = new Vector2(0,0);
     public int index;
     private final float SPEED = 1;
-
 
     public CrewMembers(Sprite sprite, TiledMapTileLayer collisionLayer, Node node, MapGraph mapGraph)
     {
@@ -29,8 +27,40 @@ public class CrewMembers extends NPC{
         return;
     }
 
-    public void addCrewMember(int index)
+    /**
+     * Step needs to be called in the update method, makes the NPC move and check if it has reached its next node
+     */
+    public void step(float delta) {
+        this.setX(this.getX() + this.velocity.x);
+        this.setY(this.getY() + this.velocity.y);
+        this.elapsedTime += delta;
+        this.checkCollision();
+
+        if(!(this.elapsedTime < 20) && !move)
+        {
+            this.elapsedTime = 0;
+            Node newGoal;
+            newGoal = MapGraph.nodes.random();
+            this.setGoal(newGoal);
+        }
+    }
+
+    /**
+     * Called when the path queue is empty
+     */
+    public void reachDestination()
     {
-        this.index = index;
+        this.velocity.x = 0;
+        this.velocity.y = 0;
+
+        move = false;
+
+//        Node newGoal;
+//        do {
+//            newGoal = MapGraph.nodes.random();
+//        }while(newGoal == previousNode);
+//        {
+//            setGoal(newGoal);
+//        }
     }
 }

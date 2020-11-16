@@ -98,7 +98,7 @@ public class PlayScreen implements Screen {
         camera.position.set(player.getX() + player.getWidth()/2,player.getY() + player.getHeight()/2,0); //Sets camera to centre of player position
         game.batch.setProjectionMatrix(camera.combined); //Ensures everything is rendered properly, only renders things in viewport
         renderer.getBatch().begin();  //Start the sprite batch
-        this.scrollingBackground.updateRender(delta, (SpriteBatch) renderer.getBatch());//Renders the background
+        scrollingBackground.updateRender(delta, (SpriteBatch) renderer.getBatch());//Renders the background
         renderer.renderTileLayer((TiledMapTileLayer) map.getLayers().get(0)); //Renders the bottom layer of the map
 
         player.draw(renderer.getBatch());
@@ -125,7 +125,7 @@ public class PlayScreen implements Screen {
         camera.viewportWidth = width/2f;
         camera.viewportHeight = height/2f;
         camera.update();
-        this.scrollingBackground.resize(width, height);
+        scrollingBackground.resize(width, height);
     }
 
     @Override

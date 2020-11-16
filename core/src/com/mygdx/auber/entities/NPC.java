@@ -16,18 +16,19 @@ import com.mygdx.auber.Pathfinding.Node;
 public class NPC extends Sprite {
     private TiledMapTileLayer collisionLayer;
     private boolean arrested;
-    private final Vector2 velocity = new Vector2(0,0);
+    public Vector2 velocity = new Vector2(0,0);
     private final Collision collision;
 
     public static Array<Infiltrator> infiltrators = new Array<>();
     public static Array<CrewMembers> crew = new Array<>();
 
-    float SPEED = 1f;
+    public int index;
+    public final float SPEED = 1;
     float elapsedTime = 0f;
     boolean move = true;
 
     private MapGraph mapGraph;
-    private Node previousNode;
+    Node previousNode;
     private Queue<Node> pathQueue = new Queue<>();
 
     public NPC(Sprite sprite, TiledMapTileLayer collisionLayer, Node start, MapGraph mapGraph){
@@ -40,17 +41,6 @@ public class NPC extends Sprite {
         this.collision = new Collision();
 
         sprite.setPosition(start.x ,start.y);
-    }
-
-    /**
-     * Step needs to be called in the update method, makes the NPC move and check if it has reached its next node
-     */
-    public void step(float delta)
-    {
-        this.setX(this.getX() + velocity.x);
-        this.setY(this.getY() + velocity.y);
-        this.elapsedTime += delta;
-        checkCollision();
     }
 
     public static void updateNPC(float delta)
@@ -110,7 +100,7 @@ public class NPC extends Sprite {
 
         if(this.pathQueue.size == 0)
         {
-            reachDestination();
+            this.reachDestination();
         }else{
             setSpeedToNextNode();
         }
@@ -121,29 +111,12 @@ public class NPC extends Sprite {
      */
     private void setSpeedToNextNode()
     {
-        velocity.x = 0;
-        velocity.y = 0;
-        Node nextNode = pathQueue.first();
+        this.velocity.x = 0;
+        this.velocity.y = 0;
+        Node nextNode = this.pathQueue.first();
         float angle = MathUtils.atan2(nextNode.y - previousNode.y, nextNode.x - previousNode.x);
-        velocity.x += MathUtils.cos(angle) * SPEED;
-        velocity.y += MathUtils.sin(angle) * SPEED;
-    }
-
-    /**
-     * Called when the path queue is empty
-     */
-    private void reachDestination()
-    {
-        velocity.x = 0;
-        velocity.y = 0;
-
-        Node newGoal;
-        do {
-            newGoal = MapGraph.nodes.random();
-        }while(newGoal == previousNode);
-        {
-            setGoal(newGoal);
-        }
+        this.velocity.x += MathUtils.cos(angle) * SPEED;
+        this.velocity.y += MathUtils.sin(angle) * SPEED;
     }
 
     /** Render method for rendering all NPCs */
@@ -173,4 +146,7 @@ public class NPC extends Sprite {
             crewMember.dispose();
         }
     }
+
+    public void reachDestination()
+    {}
 }

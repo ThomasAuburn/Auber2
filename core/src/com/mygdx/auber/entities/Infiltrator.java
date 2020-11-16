@@ -8,11 +8,6 @@ import com.mygdx.auber.Pathfinding.MapGraph;
 import com.mygdx.auber.Pathfinding.Node;
 
 public class Infiltrator extends NPC{
-
-    private Vector2 velocity = new Vector2(0,0);
-    public int index;
-    private final float SPEED = 1;
-
     public Infiltrator(Sprite sprite, TiledMapTileLayer collisionLayer, Node node, MapGraph mapGraph) {
         super(sprite, collisionLayer, node, mapGraph);
         this.setPosition(node.x, node.y);
@@ -27,6 +22,36 @@ public class Infiltrator extends NPC{
     public static void dispose()
     {
         return;
+    }
+
+    /**
+     * Step needs to be called in the update method, makes the NPC move and check if it has reached its next node
+     */
+    public void step(float delta)
+    {
+        this.setX(this.getX() + this.velocity.x);
+        this.setY(this.getY() + this.velocity.y);
+        this.elapsedTime += delta;
+        this.checkCollision();
+    }
+
+    /**
+     * Called when the path queue is empty
+     */
+    public void reachDestination()
+    {
+        this.velocity.x = 0;
+        this.velocity.y = 0;
+
+        boolean move = false;
+
+        Node newGoal;
+        do {
+            newGoal = MapGraph.nodes.random();
+        }while(newGoal == previousNode);
+        {
+            setGoal(newGoal);
+        }
     }
 
 }
