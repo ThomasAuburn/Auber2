@@ -49,16 +49,17 @@ public class Player extends Sprite implements InputProcessor {
         }
         if(isAHeld) {
             velocity.x -= SPEED;
+            this.setScale(-1,1);
         }
         if(isDHeld) {
             velocity.x += SPEED;
+            this.setScale(1,1);
         }
 
         velocity = collision.checkForCollision(this, collisionLayer, velocity, collision);
         setX(getX() + velocity.x);
         setY(getY() + velocity.y);
     }
-
 
     @Override
     public boolean keyDown(int keycode) {
@@ -121,7 +122,17 @@ public class Player extends Sprite implements InputProcessor {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        return false;
+//        for (Infiltrator infiltrator: NPCCreator.infiltrators)
+//        {
+//            if(infiltrator.getX() < screenX + 5 || infiltrator.getX() > screenX  -5)
+//            {
+//                if(infiltrator.getY() < screenY + 5 || infiltrator.getY() > screenY  -5)
+//                {
+//                    NPCCreator.removeInfiltrator(infiltrator.index);
+//                }
+//            }
+//        }
+        return true;
     }
 
     @Override

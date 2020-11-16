@@ -33,7 +33,7 @@ public class PlayScreen implements Screen {
     private OrthogonalTiledMapRenderer renderer;
     private GraphCreator graphCreator;
     private Player player;
-    private int numberOfInfiltrators = 3;
+    private int numberOfInfiltrators = 5;
     private int numberOfCrew = 3;
     private ScrollingBackground scrollingBackground;
 
@@ -46,7 +46,7 @@ public class PlayScreen implements Screen {
         this.scrollingBackground = new ScrollingBackground();
 
         mapLoader = new TmxMapLoader();
-        map = mapLoader.load("testmap2.tmx");
+        map = mapLoader.load("AuberMap1.0.tmx");
 
         player = new Player(new Sprite(new Texture("AuberStand.png")),(TiledMapTileLayer)map.getLayers().get(0));
         player.setPosition(player.getX() + 150, player.getY() + 100);
@@ -98,6 +98,7 @@ public class PlayScreen implements Screen {
         camera.position.set(player.getX() + player.getWidth()/2,player.getY() + player.getHeight()/2,0); //Sets camera to centre of player position
         game.batch.setProjectionMatrix(camera.combined); //Ensures everything is rendered properly, only renders things in viewport
         renderer.getBatch().begin();  //Start the sprite batch
+
         scrollingBackground.updateRender(delta, (SpriteBatch) renderer.getBatch());//Renders the background
         renderer.renderTileLayer((TiledMapTileLayer) map.getLayers().get(0)); //Renders the bottom layer of the map
 

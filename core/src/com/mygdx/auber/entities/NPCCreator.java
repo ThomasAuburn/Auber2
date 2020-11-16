@@ -28,4 +28,14 @@ public class NPCCreator {
         crewMember.setIndex(lastCrewIndex);
         lastCrewIndex++;
     }
+
+    public static void removeInfiltrator(int id)
+    {
+        infiltrators.removeIndex(id);
+        for(int i = id; i < infiltrators.size; i++)
+        {
+            Infiltrator infiltrator = infiltrators.get(i);
+            infiltrator.index -= 1;
+        }
+    }
 }
