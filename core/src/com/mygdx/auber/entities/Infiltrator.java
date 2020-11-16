@@ -31,6 +31,14 @@ public class Infiltrator extends NPC{
     {
         this.setX(this.getX() + this.velocity.x);
         this.setY(this.getY() + this.velocity.y);
+        if(this.velocity.x < 0)
+        {
+            this.setScale(-1,1);
+        }
+        else if(this.velocity.x > 0)
+        {
+            this.setScale(1,1);
+        }
         this.elapsedTime += delta;
         this.checkCollision();
     }
