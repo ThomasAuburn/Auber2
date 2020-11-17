@@ -1,5 +1,6 @@
 package com.mygdx.auber.Screens;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -35,6 +36,7 @@ public class MainMenuScreen implements Screen {
 
         viewport = new ExtendViewport(Auber.VirtualWidth, Auber.VirtualHeight, new OrthographicCamera());
         stage = new Stage(viewport, ((Auber) game).batch);
+        Gdx.input.setInputProcessor(stage);
 
         font = new BitmapFont();
         skin = new Skin();
