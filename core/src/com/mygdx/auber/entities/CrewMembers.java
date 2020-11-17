@@ -32,6 +32,7 @@ public class CrewMembers extends NPC{
     public void step(float delta) {
         this.setX(this.getX() + this.velocity.x);
         this.setY(this.getY() + this.velocity.y);
+
         if(this.velocity.x < 0)
         {
             this.setScale(-1,1);

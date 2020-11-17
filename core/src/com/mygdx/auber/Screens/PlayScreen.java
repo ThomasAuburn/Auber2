@@ -33,8 +33,8 @@ public class PlayScreen implements Screen {
     private OrthogonalTiledMapRenderer renderer;
     private GraphCreator graphCreator;
     private Player player;
-    private int numberOfInfiltrators = 5;
-    private int numberOfCrew = 10;
+    private int numberOfInfiltrators = 1;
+    private int numberOfCrew = 1;
     private ScrollingBackground scrollingBackground;
 
     public PlayScreen(Auber game){
@@ -75,20 +75,15 @@ public class PlayScreen implements Screen {
     }
 
     public boolean gameOver() {
-        return Player.health <= 0 || hud.CrewmateCount >= 3;
-    }
-
-    public void handleInput(float time){
-
+        return Player.health <= 0;
     }
 
     public void update(float time){
-        handleInput(time);
-        player.update();
         NPC.updateNPC(time);
+        player.update();
+        hud.update();
         camera.update();
         renderer.setView(camera);
-        hud.update();
     }
 
     @Override
@@ -98,21 +93,22 @@ public class PlayScreen implements Screen {
 
         camera.position.set(player.getX() + player.getWidth()/2,player.getY() + player.getHeight()/2,0); //Sets camera to centre of player position
         game.batch.setProjectionMatrix(camera.combined); //Ensures everything is rendered properly, only renders things in viewport
+
         renderer.getBatch().begin();  //Start the sprite batch
 
         scrollingBackground.updateRender(delta, (SpriteBatch) renderer.getBatch());//Renders the background
         renderer.renderTileLayer((TiledMapTileLayer) map.getLayers().get(0)); //Renders the bottom layer of the map
 
-        NPC.render(renderer.getBatch()); //Renders the player and all infiltrators
         player.draw(renderer.getBatch());
+        NPC.render(renderer.getBatch()); //Renders the player and all infiltrators
 
-        hud.stage.draw(); //Draws the HUD on the game
         update(delta); //Updates the game camera and NPCs
+        hud.stage.draw(); //Draws the HUD on the game
+
+        renderer.getBatch().end(); //Finishes the sprite batch
 
         //graphCreator.shapeRenderer.setProjectionMatrix(camera.combined); //Ensures nodes are rendered properly
         //graphCreator.render(); //Debugging shows nodes and paths
-
-        renderer.getBatch().end(); //Finishes the sprite batch
 
         if(gameOver()){
             game.setScreen(new GameOverScreen(game));

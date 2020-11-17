@@ -2,6 +2,7 @@ package com.mygdx.auber.entities;
 
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
@@ -18,6 +19,7 @@ public class Player extends Sprite implements InputProcessor {
     private final Collision collision;
 
     public static int health = 10;
+    float SPEED = 1;
 
     private boolean isWHeld;
     private boolean isAHeld;
@@ -31,13 +33,17 @@ public class Player extends Sprite implements InputProcessor {
         super(sprite);
         this.collisionLayer = collisionLayer;
         this.collision = new Collision();
-        this.setPosition(16*25, 16*25);
     }
+
+    public void draw(Batch batch)
+    {
+        super.draw(batch);
+    }
+
 
     public void update() {
         velocity.x = 0; velocity.y = 0;
 
-        float SPEED = 1;
         if(isWHeld) {
             velocity.y += SPEED;
         }
