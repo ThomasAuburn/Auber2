@@ -22,7 +22,6 @@ public class NPC extends Sprite {
     public int index;
     public final float SPEED = 1;
     float elapsedTime = 0f;
-    boolean move = true;
 
     private MapGraph mapGraph;
     Node previousNode;
@@ -76,11 +75,11 @@ public class NPC extends Sprite {
             Node targetNode = this.pathQueue.first();
             if(Vector2.dst(this.getX(),this.getY(),targetNode.x,targetNode.y) < 5)
             {
-                reachNextNode();
+                reachNextNode(); //If the sprite is within 5 pixels of the node, it has reached the node
             }
             else
             {
-                setSpeedToNextNode();
+                setSpeedToNextNode(); //Else keep moving towards it
             }
         }
     }
@@ -95,11 +94,13 @@ public class NPC extends Sprite {
         this.previousNode = nextNode;
         this.pathQueue.removeFirst();
 
-        if(this.pathQueue.size == 0)
+        if(this.pathQueue.size != 0) {
+            setSpeedToNextNode(); //If there are items in the queue, set the velocity towards the next node
+        }
+        else
         {
-            this.reachDestination();
-        }else{
-            setSpeedToNextNode();
+            this.velocity.x = 0;
+            this.velocity.y = 0;
         }
     }
 
@@ -110,6 +111,18 @@ public class NPC extends Sprite {
     {
         this.velocity.x = 0;
         this.velocity.y = 0;
+
+        if(!pathQueue.isEmpty())
+        {
+            Node nextNode = this.pathQueue.first();
+        }
+        else
+        {
+            Node newGoal;
+            newGoal = MapGraph.nodes.random();
+            this.setGoal(newGoal);
+        }
+
         Node nextNode = this.pathQueue.first();
         float angle = MathUtils.atan2(nextNode.y - previousNode.y, nextNode.x - previousNode.x);
         this.velocity.x += MathUtils.cos(angle) * SPEED;

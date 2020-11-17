@@ -6,6 +6,9 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
+import com.mygdx.auber.Scenes.Hud;
+import com.mygdx.auber.Screens.PlayScreen;
 
 
 public class Player extends Sprite implements InputProcessor {
@@ -122,16 +125,23 @@ public class Player extends Sprite implements InputProcessor {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-//        for (Infiltrator infiltrator: NPCCreator.infiltrators)
-//        {
-//            if(infiltrator.getX() < screenX + 5 || infiltrator.getX() > screenX  -5)
-//            {
-//                if(infiltrator.getY() < screenY + 5 || infiltrator.getY() > screenY  -5)
-//                {
-//                    NPCCreator.removeInfiltrator(infiltrator.index);
-//                }
-//            }
-//        }
+        Vector3 vec=new Vector3(screenX,screenY,0);
+        PlayScreen.camera.unproject(vec);
+
+        for (Infiltrator infiltrator: NPCCreator.infiltrators)
+        {
+            float centreX = infiltrator.getX() + infiltrator.getWidth()/2;
+            float centreY = infiltrator.getY() + infiltrator.getHeight()/2;
+
+            if(centreX < vec.x + 10 && centreX > vec.x - 10)
+            {
+                if(centreY < vec.y + 10 && centreY > vec.y - 10)
+                {
+                    NPCCreator.removeInfiltrator(infiltrator.index);
+                    Hud.ImposterCount += 1;
+                }
+            }
+        }
         return true;
     }
 

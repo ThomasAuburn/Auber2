@@ -16,8 +16,8 @@ public class Hud {
     public Stage stage;//2D scene graph, handles viewport and distributes input events.
     private Viewport viewport;
 
-    private Integer ImposterCount;
-    private Integer CrewmateCount;
+    public static Integer ImposterCount;
+    public static Integer CrewmateCount;
 
     Label imposterCountLabel;
     Label crewmateCountLabel;
@@ -39,10 +39,7 @@ public class Hud {
         hudTable.add(imposterCountLabel).expandX().left().padLeft(10);
         hudTable.add(crewmateCountLabel).expandX().right().padRight(10);
 
-
         stage.addActor(hudTable);
-
-
     }
 
 }

@@ -25,7 +25,7 @@ import com.mygdx.auber.entities.Player;
 
 public class PlayScreen implements Screen {
     private Auber game;
-    private OrthographicCamera camera;
+    public static OrthographicCamera camera;
     private Viewport viewport;
     private Hud hud;
     private TmxMapLoader mapLoader;
@@ -46,7 +46,7 @@ public class PlayScreen implements Screen {
         this.scrollingBackground = new ScrollingBackground();
 
         mapLoader = new TmxMapLoader();
-        map = mapLoader.load("AuberMap1.0.tmx");
+        map = mapLoader.load("testmap2.tmx");
 
         player = new Player(new Sprite(new Texture("AuberStand.png")),(TiledMapTileLayer)map.getLayers().get(0));
         player.setPosition(player.getX() + 150, player.getY() + 100);

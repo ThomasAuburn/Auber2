@@ -5,10 +5,10 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.mygdx.auber.Pathfinding.MapGraph;
 import com.mygdx.auber.Pathfinding.Node;
 
-public class CrewMembers extends NPC{
+import java.util.Random;
 
-    public int index;
-    private final float SPEED = 1;
+public class CrewMembers extends NPC{
+    public double timeToWait = Math.random() * 15;
 
     public CrewMembers(Sprite sprite, TiledMapTileLayer collisionLayer, Node node, MapGraph mapGraph)
     {
@@ -40,16 +40,15 @@ public class CrewMembers extends NPC{
         {
             this.setScale(1,1);
         }
+
         this.elapsedTime += delta;
         this.checkCollision();
 
-        if(!(this.elapsedTime < 20) && !move)
-        {
+        if(!(this.elapsedTime < timeToWait)) {
             this.elapsedTime = 0;
-            Node newGoal;
-            newGoal = MapGraph.nodes.random();
-            this.setGoal(newGoal);
+            reachDestination();
         }
+
     }
 
     /**
@@ -59,15 +58,14 @@ public class CrewMembers extends NPC{
     {
         this.velocity.x = 0;
         this.velocity.y = 0;
+        timeToWait = Math.random() * 15;
 
-        move = false;
-
-//        Node newGoal;
-//        do {
-//            newGoal = MapGraph.nodes.random();
-//        }while(newGoal == previousNode);
-//        {
-//            setGoal(newGoal);
-//        }
+        Node newGoal;
+        do {
+            newGoal = MapGraph.nodes.random();
+        }while(newGoal == previousNode);
+        {
+            setGoal(newGoal);
+        }
     }
 }
