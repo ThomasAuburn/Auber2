@@ -34,7 +34,7 @@ public class PlayScreen implements Screen {
     private GraphCreator graphCreator;
     private Player player;
     private int numberOfInfiltrators = 5;
-    private int numberOfCrew = 5;
+    private int numberOfCrew = 10;
     private ScrollingBackground scrollingBackground;
 
     public PlayScreen(Auber game){
@@ -48,8 +48,6 @@ public class PlayScreen implements Screen {
         mapLoader = new TmxMapLoader();
         map = mapLoader.load("testmap2.tmx");
 
-        player = new Player(new Sprite(new Texture("AuberStand.png")),(TiledMapTileLayer)map.getLayers().get(0));
-
         graphCreator = new GraphCreator((TiledMapTileLayer)map.getLayers().get(0));
         for (int i = 0; i < numberOfInfiltrators; i++) {
             System.out.println("Infiltrator created!");
@@ -61,6 +59,7 @@ public class PlayScreen implements Screen {
             NPCCreator.createCrew(new Sprite(new Texture("AlienInfiltratorStand.png")), MapGraph.getRandomNode(), graphCreator.mapGraph);
         }
 
+        player = new Player(new Sprite(new Texture("AuberStand.png")),(TiledMapTileLayer)map.getLayers().get(0));
         player.setPosition(600, 1000);
 
         renderer = new OrthogonalTiledMapRenderer(map);
@@ -76,7 +75,7 @@ public class PlayScreen implements Screen {
     }
 
     public boolean gameOver() {
-        return Player.health <= 0;
+        return Player.health <= 0 || hud.CrewmateCount >= 3;
     }
 
     public void handleInput(float time){
@@ -85,6 +84,7 @@ public class PlayScreen implements Screen {
 
     public void update(float time){
         handleInput(time);
+        player.update();
         NPC.updateNPC(time);
         camera.update();
         renderer.setView(camera);
@@ -103,8 +103,8 @@ public class PlayScreen implements Screen {
         scrollingBackground.updateRender(delta, (SpriteBatch) renderer.getBatch());//Renders the background
         renderer.renderTileLayer((TiledMapTileLayer) map.getLayers().get(0)); //Renders the bottom layer of the map
 
-        player.draw(renderer.getBatch());
         NPC.render(renderer.getBatch()); //Renders the player and all infiltrators
+        player.draw(renderer.getBatch());
 
         hud.stage.draw(); //Draws the HUD on the game
         update(delta); //Updates the game camera and NPCs

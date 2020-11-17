@@ -34,12 +34,6 @@ public class Player extends Sprite implements InputProcessor {
         this.setPosition(16*25, 16*25);
     }
 
-    @Override
-    public void draw(Batch batch) {
-        update();
-        super.draw(batch);
-    }
-
     public void update() {
         velocity.x = 0; velocity.y = 0;
 
