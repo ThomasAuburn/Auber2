@@ -13,17 +13,17 @@ public class NPCCreator {
     private static int lastInfiltratorIndex = 0;
     private static int lastCrewIndex = 0;
 
-    public static void createInfiltrator(Sprite sprite, TiledMapTileLayer layer, Node start, MapGraph graph)
+    public static void createInfiltrator(Sprite sprite, Node start, MapGraph graph)
     {
-        Infiltrator infiltrator = new Infiltrator(sprite, layer, start, graph);
+        Infiltrator infiltrator = new Infiltrator(sprite, start, graph);
         infiltrators.add(infiltrator);
         infiltrator.setIndex(lastInfiltratorIndex);
         lastInfiltratorIndex++;
     }
 
-    public static void createCrew(Sprite sprite, TiledMapTileLayer layer, Node start, MapGraph graph)
+    public static void createCrew(Sprite sprite, Node start, MapGraph graph)
     {
-        CrewMembers crewMember = new CrewMembers(sprite, layer, start, graph);
+        CrewMembers crewMember = new CrewMembers(sprite, start, graph);
         crew.add(crewMember);
         crewMember.setIndex(lastCrewIndex);
         lastCrewIndex++;
@@ -36,6 +36,16 @@ public class NPCCreator {
         {
             Infiltrator infiltrator = infiltrators.get(i);
             infiltrator.index -= 1;
+        }
+    }
+
+    public static void removeCrewmember(int id)
+    {
+        crew.removeIndex(id);
+        for(int i = id; i < crew.size; i++)
+        {
+            CrewMembers crewMember = crew.get(i);
+            crewMember.index -= 1;
         }
     }
 }

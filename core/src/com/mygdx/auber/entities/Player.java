@@ -2,10 +2,14 @@ package com.mygdx.auber.entities;
 
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
+import com.mygdx.auber.Scenes.Hud;
+import com.mygdx.auber.Screens.PlayScreen;
 
 
 public class Player extends Sprite implements InputProcessor {
@@ -15,6 +19,7 @@ public class Player extends Sprite implements InputProcessor {
     private final Collision collision;
 
     public static int health = 10;
+    float SPEED = 1;
 
     private boolean isWHeld;
     private boolean isAHeld;
@@ -28,19 +33,17 @@ public class Player extends Sprite implements InputProcessor {
         super(sprite);
         this.collisionLayer = collisionLayer;
         this.collision = new Collision();
-        this.setPosition(16*25, 16*25);
     }
 
-    @Override
-    public void draw(Batch batch) {
-        update();
+    public void draw(Batch batch)
+    {
         super.draw(batch);
     }
+
 
     public void update() {
         velocity.x = 0; velocity.y = 0;
 
-        float SPEED = 1;
         if(isWHeld) {
             velocity.y += SPEED;
         }
@@ -122,16 +125,28 @@ public class Player extends Sprite implements InputProcessor {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-//        for (Infiltrator infiltrator: NPCCreator.infiltrators)
-//        {
-//            if(infiltrator.getX() < screenX + 5 || infiltrator.getX() > screenX  -5)
-//            {
-//                if(infiltrator.getY() < screenY + 5 || infiltrator.getY() > screenY  -5)
-//                {
-//                    NPCCreator.removeInfiltrator(infiltrator.index);
-//                }
-//            }
-//        }
+        Vector3 vec=new Vector3(screenX,screenY,0);
+        PlayScreen.camera.unproject(vec);
+        Vector2 point = new Vector2(vec.x,vec.y);
+
+        for (Infiltrator infiltrator: NPCCreator.infiltrators)
+        {
+            if(infiltrator.getBoundingRectangle().contains(point))
+            {
+                NPCCreator.removeInfiltrator(infiltrator.index);
+                Hud.ImposterCount += 1;
+                return true;
+            }
+        }
+
+        for(CrewMembers crewMember: NPCCreator.crew) {
+            if(crewMember.getBoundingRectangle().contains(point))
+            {
+                NPCCreator.removeCrewmember(crewMember.index);
+                Hud.CrewmateCount += 1;
+                return true;
+            }
+        }
         return true;
     }
 
