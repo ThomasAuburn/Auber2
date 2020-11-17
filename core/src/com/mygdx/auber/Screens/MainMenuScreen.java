@@ -1,5 +1,6 @@
 package com.mygdx.auber.Screens;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -55,7 +56,13 @@ public class MainMenuScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 System.out.println("Clicked");
-                game.setScreen(PlayScreen);
+                game.setScreen(new PlayScreen(game));
+            }
+        });
+        exitButton.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                Gdx.app.exit();
             }
         });
 
@@ -83,8 +90,12 @@ public class MainMenuScreen implements Screen {
 
     }
 
+
+
     @Override
     public void resize(int width, int height) {
+        viewport.update(width, height);
+
 
     }
 
