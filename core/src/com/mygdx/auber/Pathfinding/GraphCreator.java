@@ -43,8 +43,14 @@ public class GraphCreator extends ApplicationAdapter {
 
         for(Node node : MapGraph.nodes)
         {
-            node.render(shapeRenderer, batch, font);
+            node.render(shapeRenderer, batch, font, false);
         }
+
+//        {
+//            for (Node node : nodeGraphPath) {
+//                node.render(shapeRenderer, batch, font, true);
+//            }
+//        }
     }
 
     /**
@@ -60,7 +66,7 @@ public class GraphCreator extends ApplicationAdapter {
                 int x = (i * tileLayer.getTileWidth()) + tileLayer.getTileWidth()/2;
                 int y = (j * tileLayer.getTileHeight()) + tileLayer.getTileHeight()/2; //x,y coord of the centre of the tile
                 TiledMapTileLayer.Cell cell = tileLayer.getCell(i, j); //Returns the cell at the x,y coord
-                if(cell != null && cell.getTile() != null && (cell.getTile().getId() == 11 || cell.getTile().getId() == 12)) //If ID matches floor/corridor tiles, and is not null
+                if(cell != null && cell.getTile() != null && !(cell.getTile().getProperties().containsKey("nodeless"))) //If ID matches floor/corridor tiles, and is not null
                 {
                     Node node = new Node(x,y);
                     MapGraph.addNode(node); //Create new node and add it to the map graph

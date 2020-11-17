@@ -1,16 +1,17 @@
 package com.mygdx.auber.entities;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.maps.Map;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
-import com.badlogic.gdx.math.Vector2;
 import com.mygdx.auber.Pathfinding.MapGraph;
 import com.mygdx.auber.Pathfinding.Node;
 
-public class Infiltrator extends NPC{
+import java.util.Random;
+
+public class CrewMembers extends NPC{
     public double timeToWait = Math.random() * 15;
 
-    public Infiltrator(Sprite sprite, Node node, MapGraph mapGraph) {
+    public CrewMembers(Sprite sprite, Node node, MapGraph mapGraph)
+    {
         super(sprite, node, mapGraph);
         this.setPosition(node.x, node.y);
     }
@@ -31,6 +32,7 @@ public class Infiltrator extends NPC{
     public void step(float delta) {
         this.setX(this.getX() + this.velocity.x);
         this.setY(this.getY() + this.velocity.y);
+
         if(this.velocity.x < 0)
         {
             this.setScale(-1,1);
@@ -67,6 +69,4 @@ public class Infiltrator extends NPC{
             setGoal(newGoal);
         }
     }
-
 }
-

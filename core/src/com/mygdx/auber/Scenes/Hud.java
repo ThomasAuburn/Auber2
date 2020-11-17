@@ -3,6 +3,7 @@ package com.mygdx.auber.Scenes;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -10,14 +11,15 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.auber.Auber;
+import com.mygdx.auber.entities.CrewMembers;
 
 
 public class Hud {
     public Stage stage;//2D scene graph, handles viewport and distributes input events.
     private Viewport viewport;
 
-    private Integer ImposterCount;
-    private Integer CrewmateCount;
+    public static Integer ImposterCount;
+    public static Integer CrewmateCount;
 
     Label imposterCountLabel;
     Label crewmateCountLabel;
@@ -39,10 +41,14 @@ public class Hud {
         hudTable.add(imposterCountLabel).expandX().left().padLeft(10);
         hudTable.add(crewmateCountLabel).expandX().right().padRight(10);
 
-
         stage.addActor(hudTable);
-
-
     }
+
+    public void update()
+    {
+        imposterCountLabel.setText(String.format("Imposter Arrests: %02d", ImposterCount));
+        crewmateCountLabel.setText(String.format("Crewmate Arrests: %02d", CrewmateCount));
+    }
+
 
 }
