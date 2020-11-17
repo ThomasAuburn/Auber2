@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
@@ -24,7 +25,7 @@ import com.mygdx.auber.entities.Player;
 
 public class PlayScreen implements Screen {
     private Auber game;
-    private OrthographicCamera camera;
+    public static OrthographicCamera camera;
     private Viewport viewport;
     private Hud hud;
     private TmxMapLoader mapLoader;
@@ -32,8 +33,8 @@ public class PlayScreen implements Screen {
     private OrthogonalTiledMapRenderer renderer;
     private GraphCreator graphCreator;
     private Player player;
-    private int numberOfInfiltrators = 3;
-    private int numberOfCrew = 3;
+    private int numberOfInfiltrators = 1;
+    private int numberOfCrew = 1;
     private ScrollingBackground scrollingBackground;
 
     public PlayScreen(Auber game){
@@ -47,19 +48,19 @@ public class PlayScreen implements Screen {
         mapLoader = new TmxMapLoader();
         map = mapLoader.load("testmap2.tmx");
 
-        player = new Player(new Sprite(new Texture("AuberStand.png")),(TiledMapTileLayer)map.getLayers().get(0));
-        player.setPosition(player.getX() + 150, player.getY() + 100);
-
         graphCreator = new GraphCreator((TiledMapTileLayer)map.getLayers().get(0));
         for (int i = 0; i < numberOfInfiltrators; i++) {
             System.out.println("Infiltrator created!");
-            NPCCreator.createInfiltrator(new Sprite(new Texture("HumanInfiltratorStand.png")),(TiledMapTileLayer) map.getLayers().get(0), MapGraph.getRandomNode(), graphCreator.mapGraph);
+            NPCCreator.createInfiltrator(new Sprite(new Texture("HumanInfiltratorStand.png")), MapGraph.getRandomNode(), graphCreator.mapGraph);
         }
         for(int i = 0; i < numberOfCrew; i++)
         {
             System.out.println("Crewmember created!");
-            NPCCreator.createCrew(new Sprite(new Texture("Construction worker.png")),(TiledMapTileLayer) map.getLayers().get(0), MapGraph.getRandomNode(), graphCreator.mapGraph);
+            NPCCreator.createCrew(new Sprite(new Texture("AlienInfiltratorStand.png")), MapGraph.getRandomNode(), graphCreator.mapGraph);
         }
+
+        player = new Player(new Sprite(new Texture("AuberStand.png")),(TiledMapTileLayer)map.getLayers().get(0));
+        player.setPosition(600, 1000);
 
         renderer = new OrthogonalTiledMapRenderer(map);
         camera.position.set(player.getX(),player.getY(),0);
@@ -77,26 +78,25 @@ public class PlayScreen implements Screen {
         return Player.health <= 0;
     }
 
-    public void handleInput(float time){
-
-    }
-
     public void update(float time){
-        handleInput(time);
-
         NPC.updateNPC(time);
+        player.update();
+        hud.update();
         camera.update();
         renderer.setView(camera);
     }
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(0.57f, 0.77f, 0.85f, 1);
+        Gdx.gl.glClearColor(0.09f, 0.09f, 0.09f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);// Clears the screen and sets it to the colour light blue or whatever colour it is
 
         camera.position.set(player.getX() + player.getWidth()/2,player.getY() + player.getHeight()/2,0); //Sets camera to centre of player position
         game.batch.setProjectionMatrix(camera.combined); //Ensures everything is rendered properly, only renders things in viewport
+
         renderer.getBatch().begin();  //Start the sprite batch
+
+        scrollingBackground.updateRender(delta, (SpriteBatch) renderer.getBatch());//Renders the background
         renderer.renderTileLayer((TiledMapTileLayer) map.getLayers().get(0)); //Renders the bottom layer of the map
 
         player.draw(renderer.getBatch());
@@ -105,10 +105,10 @@ public class PlayScreen implements Screen {
         update(delta); //Updates the game camera and NPCs
         hud.stage.draw(); //Draws the HUD on the game
 
-        graphCreator.shapeRenderer.setProjectionMatrix(camera.combined); //Ensures nodes are rendered properly
-        graphCreator.render(); //Debugging shows nodes and paths
-
         renderer.getBatch().end(); //Finishes the sprite batch
+
+        //graphCreator.shapeRenderer.setProjectionMatrix(camera.combined); //Ensures nodes are rendered properly
+        //graphCreator.render(); //Debugging shows nodes and paths
 
         if(gameOver()){
             game.setScreen(new GameOverScreen(game));
@@ -123,7 +123,7 @@ public class PlayScreen implements Screen {
         camera.viewportWidth = width/2f;
         camera.viewportHeight = height/2f;
         camera.update();
-        this.scrollingBackground.resize(width, height);
+        scrollingBackground.resize(width, height);
     }
 
     @Override

@@ -3,21 +3,24 @@ package com.mygdx.auber;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.mygdx.auber.entities.Player;
 
 public class ScrollingBackground {
 
     Texture image;
     float y1, y2;
+    float x;
     public static int SPEED = 30; //In pixels per second
     float imageScale;
 
     //TODO Finish this
     public ScrollingBackground()
     {
-        image = new Texture("Background.png");
+        image = new Texture("background.png");
 
         y1 = 0;
-        y2 = image.getHeight();
+        y2 = image.getHeight() - 40;
+        x = -image.getWidth() / 2f;
         imageScale = 0;
     }
 
@@ -35,12 +38,12 @@ public class ScrollingBackground {
             y2 = y1 + image.getHeight() * imageScale;
         }
 
-        batch.draw(image, 0, y1, Gdx.graphics.getWidth(), image.getHeight() * imageScale);
-        batch.draw(image, 0, y2, Gdx.graphics.getWidth(), image.getHeight() * imageScale);
+        batch.draw(image, x, y1, image.getWidth(), image.getHeight());
+        batch.draw(image, x, y2, image.getWidth(), image.getHeight());
     }
 
     public void resize(int width, int height)
     {
-        imageScale = width / image.getWidth();
+        imageScale = 1;
     }
 }
