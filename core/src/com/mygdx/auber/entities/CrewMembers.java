@@ -10,9 +10,9 @@ import java.util.Random;
 public class CrewMembers extends NPC{
     public double timeToWait = Math.random() * 15;
 
-    public CrewMembers(Sprite sprite, TiledMapTileLayer collisionLayer, Node node, MapGraph mapGraph)
+    public CrewMembers(Sprite sprite, Node node, MapGraph mapGraph)
     {
-        super(sprite, collisionLayer, node, mapGraph);
+        super(sprite, node, mapGraph);
         this.setPosition(node.x, node.y);
     }
 

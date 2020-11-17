@@ -127,19 +127,24 @@ public class Player extends Sprite implements InputProcessor {
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         Vector3 vec=new Vector3(screenX,screenY,0);
         PlayScreen.camera.unproject(vec);
+        Vector2 point = new Vector2(vec.x,vec.y);
 
         for (Infiltrator infiltrator: NPCCreator.infiltrators)
         {
-            float centreX = infiltrator.getX() + infiltrator.getWidth()/2;
-            float centreY = infiltrator.getY() + infiltrator.getHeight()/2;
-
-            if(centreX < vec.x + 10 && centreX > vec.x - 10)
+            if(infiltrator.getBoundingRectangle().contains(point))
             {
-                if(centreY < vec.y + 10 && centreY > vec.y - 10)
-                {
-                    NPCCreator.removeInfiltrator(infiltrator.index);
-                    Hud.ImposterCount += 1;
-                }
+                NPCCreator.removeInfiltrator(infiltrator.index);
+                Hud.ImposterCount += 1;
+                return true;
+            }
+        }
+
+        for(CrewMembers crewMember: NPCCreator.crew) {
+            if(crewMember.getBoundingRectangle().contains(point))
+            {
+                NPCCreator.removeCrewmember(crewMember.index);
+                Hud.CrewmateCount += 1;
+                return true;
             }
         }
         return true;

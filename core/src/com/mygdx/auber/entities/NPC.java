@@ -14,10 +14,8 @@ import com.mygdx.auber.Pathfinding.MapGraph;
 import com.mygdx.auber.Pathfinding.Node;
 
 public class NPC extends Sprite {
-    private TiledMapTileLayer collisionLayer;
     private boolean arrested;
     public Vector2 velocity = new Vector2(0,0);
-    private final Collision collision;
 
     public int index;
     public final float SPEED = 1;
@@ -27,27 +25,32 @@ public class NPC extends Sprite {
     Node previousNode;
     private Queue<Node> pathQueue = new Queue<>();
 
-    public NPC(Sprite sprite, TiledMapTileLayer collisionLayer, Node start, MapGraph mapGraph){
+
+    public NPC(Sprite sprite, Node start, MapGraph mapGraph){
         super(sprite);
 
-        this.collisionLayer = collisionLayer;
         this.mapGraph = mapGraph;
         this.previousNode = start;
+        this.setPosition(start.x ,start.y);
         this.setGoal(MapGraph.getRandomNode());
-        this.collision = new Collision();
-
-        sprite.setPosition(start.x ,start.y);
     }
 
     public static void updateNPC(float delta)
     {
-        for (CrewMembers crewMember:
-             NPCCreator.crew) {
-            crewMember.step(delta);
+        if(NPCCreator.crew.notEmpty())
+        {
+            for (CrewMembers crewMember:
+                    NPCCreator.crew) {
+                crewMember.step(delta);
+            }
         }
-        for (Infiltrator infiltrator:
-                NPCCreator.infiltrators) {
-            infiltrator.step(delta);
+
+        if(NPCCreator.infiltrators.notEmpty())
+        {
+            for (Infiltrator infiltrator:
+                    NPCCreator.infiltrators) {
+                infiltrator.step(delta);
+            }
         }
     }
 

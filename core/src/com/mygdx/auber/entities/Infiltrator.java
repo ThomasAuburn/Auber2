@@ -10,15 +10,14 @@ import com.mygdx.auber.Pathfinding.Node;
 public class Infiltrator extends NPC{
     public double timeToWait = Math.random() * 15;
 
-    public Infiltrator(Sprite sprite, TiledMapTileLayer collisionLayer, Node node, MapGraph mapGraph) {
-        super(sprite, collisionLayer, node, mapGraph);
+    public Infiltrator(Sprite sprite, Node node, MapGraph mapGraph) {
+        super(sprite, node, mapGraph);
         this.setPosition(node.x, node.y);
     }
 
     public void setIndex(int index)
     {
         this.index = index;
-        System.out.println(index);
     }
 
     public static void dispose()

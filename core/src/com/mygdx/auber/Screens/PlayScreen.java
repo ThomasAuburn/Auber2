@@ -34,7 +34,7 @@ public class PlayScreen implements Screen {
     private GraphCreator graphCreator;
     private Player player;
     private int numberOfInfiltrators = 5;
-    private int numberOfCrew = 3;
+    private int numberOfCrew = 5;
     private ScrollingBackground scrollingBackground;
 
     public PlayScreen(Auber game){
@@ -49,18 +49,19 @@ public class PlayScreen implements Screen {
         map = mapLoader.load("testmap2.tmx");
 
         player = new Player(new Sprite(new Texture("AuberStand.png")),(TiledMapTileLayer)map.getLayers().get(0));
-        player.setPosition(player.getX() + 150, player.getY() + 100);
 
         graphCreator = new GraphCreator((TiledMapTileLayer)map.getLayers().get(0));
         for (int i = 0; i < numberOfInfiltrators; i++) {
             System.out.println("Infiltrator created!");
-            NPCCreator.createInfiltrator(new Sprite(new Texture("HumanInfiltratorStand.png")),(TiledMapTileLayer) map.getLayers().get(0), MapGraph.getRandomNode(), graphCreator.mapGraph);
+            NPCCreator.createInfiltrator(new Sprite(new Texture("HumanInfiltratorStand.png")), MapGraph.getRandomNode(), graphCreator.mapGraph);
         }
         for(int i = 0; i < numberOfCrew; i++)
         {
             System.out.println("Crewmember created!");
-            NPCCreator.createCrew(new Sprite(new Texture("Construction worker.png")),(TiledMapTileLayer) map.getLayers().get(0), MapGraph.getRandomNode(), graphCreator.mapGraph);
+            NPCCreator.createCrew(new Sprite(new Texture("AlienInfiltratorStand.png")), MapGraph.getRandomNode(), graphCreator.mapGraph);
         }
+
+        player.setPosition(600, 1000);
 
         renderer = new OrthogonalTiledMapRenderer(map);
         camera.position.set(player.getX(),player.getY(),0);
