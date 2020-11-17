@@ -84,7 +84,6 @@ public class PlayScreen implements Screen {
 
     public void update(float time){
         handleInput(time);
-
         NPC.updateNPC(time);
         camera.update();
         renderer.setView(camera);
@@ -105,8 +104,8 @@ public class PlayScreen implements Screen {
         player.draw(renderer.getBatch());
         NPC.render(renderer.getBatch()); //Renders the player and all infiltrators
 
-        update(delta); //Updates the game camera and NPCs
         hud.stage.draw(); //Draws the HUD on the game
+        update(delta); //Updates the game camera and NPCs
 
         //graphCreator.shapeRenderer.setProjectionMatrix(camera.combined); //Ensures nodes are rendered properly
         //graphCreator.render(); //Debugging shows nodes and paths

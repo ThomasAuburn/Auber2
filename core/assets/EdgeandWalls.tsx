@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <tileset version="1.4" tiledversion="1.4.2" name="EdgeandWalls" tilewidth="32" tileheight="32" tilecount="16" columns="4">
- <image source="E:/Downloads/fourtimesfourtiles.png" width="128" height="128"/>
+ <image source="fourtimesfourtiles.png" width="128" height="128"/>
  <tile id="0">
   <properties>
    <property name="blocked" value=""/>
