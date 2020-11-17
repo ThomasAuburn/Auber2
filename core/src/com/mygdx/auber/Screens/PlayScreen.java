@@ -87,6 +87,7 @@ public class PlayScreen implements Screen {
         NPC.updateNPC(time);
         camera.update();
         renderer.setView(camera);
+        hud.update();
     }
 
     @Override

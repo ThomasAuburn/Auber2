@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.auber.Auber;
+import com.mygdx.auber.entities.CrewMembers;
 
 
 public class Hud {
@@ -42,5 +43,12 @@ public class Hud {
 
         stage.addActor(hudTable);
     }
+
+    public void update()
+    {
+        imposterCountLabel.setText(String.format("Imposter Arrests: %02d", ImposterCount));
+        crewmateCountLabel.setText(String.format("Crewmate Arrests: %02d", CrewmateCount));
+    }
+
 
 }
