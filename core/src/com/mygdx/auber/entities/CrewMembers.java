@@ -1,14 +1,17 @@
 package com.mygdx.auber.entities;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.maps.Map;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
-import com.badlogic.gdx.math.Vector2;
 import com.mygdx.auber.Pathfinding.MapGraph;
 import com.mygdx.auber.Pathfinding.Node;
 
-public class Infiltrator extends NPC{
-    public Infiltrator(Sprite sprite, TiledMapTileLayer collisionLayer, Node node, MapGraph mapGraph) {
+public class CrewMembers extends NPC{
+
+    public int index;
+    private final float SPEED = 1;
+
+    public CrewMembers(Sprite sprite, TiledMapTileLayer collisionLayer, Node node, MapGraph mapGraph)
+    {
         super(sprite, collisionLayer, node, mapGraph);
         this.setPosition(node.x, node.y);
     }
@@ -16,7 +19,6 @@ public class Infiltrator extends NPC{
     public void setIndex(int index)
     {
         this.index = index;
-        System.out.println(index);
     }
 
     public static void dispose()
@@ -27,8 +29,7 @@ public class Infiltrator extends NPC{
     /**
      * Step needs to be called in the update method, makes the NPC move and check if it has reached its next node
      */
-    public void step(float delta)
-    {
+    public void step(float delta) {
         this.setX(this.getX() + this.velocity.x);
         this.setY(this.getY() + this.velocity.y);
         if(this.velocity.x < 0)
@@ -41,6 +42,14 @@ public class Infiltrator extends NPC{
         }
         this.elapsedTime += delta;
         this.checkCollision();
+
+        if(!(this.elapsedTime < 20) && !move)
+        {
+            this.elapsedTime = 0;
+            Node newGoal;
+            newGoal = MapGraph.nodes.random();
+            this.setGoal(newGoal);
+        }
     }
 
     /**
@@ -51,16 +60,14 @@ public class Infiltrator extends NPC{
         this.velocity.x = 0;
         this.velocity.y = 0;
 
-        boolean move = false;
+        move = false;
 
-        Node newGoal;
-        do {
-            newGoal = MapGraph.nodes.random();
-        }while(newGoal == previousNode);
-        {
-            setGoal(newGoal);
-        }
+//        Node newGoal;
+//        do {
+//            newGoal = MapGraph.nodes.random();
+//        }while(newGoal == previousNode);
+//        {
+//            setGoal(newGoal);
+//        }
     }
-
 }
-
