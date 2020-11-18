@@ -18,10 +18,7 @@ import com.mygdx.auber.Pathfinding.GraphCreator;
 import com.mygdx.auber.Pathfinding.MapGraph;
 import com.mygdx.auber.Scenes.Hud;
 import com.mygdx.auber.ScrollingBackground;
-import com.mygdx.auber.entities.Infiltrator;
-import com.mygdx.auber.entities.NPC;
-import com.mygdx.auber.entities.NPCCreator;
-import com.mygdx.auber.entities.Player;
+import com.mygdx.auber.entities.*;
 
 public class PlayScreen implements Screen {
     private Auber game;
@@ -32,7 +29,7 @@ public class PlayScreen implements Screen {
     private TiledMap map;
     private OrthogonalTiledMapRenderer renderer;
     private GraphCreator graphCreator;
-    private Player player;
+    public Player player;
     private int numberOfInfiltrators = 50;
     private int numberOfCrew = 50;
     private ScrollingBackground scrollingBackground;
@@ -75,7 +72,7 @@ public class PlayScreen implements Screen {
     }
 
     public boolean gameOver() {
-        return Player.health <= 0 || hud.CrewmateCount >= 3;
+        return Player.health <= 0 || hud.CrewmateCount >= 3 || KeySystemManager.destroyedKeySystemsCount() >= 15;
     }
 
     public boolean gameWin()

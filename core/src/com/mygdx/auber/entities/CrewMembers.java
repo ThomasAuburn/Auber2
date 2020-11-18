@@ -30,17 +30,7 @@ public class CrewMembers extends NPC{
      * Step needs to be called in the update method, makes the NPC move and check if it has reached its next node
      */
     public void step(float delta) {
-        this.setX(this.getX() + this.velocity.x);
-        this.setY(this.getY() + this.velocity.y);
-
-        if(this.velocity.x < 0)
-        {
-            this.setScale(-1,1);
-        }
-        else if(this.velocity.x > 0)
-        {
-            this.setScale(1,1);
-        }
+        moveNPC();
 
         this.elapsedTime += delta;
         this.checkCollision();
@@ -55,6 +45,7 @@ public class CrewMembers extends NPC{
     /**
      * Called when the path queue is empty
      */
+    @Override
     public void reachDestination()
     {
         this.velocity.x = 0;

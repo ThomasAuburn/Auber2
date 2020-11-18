@@ -13,15 +13,21 @@ import com.badlogic.gdx.utils.Queue;
 import com.mygdx.auber.Pathfinding.MapGraph;
 import com.mygdx.auber.Pathfinding.Node;
 
+/**
+ * NPCs use nodes to walk around and A* to navigate between them, the nodes are generated and stored in GraphCreator, while MapGraph is used to search and manipulate the node graph
+ * Generally, NPCs are updated through updateNPC, which calls each npcs step method, which makes them moves, sets their sprite scale, checks if they have reached the next node etc
+ * Crewmember is very simple, they walk around randomly and wait for a random amount of time
+ * Infiltrator is more complex, they sometimes go to destroy keysystems, and can use abilities
+ */
 public class NPC extends Sprite {
     public Vector2 velocity = new Vector2(0,0); //Velocity vector
     public int index; //Index of the NPC in its respective list
     public final float SPEED = 1; //Speed the NPC moves at, same as the player
     float elapsedTime = 0f; //Time elapsed since NPC last moved
 
-    private MapGraph mapGraph; //Mapgraph for the NPC to reference
+    public MapGraph mapGraph; //Mapgraph for the NPC to reference
     Node previousNode; //Previous node the NPC visited
-    private Queue<Node> pathQueue = new Queue<>(); //pathQueue the NPC is currently traversing
+    public Queue<Node> pathQueue = new Queue<>(); //pathQueue the NPC is currently traversing
 
 
     /**
@@ -94,7 +100,7 @@ public class NPC extends Sprite {
     /**
      * Called when NPC has reached a node, sets the next node to be moved to, or if the path queue is empty, destination is reached
      */
-    private void reachNextNode()
+    public void reachNextNode()
     {
         this.velocity.x = 0;
         this.velocity.y = 0;
@@ -112,7 +118,7 @@ public class NPC extends Sprite {
     /**
      * Sets the velocity towards the next node
      */
-    private void setSpeedToNextNode()
+    public void setSpeedToNextNode()
     {
         this.velocity.x = 0;
         this.velocity.y = 0;
@@ -127,6 +133,22 @@ public class NPC extends Sprite {
         this.velocity.x += MathUtils.cos(angle) * SPEED;
         this.velocity.y += MathUtils.sin(angle) * SPEED;
     }
+
+    public void moveNPC()
+    {
+        this.setX(this.getX() + this.velocity.x);
+        this.setY(this.getY() + this.velocity.y);
+
+        if(this.velocity.x < 0)
+        {
+            this.setScale(-1,1);
+        }
+        else if(this.velocity.x > 0)
+        {
+            this.setScale(1,1);
+        }
+    }
+
 
     /**
      * Render method for rendering all NPCs
