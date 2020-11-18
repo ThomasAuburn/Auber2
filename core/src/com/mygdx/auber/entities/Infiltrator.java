@@ -135,19 +135,18 @@ public class Infiltrator extends NPC{
     {
         double chance = Math.random() * 3;
 
-        this.goInvisible();
-//        if(chance < 1)
-//        {
-//            this.goInvisible();
-//        }
-//        else if(chance >= 1 && chance < 2)
-//        {
-//            this.goInvisible();
-//        }
-//        else
-//        {
-//            this.goInvisible();
-//        }
+        if(chance < 1)
+        {
+            this.goInvisible();
+        }
+        else if(chance >= 1 && chance < 2)
+        {
+            this.damageAuber((int) chance);
+        }
+        else
+        {
+            this.goInvisible();
+        }
     }
 
     /**
