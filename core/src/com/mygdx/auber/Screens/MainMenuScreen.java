@@ -3,12 +3,15 @@ package com.mygdx.auber.Screens;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -23,11 +26,13 @@ public class MainMenuScreen implements Screen {
 
     private Viewport viewport;
     Stage stage;
-    TextButton playButton, exitButton;
+    TextButton playButton, exitButton, demoButton;
     TextButton.TextButtonStyle textButtonStyle;
     BitmapFont font;
     Skin skin;
     TextureAtlas buttonAtlas;
+    Texture title;
+    Image titleCard;
     private Auber game;
     private ScrollingBackground scrollingBackground;
     private Screen PlayScreen;
@@ -41,6 +46,7 @@ public class MainMenuScreen implements Screen {
 
         font = new BitmapFont();
         skin = new Skin();
+        title = new Texture("TitleCard.png");
         buttonAtlas = new TextureAtlas("buttonAtlas.atlas");
         skin.addRegions(buttonAtlas);
         textButtonStyle = new TextButton.TextButtonStyle();
@@ -49,7 +55,9 @@ public class MainMenuScreen implements Screen {
         textButtonStyle.down = skin.getDrawable("down-button");
         textButtonStyle.checked = skin.getDrawable("checked-button");
         playButton = new TextButton("PLAY", textButtonStyle);
+        demoButton = new TextButton("DEMO", textButtonStyle);
         exitButton = new TextButton("QUIT", textButtonStyle);
+        titleCard = new Image(title);
         playButton.setSize(200, 200);
 
         playButton.addListener(new ClickListener(){
@@ -69,10 +77,14 @@ public class MainMenuScreen implements Screen {
         Table menuTable = new Table();
         menuTable.setTouchable(Touchable.enabled);
         menuTable.setFillParent(true);
+        menuTable.add(titleCard).padBottom(20);
+        menuTable.row();
         menuTable.add(playButton).padBottom(20);
         menuTable.row();
+        menuTable.add(demoButton).padBottom(20);
+        menuTable.row();
         menuTable.add(exitButton);
-        menuTable.debug();
+        //menuTable.debug();
 
         stage.addActor(menuTable);
     }
@@ -85,6 +97,7 @@ public class MainMenuScreen implements Screen {
 
     @Override
     public void render(float delta) {
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         stage.draw();
 
 
