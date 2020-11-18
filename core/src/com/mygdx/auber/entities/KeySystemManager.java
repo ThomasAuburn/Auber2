@@ -7,22 +7,33 @@ public class KeySystemManager {
         this.keySystems = keySystems;
     }
 
-    public int keySystemsRemaining() {
-        int remaining = keySystems.length;
+    public int safeKeySystemsCount() {
+        int remaining = 0;
 
         for (KeySystem keySystem : keySystems) {
-            if (keySystem.isDestroyed) {
-                remaining -= 1;
+            if (keySystem.isSafe()) {
+                remaining += 1;
             }
         }
         return remaining;
     }
 
-    public int keySystemsDestroyed() {
+    public int beingDestroyedKeySystemsCount() {
+        int beingDestroyed = 0;
+
+        for (KeySystem keySystem : keySystems) {
+            if (keySystem.isBeingDestroyed()) {
+                beingDestroyed += 1;
+            }
+        }
+        return beingDestroyed;
+    }
+
+    public int destroyedKeySystemsCount() {
         int destroyed = 0;
 
         for (KeySystem keySystem : keySystems) {
-            if (keySystem.isDestroyed) {
+            if (keySystem.isDestroyed()) {
                 destroyed += 1;
             }
         }
