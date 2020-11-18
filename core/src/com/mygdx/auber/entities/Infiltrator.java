@@ -42,6 +42,7 @@ public class Infiltrator extends NPC{
             if(Vector2.dst(Player.x, Player.y, this.getX(), this.getY()) < 50)
             {
                 useAbility();
+                this.isDestroying = false;
             }
             else
             {
@@ -51,9 +52,11 @@ public class Infiltrator extends NPC{
 
         if(isInvisible)
         {
-            if(timeInvisibleStart - System.currentTimeMillis() < 10 * 1000)
+            System.out.println("Is Invisible");
+            if(System.currentTimeMillis() - timeInvisibleStart  > 10 * 100)
             {
                 this.setAlpha(1);
+                this.isInvisible = false;
             }
         }
 
@@ -66,6 +69,7 @@ public class Infiltrator extends NPC{
         }
     }
 
+    //TODO: Redo this function
     /**
      * Called when the path queue is empty
      */
@@ -76,13 +80,13 @@ public class Infiltrator extends NPC{
         this.velocity.y = 0;
         timeToWait = Math.random() * 15;
 
-        if(pathQueue.size == 1 && GraphCreator.keySystemsNodes.contains(this.pathQueue.last(), false))
+        if(pathQueue.size == 0 && GraphCreator.keySystemsNodes.contains(this.previousNode, false))
         {
             this.isDestroying = true;
             //KeySystem.startDestroy();
         }
 
-        if(Math.random() > .5f) // 1/10 chance of infiltrator deciding to destroy a keysystem
+        if(Math.random() > .5f && !this.isDestroying) // 1/10 chance of infiltrator deciding to destroy a keysystem
         {
             this.destroyKeySystem();
             return;
@@ -107,11 +111,6 @@ public class Infiltrator extends NPC{
             Node targetNode = this.pathQueue.first();
             if(Vector2.dst(this.getX(),this.getY(),targetNode.x,targetNode.y) <= 10)
             {
-                if(GraphCreator.keySystemsNodes.contains(targetNode, false) && GraphCreator.keySystemsNodes.contains(this.pathQueue.last(), false)) //If the node the NPC is on is a keysystem node and its the destination node
-                {
-                    this.isDestroying = true;
-                    //KeySystem.startDestroy();
-                }
                 reachNextNode(); //If the sprite is within 5 pixels of the node, it has reached the node
             }
         }
@@ -128,7 +127,7 @@ public class Infiltrator extends NPC{
         this.setGoal(keySystem);
     }
 
-    //TODO Make it so he doesnt fucking oblitorate auber instantly
+    //TODO Make it so he doesnt fucking obliterate Auber instantly
     /**
      * Causes the infiltrator to use a random ability
      */
@@ -136,18 +135,19 @@ public class Infiltrator extends NPC{
     {
         double chance = Math.random() * 3;
 
-        if(chance < 1)
-        {
-            goInvisible();
-        }
-        else if(chance >= 1 && chance < 2)
-        {
-            damageAuber((int) chance);
-        }
-        else
-        {
-            //
-        }
+        this.goInvisible();
+//        if(chance < 1)
+//        {
+//            this.goInvisible();
+//        }
+//        else if(chance >= 1 && chance < 2)
+//        {
+//            this.goInvisible();
+//        }
+//        else
+//        {
+//            this.goInvisible();
+//        }
     }
 
     /**
@@ -157,8 +157,7 @@ public class Infiltrator extends NPC{
     {
         this.isInvisible = true;
         this.timeInvisibleStart = System.currentTimeMillis();
-
-        this.setAlpha(0);
+        this.setAlpha(0.1f);
     }
 
     /**

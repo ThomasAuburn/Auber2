@@ -107,13 +107,15 @@ public class NPC extends Sprite {
         this.velocity.x = 0;
         this.velocity.y = 0;
 
-        Node nextNode = this.pathQueue.first();
-
-        this.previousNode = nextNode;
+        this.previousNode = this.pathQueue.first();
         this.pathQueue.removeFirst();
 
         if(this.pathQueue.size != 0) {
-            setSpeedToNextNode(); //If there are items in the queue, set the velocity towards the next node
+            this.setSpeedToNextNode(); //If there are items in the queue, set the velocity towards the next node
+        }
+        else
+        {
+            this.reachDestination();
         }
     }
 
@@ -127,7 +129,7 @@ public class NPC extends Sprite {
 
         if(pathQueue.isEmpty())
         {
-            this.setGoal(mapGraph.getRandomNode());
+            this.setGoal(MapGraph.getRandomNode());
         }
 
         Node nextNode = this.pathQueue.first();
