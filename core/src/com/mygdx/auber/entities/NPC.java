@@ -88,6 +88,8 @@ public class NPC extends Sprite {
      */
     public void checkCollision()
     {
+        this.velocity.x = 0;
+        this.velocity.y = 0;
         if(this.pathQueue.size > 0){
             Node targetNode = this.pathQueue.first();
             if(Vector2.dst(this.getX(),this.getY(),targetNode.x,targetNode.y) <= 10)
@@ -134,6 +136,9 @@ public class NPC extends Sprite {
         this.velocity.y += MathUtils.sin(angle) * SPEED;
     }
 
+    /**
+     * Moves the NPC based on their movement vector, and sets their sprite in the direction of movement
+     */
     public void moveNPC()
     {
         this.setX(this.getX() + this.velocity.x);
@@ -148,7 +153,6 @@ public class NPC extends Sprite {
             this.setScale(1,1);
         }
     }
-
 
     /**
      * Render method for rendering all NPCs

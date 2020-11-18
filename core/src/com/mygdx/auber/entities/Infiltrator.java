@@ -76,22 +76,26 @@ public class Infiltrator extends NPC{
         this.velocity.y = 0;
         timeToWait = Math.random() * 15;
 
+        if(pathQueue.size == 1 && GraphCreator.keySystemsNodes.contains(this.pathQueue.last(), false))
+        {
+            this.isDestroying = true;
+            //KeySystem.startDestroy();
+        }
 
-//        if(Math.random() > .9f) // 1/10 chance of infiltrator deciding to destroy a keysystem
-//        {
-//            destroyKeySystem();
-//            return;
-//        }
-//        else
-//        {
-            Node newGoal;
-            do {
-                newGoal = MapGraph.nodes.random();
-            }while(newGoal == previousNode);
-            {
-                setGoal(newGoal);
-            }
-        //}
+        if(Math.random() > .5f) // 1/10 chance of infiltrator deciding to destroy a keysystem
+        {
+            this.destroyKeySystem();
+            return;
+        }
+
+        Node newGoal;
+        do {
+            newGoal = MapGraph.nodes.random();
+        }while(newGoal == previousNode);
+        {
+            setGoal(newGoal);
+        }
+
     }
 
     /**
@@ -118,17 +122,13 @@ public class Infiltrator extends NPC{
      */
     public void destroyKeySystem()
     {
-        if(!GraphCreator.keySystemsNodes.isEmpty())
-        {
-            Node keySystem = GraphCreator.keySystemsNodes.random();
-            this.setGoal(keySystem);
-        }
-        else
-        {
-            reachDestination();
-        }
+        System.out.println("Infiltrator moving to destroy");
+        this.pathQueue.clear();
+        Node keySystem = GraphCreator.keySystemsNodes.random();
+        this.setGoal(keySystem);
     }
 
+    //TODO Make it so he doesnt fucking oblitorate auber instantly
     /**
      * Causes the infiltrator to use a random ability
      */
@@ -169,6 +169,5 @@ public class Infiltrator extends NPC{
     {
         Player.takeDamage(amount);
     }
-
 }
 

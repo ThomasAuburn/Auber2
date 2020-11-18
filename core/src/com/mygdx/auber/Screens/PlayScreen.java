@@ -30,8 +30,8 @@ public class PlayScreen implements Screen {
     private OrthogonalTiledMapRenderer renderer;
     private GraphCreator graphCreator;
     public Player player;
-    private int numberOfInfiltrators = 50;
-    private int numberOfCrew = 50;
+    private int numberOfInfiltrators = 1;
+    private int numberOfCrew = 1;
     private ScrollingBackground scrollingBackground;
 
     public PlayScreen(Auber game){
@@ -86,6 +86,16 @@ public class PlayScreen implements Screen {
         hud.update();
         camera.update();
         renderer.setView(camera);
+
+        if(gameOver()){
+            game.setScreen(new GameOverScreen(game));
+            dispose();
+        } //If game over, show game over screen and dispose of all assets
+        if(gameWin())
+        {
+            game.setScreen(new GameOverScreen(game));
+            dispose();
+        }
     }
 
     @Override
@@ -101,8 +111,8 @@ public class PlayScreen implements Screen {
         scrollingBackground.updateRender(delta, (SpriteBatch) renderer.getBatch());//Renders the background
         renderer.renderTileLayer((TiledMapTileLayer) map.getLayers().get(0)); //Renders the bottom layer of the map
 
-        player.draw(renderer.getBatch());
-        NPC.render(renderer.getBatch()); //Renders the player and all infiltrators
+        NPC.render(renderer.getBatch()); //Renders all NPCs
+        player.draw(renderer.getBatch()); //Renders the player
 
         update(delta); //Updates the game camera and NPCs
         hud.stage.draw(); //Draws the HUD on the game
@@ -111,12 +121,6 @@ public class PlayScreen implements Screen {
 
         //graphCreator.shapeRenderer.setProjectionMatrix(camera.combined); //Ensures nodes are rendered properly
         //graphCreator.render(); //Debugging shows nodes and paths
-
-        if(gameOver()){
-            game.setScreen(new GameOverScreen(game));
-            dispose();
-        } //If game over, show game over screen and dispose of all assets
-
     }
 
     @Override
