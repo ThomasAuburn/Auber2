@@ -16,6 +16,7 @@ public class GraphCreator extends ApplicationAdapter {
     public MapGraph mapGraph;
     public GraphPath<Node> nodeGraphPath;
     private TiledMapTileLayer tileLayer;
+    public static Array<Node> keySystemsNodes = new Array<>();
 
     public GraphCreator(TiledMapTileLayer tileLayer)
     {
@@ -70,6 +71,10 @@ public class GraphCreator extends ApplicationAdapter {
                 {
                     Node node = new Node(x,y);
                     MapGraph.addNode(node); //Create new node and add it to the map graph
+                    if(cell.getTile().getProperties().containsKey("keysystemnode"))
+                    {
+                        keySystemsNodes.add(node);
+                    }
                 }
             }
         }

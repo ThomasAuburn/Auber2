@@ -28,6 +28,7 @@ public class Player extends Sprite implements InputProcessor {
 
     private final TiledMapTileLayer collisionLayer;
 
+    public static float x,y;
 
     public Player(Sprite sprite, TiledMapTileLayer collisionLayer) {
         super(sprite);
@@ -43,6 +44,7 @@ public class Player extends Sprite implements InputProcessor {
 
     public void update() {
         velocity.x = 0; velocity.y = 0;
+        Player.x = getX(); Player.y = getY();
 
         if(isWHeld) {
             velocity.y += SPEED;
@@ -181,7 +183,7 @@ public class Player extends Sprite implements InputProcessor {
         health = 100;
     }
 
-    public void takeDamage(int amount) {
+    public static void takeDamage(int amount) {
         health -= amount;
     }
 }
