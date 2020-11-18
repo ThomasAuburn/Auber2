@@ -14,18 +14,22 @@ import com.mygdx.auber.Pathfinding.MapGraph;
 import com.mygdx.auber.Pathfinding.Node;
 
 public class NPC extends Sprite {
-    private boolean arrested;
-    public Vector2 velocity = new Vector2(0,0);
+    public Vector2 velocity = new Vector2(0,0); //Velocity vector
+    public int index; //Index of the NPC in its respective list
+    public final float SPEED = 1; //Speed the NPC moves at, same as the player
+    float elapsedTime = 0f; //Time elapsed since NPC last moved
 
-    public int index;
-    public final float SPEED = 1;
-    float elapsedTime = 0f;
-
-    private MapGraph mapGraph;
-    Node previousNode;
-    private Queue<Node> pathQueue = new Queue<>();
+    private MapGraph mapGraph; //Mapgraph for the NPC to reference
+    Node previousNode; //Previous node the NPC visited
+    private Queue<Node> pathQueue = new Queue<>(); //pathQueue the NPC is currently traversing
 
 
+    /**
+     * Constructor for NPC
+     * @param sprite Sprite to be used for the NPC
+     * @param start Node for the NPC to start at
+     * @param mapGraph mapGraph for the NPC to reference
+     */
     public NPC(Sprite sprite, Node start, MapGraph mapGraph){
         super(sprite);
 
@@ -35,6 +39,10 @@ public class NPC extends Sprite {
         this.setGoal(MapGraph.getRandomNode());
     }
 
+    /**
+     * Updates every NPC, to be called in a screens update method
+     * @param delta Float of time between last and current frame, used for movement
+     */
     public static void updateNPC(float delta)
     {
         if(NPCCreator.crew.notEmpty())
@@ -120,7 +128,10 @@ public class NPC extends Sprite {
         this.velocity.y += MathUtils.sin(angle) * SPEED;
     }
 
-    /** Render method for rendering all NPCs */
+    /**
+     * Render method for rendering all NPCs
+     * @param batch Batch for the NPCs to render in
+     */
     public static void render(Batch batch)
     {
         for (Infiltrator infiltrator: NPCCreator.infiltrators)
@@ -135,6 +146,9 @@ public class NPC extends Sprite {
         }
     }
 
+    /**
+     * Dispose method to be called in dispose method of screen
+     */
     public static void dispose()
     {
         for (Infiltrator infiltrator: NPCCreator.infiltrators)
@@ -148,6 +162,9 @@ public class NPC extends Sprite {
         }
     }
 
+    /**
+     * A placeholder function to be superseeded by subclasses own reachDesintation()
+     */
     public void reachDestination()
     {
     }
