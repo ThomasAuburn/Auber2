@@ -7,22 +7,19 @@ import com.mygdx.auber.Pathfinding.Node;
 
 import java.util.Random;
 
-public class CrewMembers extends NPC{
+public class CrewMembers extends NPC {
     public double timeToWait = Math.random() * 15;
 
-    public CrewMembers(Sprite sprite, Node node, MapGraph mapGraph)
-    {
+    public CrewMembers(Sprite sprite, Node node, MapGraph mapGraph) {
         super(sprite, node, mapGraph);
         this.setPosition(node.x, node.y);
     }
 
-    public void setIndex(int index)
-    {
+    public void setIndex(int index) {
         this.index = index;
     }
 
-    public static void dispose()
-    {
+    public static void dispose() {
         return;
     }
 
@@ -30,12 +27,12 @@ public class CrewMembers extends NPC{
      * Step needs to be called in the update method, makes the NPC move and check if it has reached its next node
      */
     public void step(float delta) {
-        moveNPC();
+        this.moveNPC();
 
         this.elapsedTime += delta;
         this.checkCollision();
 
-        if(!(this.elapsedTime < timeToWait)) {
+        if ((this.elapsedTime >= timeToWait) && this.pathQueue.isEmpty()) {
             this.elapsedTime = 0;
             reachDestination();
         }
@@ -46,8 +43,7 @@ public class CrewMembers extends NPC{
      * Called when the path queue is empty
      */
     @Override
-    public void reachDestination()
-    {
+    public void reachDestination() {
         this.velocity.x = 0;
         this.velocity.y = 0;
         timeToWait = Math.random() * 15;
@@ -55,9 +51,10 @@ public class CrewMembers extends NPC{
         Node newGoal;
         do {
             newGoal = MapGraph.nodes.random();
-        }while(newGoal == previousNode);
+        } while (newGoal == previousNode);
         {
             setGoal(newGoal);
+
         }
     }
 }

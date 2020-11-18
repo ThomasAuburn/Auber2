@@ -96,6 +96,10 @@ public class NPC extends Sprite {
             {
                 reachNextNode(); //If the sprite is within 5 pixels of the node, it has reached the node
             }
+            else
+            {
+                setSpeedToNextNode(); //Else keep moving towards it
+            }
         }
     }
 
@@ -113,10 +117,10 @@ public class NPC extends Sprite {
         if(this.pathQueue.size != 0) {
             this.setSpeedToNextNode(); //If there are items in the queue, set the velocity towards the next node
         }
-        else
-        {
-            this.reachDestination();
-        }
+//        else
+//        {
+//            this.reachDestination();
+//        }
     }
 
     /**

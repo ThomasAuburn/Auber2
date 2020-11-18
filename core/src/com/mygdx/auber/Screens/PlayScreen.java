@@ -31,7 +31,7 @@ public class PlayScreen implements Screen {
     private GraphCreator graphCreator;
     public Player player;
     private int numberOfInfiltrators = 1;
-    private int numberOfCrew = 1;
+    private int numberOfCrew = 50;
     private ScrollingBackground scrollingBackground;
 
     public PlayScreen(Auber game){

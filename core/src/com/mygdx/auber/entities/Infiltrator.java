@@ -16,6 +16,8 @@ public class Infiltrator extends NPC{
     private float timeInvisibleStart;
     private boolean isInvisible = false;
 
+    private boolean isMoving = true;
+
     public Infiltrator(Sprite sprite, Node node, MapGraph mapGraph) {
         super(sprite, node, mapGraph);
         this.setPosition(node.x, node.y);
@@ -35,19 +37,20 @@ public class Infiltrator extends NPC{
      * Step needs to be called in the update method, makes the NPC move and check if it has reached its next node
      */
     public void step(float delta) {
-        moveNPC();
+        this.moveNPC();
 
         if(isDestroying)
         {
             if(Vector2.dst(Player.x, Player.y, this.getX(), this.getY()) < 50)
             {
-                useAbility();
+                this.useAbility();
                 this.isDestroying = false;
             }
             else
             {
-                return;
+                this.elapsedTime += delta;
             }
+            return;
         }
 
         if(isInvisible)
@@ -55,15 +58,19 @@ public class Infiltrator extends NPC{
             System.out.println("Is Invisible");
             if(System.currentTimeMillis() - timeInvisibleStart  > 10 * 100)
             {
-                this.setAlpha(1);
+                this.setAlpha(1f);
                 this.isInvisible = false;
             }
+        }
+        else
+        {
+            this.setAlpha(1f);
         }
 
         this.elapsedTime += delta;
         this.checkCollision();
 
-        if(!(this.elapsedTime < timeToWait)) {
+        if((this.elapsedTime >= timeToWait) && this.pathQueue.isEmpty()) {
             this.elapsedTime = 0;
             reachDestination();
         }
@@ -80,15 +87,16 @@ public class Infiltrator extends NPC{
         this.velocity.y = 0;
         timeToWait = Math.random() * 15;
 
+        if(Math.random() > .9f && !this.isDestroying && !this.isInvisible) // 1/10 chance of infiltrator deciding to destroy a keysystem
+        {
+            this.destroyKeySystem();
+            return;
+        }
+
         if(pathQueue.size == 0 && GraphCreator.keySystemsNodes.contains(this.previousNode, false))
         {
             this.isDestroying = true;
             //KeySystem.startDestroy();
-        }
-
-        if(Math.random() > .5f && !this.isDestroying) // 1/10 chance of infiltrator deciding to destroy a keysystem
-        {
-            this.destroyKeySystem();
             return;
         }
 
@@ -147,6 +155,9 @@ public class Infiltrator extends NPC{
         {
             this.goInvisible();
         }
+
+        this.pathQueue.clear();
+        this.setGoal(MapGraph.getRandomNode());
     }
 
     /**
@@ -155,8 +166,9 @@ public class Infiltrator extends NPC{
     private void goInvisible()
     {
         this.isInvisible = true;
+        this.isDestroying = false;
         this.timeInvisibleStart = System.currentTimeMillis();
-        this.setAlpha(0.1f);
+        this.setAlpha(0.05f);
     }
 
     /**
