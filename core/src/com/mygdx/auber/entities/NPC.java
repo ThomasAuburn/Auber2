@@ -76,13 +76,9 @@ public class NPC extends Sprite {
     {
         if(this.pathQueue.size > 0){
             Node targetNode = this.pathQueue.first();
-            if(Vector2.dst(this.getX(),this.getY(),targetNode.x,targetNode.y) < 10)
+            if(Vector2.dst(this.getX(),this.getY(),targetNode.x,targetNode.y) <= 10)
             {
                 reachNextNode(); //If the sprite is within 5 pixels of the node, it has reached the node
-            }
-            else
-            {
-                setSpeedToNextNode(); //Else keep moving towards it
             }
         }
     }
@@ -92,6 +88,9 @@ public class NPC extends Sprite {
      */
     private void reachNextNode()
     {
+        this.velocity.x = 0;
+        this.velocity.y = 0;
+
         Node nextNode = this.pathQueue.first();
 
         this.previousNode = nextNode;
@@ -99,11 +98,6 @@ public class NPC extends Sprite {
 
         if(this.pathQueue.size != 0) {
             setSpeedToNextNode(); //If there are items in the queue, set the velocity towards the next node
-        }
-        else
-        {
-            this.velocity.x = 0;
-            this.velocity.y = 0;
         }
     }
 
@@ -115,15 +109,9 @@ public class NPC extends Sprite {
         this.velocity.x = 0;
         this.velocity.y = 0;
 
-        if(!pathQueue.isEmpty())
+        if(pathQueue.isEmpty())
         {
-            Node nextNode = this.pathQueue.first();
-        }
-        else
-        {
-            Node newGoal;
-            newGoal = MapGraph.nodes.random();
-            this.setGoal(newGoal);
+            this.setGoal(mapGraph.getRandomNode());
         }
 
         Node nextNode = this.pathQueue.first();
@@ -161,5 +149,7 @@ public class NPC extends Sprite {
     }
 
     public void reachDestination()
-    {}
+    {
+    }
+
 }
