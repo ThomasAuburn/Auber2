@@ -76,7 +76,7 @@ public class NPC extends Sprite {
     {
         if(this.pathQueue.size > 0){
             Node targetNode = this.pathQueue.first();
-            if(Vector2.dst(this.getX(),this.getY(),targetNode.x,targetNode.y) < 5)
+            if(Vector2.dst(this.getX(),this.getY(),targetNode.x,targetNode.y) < 10)
             {
                 reachNextNode(); //If the sprite is within 5 pixels of the node, it has reached the node
             }

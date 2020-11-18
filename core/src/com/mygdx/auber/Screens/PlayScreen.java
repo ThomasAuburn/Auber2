@@ -33,8 +33,8 @@ public class PlayScreen implements Screen {
     private OrthogonalTiledMapRenderer renderer;
     private GraphCreator graphCreator;
     private Player player;
-    private int numberOfInfiltrators = 1;
-    private int numberOfCrew = 1;
+    private int numberOfInfiltrators = 50;
+    private int numberOfCrew = 50;
     private ScrollingBackground scrollingBackground;
 
     public PlayScreen(Auber game){
@@ -75,7 +75,12 @@ public class PlayScreen implements Screen {
     }
 
     public boolean gameOver() {
-        return Player.health <= 0;
+        return Player.health <= 0 || hud.CrewmateCount >= 3;
+    }
+
+    public boolean gameWin()
+    {
+        return NPCCreator.infiltrators.isEmpty();
     }
 
     public void update(float time){
