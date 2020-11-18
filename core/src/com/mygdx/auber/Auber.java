@@ -4,6 +4,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.mygdx.auber.Screens.MainMenuScreen;
 import com.mygdx.auber.Screens.PlayScreen;
 
 import java.util.HashMap;
@@ -20,7 +21,7 @@ public class Auber extends Game {
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
-		setScreen(new PlayScreen(this));
+		setScreen(new MainMenuScreen(this));
 	}
 
 	@Override
