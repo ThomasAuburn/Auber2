@@ -43,7 +43,7 @@ public class Hud {
 
         hudTable.add(imposterCountLabel).expandX().left().padLeft(10);
         hudTable.add(crewmateCountLabel).expandX().right().padRight(10);
-        hudTable.add(playerHealthLabel).expandX().left().padLeft(10);
+        //hudTable.add(playerHealthLabel).expandX().left().padLeft(10);
 
         stage.addActor(hudTable);
     }
