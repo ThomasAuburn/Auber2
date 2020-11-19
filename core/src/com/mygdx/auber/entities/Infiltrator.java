@@ -1,9 +1,11 @@
 package com.mygdx.auber.entities;
 
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.maps.Map;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
 import com.mygdx.auber.Pathfinding.GraphCreator;
 import com.mygdx.auber.Pathfinding.MapGraph;
 import com.mygdx.auber.Pathfinding.Node;
@@ -17,6 +19,9 @@ public class Infiltrator extends NPC{
     private boolean isInvisible = false;
 
     private boolean isMoving = true;
+
+    public static Array<Sprite> easySprites = new Array<>();
+    public static Array<Sprite> hardSprites = new Array<>();
 
     public Infiltrator(Sprite sprite, Node node, MapGraph mapGraph) {
         super(sprite, node, mapGraph);
@@ -55,16 +60,14 @@ public class Infiltrator extends NPC{
 
         if(isInvisible)
         {
-            System.out.println("Is Invisible");
             if(System.currentTimeMillis() - timeInvisibleStart  > 10 * 100)
             {
-                this.setAlpha(1f);
                 this.isInvisible = false;
             }
         }
         else
         {
-            this.setAlpha(1f);
+            this.setAlpha(.99f);
         }
 
         this.elapsedTime += delta;
@@ -87,7 +90,7 @@ public class Infiltrator extends NPC{
         this.velocity.y = 0;
         timeToWait = Math.random() * 15;
 
-        if(Math.random() > .9f && !this.isDestroying && !this.isInvisible) // 1/10 chance of infiltrator deciding to destroy a keysystem
+        if(Math.random() > .95f && !this.isDestroying && !this.isInvisible) // 1/10 chance of infiltrator deciding to destroy a keysystem
         {
             this.destroyKeySystem();
             return;
@@ -135,7 +138,6 @@ public class Infiltrator extends NPC{
         this.setGoal(keySystem);
     }
 
-    //TODO Make it so he doesnt fucking obliterate Auber instantly
     /**
      * Causes the infiltrator to use a random ability
      */
@@ -149,11 +151,11 @@ public class Infiltrator extends NPC{
         }
         else if(chance >= 1 && chance < 2)
         {
-            this.damageAuber((int) chance);
+            this.damageAuber((int) chance * 15);
         }
         else
         {
-            this.goInvisible();
+            this.stopAuberHealing();
         }
 
         this.pathQueue.clear();
@@ -178,6 +180,26 @@ public class Infiltrator extends NPC{
     private void damageAuber(int amount)
     {
         Player.takeDamage(amount);
+    }
+
+    /**
+     * Sets canHeal to false in player, records the time at which he stopped being able to heal
+     */
+    private void stopAuberHealing()
+    {
+        Player.canHeal = false;
+        Player.healStopTime = System.currentTimeMillis();
+    }
+
+    /**
+     * Fills out the array of sprites available for the infiltrators to take
+     */
+    public static void createInfiltratorSprites()
+    {
+        Infiltrator.easySprites.add(new Sprite(new Texture("AlienInfiltratorStand.png")));
+        Infiltrator.easySprites.add(new Sprite(new Texture("HumanInfiltratorStand.png")));
+        Infiltrator.hardSprites.add(new Sprite(new Texture("AlienStand.png")));
+        Infiltrator.hardSprites.add(new Sprite(new Texture("HumanStand.png")));
     }
 }
 
