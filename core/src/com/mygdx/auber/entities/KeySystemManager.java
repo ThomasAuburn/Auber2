@@ -1,6 +1,7 @@
 package com.mygdx.auber.entities;
 
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 
 public class KeySystemManager {
@@ -25,7 +26,8 @@ public class KeySystemManager {
                     if(cell.getTile().getProperties().containsKey("keysystemnode"))
                     {
                         String name = (String) cell.getTile().getProperties().get("name");
-                        KeySystem keySystem = new KeySystem(cell, name);
+                        Vector2 position = new Vector2(x, y);
+                        KeySystem keySystem = new KeySystem(cell, name, position);
                         keySystems.add(keySystem);
                     }
                 }

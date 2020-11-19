@@ -3,15 +3,20 @@ package com.mygdx.auber.entities;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import com.badlogic.gdx.math.Vector2;
+
+import java.util.Vector;
 
 public class KeySystem {
     String name;
     final TiledMapTileLayer.Cell cell;
     private Long destructionStartTime;
+    public Vector2 position;
 
-    KeySystem(TiledMapTileLayer.Cell cell, String name) {
+    KeySystem(TiledMapTileLayer.Cell cell, String name, Vector2 position) {
         this.cell = cell;
         this.name = name;
+        this.position = position;
     }
 
     void startDestroy() {
