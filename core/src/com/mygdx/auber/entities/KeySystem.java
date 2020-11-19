@@ -1,14 +1,15 @@
 package com.mygdx.auber.entities;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.maps.tiled.TiledMapTile;
 
 public class KeySystem {
     String name;
-    final Sprite sprite;
+    final TiledMapTile tile;
     private Long destructionStartTime;
 
-    KeySystem(Sprite sprite, String name) {
-        this.sprite = sprite;
+    KeySystem(TiledMapTile tile, String name) {
+        this.tile = tile;
         this.name = name;
     }
 
