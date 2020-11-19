@@ -111,7 +111,7 @@ public class PlayScreen implements Screen {
      */
     public void update(float time){
         NPC.updateNPC(time);
-        player.update();
+        player.update(time);
         hud.update();
         camera.update(); //Updating everything that needs to be updated
 

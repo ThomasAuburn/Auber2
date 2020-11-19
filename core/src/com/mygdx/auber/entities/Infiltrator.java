@@ -15,7 +15,7 @@ public class Infiltrator extends NPC{
     public boolean isDestroying = false;
     public double timeToWait = Math.random() * 15;
 
-    private float timeInvisibleStart;
+    private float timeInvisible;
     private boolean isInvisible = false;
 
     private boolean isMoving = true;
@@ -60,13 +60,15 @@ public class Infiltrator extends NPC{
 
         if(isInvisible)
         {
-            if(System.currentTimeMillis() - timeInvisibleStart  > 10 * 100)
+            timeInvisible += delta;
+            if(timeInvisible  > 10)
             {
                 this.isInvisible = false;
             }
         }
         else
         {
+            timeInvisible = 0;
             this.setAlpha(.99f);
         }
 
@@ -169,7 +171,7 @@ public class Infiltrator extends NPC{
     {
         this.isInvisible = true;
         this.isDestroying = false;
-        this.timeInvisibleStart = System.currentTimeMillis();
+        this.timeInvisible = 0;
         this.setAlpha(0.05f);
     }
 
@@ -187,8 +189,9 @@ public class Infiltrator extends NPC{
      */
     private void stopAuberHealing()
     {
+        System.out.println("Stopped healing");
         Player.canHeal = false;
-        Player.healStopTime = System.currentTimeMillis();
+        Player.healStopTime = 0;
     }
 
     /**
