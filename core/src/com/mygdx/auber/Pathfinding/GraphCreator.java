@@ -14,7 +14,6 @@ public class GraphCreator extends ApplicationAdapter {
     public BitmapFont font;
 
     public MapGraph mapGraph;
-    public GraphPath<Node> nodeGraphPath;
     private TiledMapTileLayer tileLayer;
     public static Array<Node> keySystemsNodes = new Array<>();
 
@@ -36,7 +35,6 @@ public class GraphCreator extends ApplicationAdapter {
      */
     @Override
     public void render() {
-
         for(Path path : MapGraph.paths)
         {
            path.render(shapeRenderer);
@@ -46,12 +44,6 @@ public class GraphCreator extends ApplicationAdapter {
         {
             node.render(shapeRenderer, batch, font, false);
         }
-
-//        {
-//            for (Node node : nodeGraphPath) {
-//                node.render(shapeRenderer, batch, font, true);
-//            }
-//        }
     }
 
     /**

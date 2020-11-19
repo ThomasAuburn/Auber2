@@ -30,8 +30,8 @@ public class PlayScreen implements Screen {
     private OrthogonalTiledMapRenderer renderer;
     private GraphCreator graphCreator;
     public Player player;
-    private int numberOfInfiltrators = 1;
-    private int numberOfCrew = 50;
+    private int numberOfInfiltrators = 10;
+    private int numberOfCrew = 10;
     private ScrollingBackground scrollingBackground;
 
     public PlayScreen(Auber game){
@@ -45,15 +45,30 @@ public class PlayScreen implements Screen {
         mapLoader = new TmxMapLoader();
         map = mapLoader.load("testmap2.tmx");
 
+        Infiltrator.createInfiltratorSprites();
+        CrewMembers.createCrewSprites();
+
         graphCreator = new GraphCreator((TiledMapTileLayer)map.getLayers().get(0));
+
         for (int i = 0; i < numberOfInfiltrators; i++) {
             System.out.println("Infiltrator created!");
-            NPCCreator.createInfiltrator(new Sprite(new Texture("HumanInfiltratorStand.png")), MapGraph.getRandomNode(), graphCreator.mapGraph);
+            double random = Math.random();
+            if(random >= 0.5f)
+            {
+                NPCCreator.createInfiltrator(Infiltrator.easySprites.random(), MapGraph.getRandomNode(), graphCreator.mapGraph);
+            }
+            else
+            {
+                NPCCreator.createInfiltrator(Infiltrator.hardSprites.random(), MapGraph.getRandomNode(), graphCreator.mapGraph);
+            }
+
         }
+
+
         for(int i = 0; i < numberOfCrew; i++)
         {
             System.out.println("Crewmember created!");
-            NPCCreator.createCrew(new Sprite(new Texture("AlienInfiltratorStand.png")), MapGraph.getRandomNode(), graphCreator.mapGraph);
+            NPCCreator.createCrew(CrewMembers.crewSprites.random(), MapGraph.getRandomNode(), graphCreator.mapGraph);
         }
 
         player = new Player(new Sprite(new Texture("AuberStand.png")),(TiledMapTileLayer)map.getLayers().get(0));

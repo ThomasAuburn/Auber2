@@ -18,8 +18,11 @@ public class Player extends Sprite implements InputProcessor {
 
     private final Collision collision;
 
-    public static int health = 10;
+    public static int health = 100;
     float SPEED = 1;
+
+    public static boolean canHeal = true;
+    public static float healStopTime;
 
     private boolean isWHeld;
     private boolean isAHeld;
@@ -173,14 +176,36 @@ public class Player extends Sprite implements InputProcessor {
     }
 
     public void heal(int amount) {
-        health += amount;
-        if (health > 100) {
-            health = 100;
+        if(canHeal)
+        {
+            health += amount;
+            if (health > 100) {
+                health = 100;
+            }
+        }
+        else
+        {
+            if(System.currentTimeMillis() - healStopTime > 20 * 100)
+            {
+                canHeal = true;
+                heal(amount);
+            }
         }
     }
 
     public void heal() {
-        health = 100;
+        if(canHeal)
+        {
+            health = 100;
+        }
+        else
+        {
+            if(System.currentTimeMillis() - healStopTime > 20 * 100)
+            {
+                canHeal = true;
+                heal();
+            }
+        }
     }
 
     public static void takeDamage(int amount) {

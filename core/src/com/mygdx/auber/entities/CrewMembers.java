@@ -1,7 +1,9 @@
 package com.mygdx.auber.entities;
 
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import com.badlogic.gdx.utils.Array;
 import com.mygdx.auber.Pathfinding.MapGraph;
 import com.mygdx.auber.Pathfinding.Node;
 
@@ -9,6 +11,7 @@ import java.util.Random;
 
 public class CrewMembers extends NPC {
     public double timeToWait = Math.random() * 15;
+    public static Array<Sprite> crewSprites = new Array<>();
 
     public CrewMembers(Sprite sprite, Node node, MapGraph mapGraph) {
         super(sprite, node, mapGraph);
@@ -56,5 +59,14 @@ public class CrewMembers extends NPC {
             setGoal(newGoal);
 
         }
+    }
+
+    public static void createCrewSprites()
+    {
+        CrewMembers.crewSprites.add(new Sprite(new Texture("AlienStand.png")));
+        CrewMembers.crewSprites.add(new Sprite(new Texture("HumanStand.png")));
+        CrewMembers.crewSprites.add(new Sprite(new Texture("Luffy.png")));
+        CrewMembers.crewSprites.add(new Sprite(new Texture("AlienInfiltratorStand.png")));
+
     }
 }
