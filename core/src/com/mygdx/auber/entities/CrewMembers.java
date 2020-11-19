@@ -61,6 +61,9 @@ public class CrewMembers extends NPC {
         }
     }
 
+    /**
+     * Generates the list of crewmate sprites the crewmates can be
+     */
     public static void createCrewSprites()
     {
         CrewMembers.crewSprites.add(new Sprite(new Texture("AlienStand.png")));

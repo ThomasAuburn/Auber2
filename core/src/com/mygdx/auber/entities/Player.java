@@ -39,22 +39,28 @@ public class Player extends Sprite implements InputProcessor {
         this.collision = new Collision();
     }
 
+    /**
+     * Used to draw the player to the screen
+     * @param batch Batch for the player to be drawn in
+     */
     public void draw(Batch batch)
     {
         super.draw(batch);
     }
 
-
+    /**
+     * Used to update the player, move in direction, change scale, and check for collision
+     */
     public void update() {
         velocity.x = 0; velocity.y = 0;
-        Player.x = getX(); Player.y = getY();
+        Player.x = getX(); Player.y = getY(); //Set the velocity to 0 and set the current x/y to x and y
 
         if(isWHeld) {
             velocity.y += SPEED;
         }
         if(isSHeld) {
             velocity.y -= SPEED;
-        }
+        } //Add or subtract speed from the y velocity depending on which key is held (if both held velocity.y = 0)
         if(isAHeld) {
             velocity.x -= SPEED;
             this.setScale(-1,1);
@@ -62,64 +68,59 @@ public class Player extends Sprite implements InputProcessor {
         if(isDHeld) {
             velocity.x += SPEED;
             this.setScale(1,1);
-        }
+        } //Add or subtract speed from the x velocity depending on which key is held (if both held velocity.x = 0) and set the scale to flip the sprite depending on movement
 
-        velocity = collision.checkForCollision(this, collisionLayer, velocity, collision);
+        velocity = collision.checkForCollision(this, collisionLayer, velocity, collision); //Checks for collision in the direction of movement
+
         setX(getX() + velocity.x);
-        setY(getY() + velocity.y);
+        setY(getY() + velocity.y); //Set the player position to current position + velocity
     }
 
+    /**
+     * When a key is pressed, this method is called
+     * @param keycode Code of key that was pressed
+     * @return true if successful
+     */
     @Override
     public boolean keyDown(int keycode) {
         switch (keycode) {
             case Input.Keys.W:
-                //velocity.y = SPEED;
                 isWHeld = true;
                 break;
             case Input.Keys.A:
-                //velocity.x = -SPEED;
                 isAHeld = true;
                 break;
             case Input.Keys.D:
-                //velocity.x = SPEED;
                 isDHeld = true;
                 break;
             case Input.Keys.S:
-                //velocity.y = -SPEED;
                 isSHeld = true;
                 break;
-            case Input.Keys.X:
-                //Test Health values
-                health -= 1;
-                break;
-        }
+        } //If key is pressed, set isKeyHeld to true
         return true;
     }
 
+    /**
+     * When a key is lifted, this method is called
+     * @param keycode Code of key that was lifted
+     * @return true if successful
+     */
     @Override
     public boolean keyUp(int keycode) {
         switch (keycode) {
             case Input.Keys.W:
                 isWHeld = false;
-                //if(velocity.y > 0)
-                //{velocity.y = 0;}
                 break;
             case Input.Keys.S:
                 isSHeld = false;
-                //if(velocity.y < 0)
-                //{velocity.y = 0;}
                 break;
             case Input.Keys.A:
                 isAHeld = false;
-                //if(velocity.x < 0)
-                //{velocity.x = 0;}
                 break;
             case Input.Keys.D:
                 isDHeld = false;
-                //if(velocity.x > 0)
-                //{velocity.x = 0;}
                 break;
-        }
+        } //Set key lifted to false
         return true;
     }
 
@@ -128,11 +129,19 @@ public class Player extends Sprite implements InputProcessor {
         return false;
     }
 
+    /**
+     * Called when a mouse left click is clicked
+     * @param screenX X Screen coordinate of mouse press
+     * @param screenY Y Screen coordinate of mouse press
+     * @param pointer
+     * @param button
+     * @return True if successful
+     */
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         Vector3 vec=new Vector3(screenX,screenY,0);
         PlayScreen.camera.unproject(vec);
-        Vector2 point = new Vector2(vec.x,vec.y);
+        Vector2 point = new Vector2(vec.x,vec.y); //Gets the x,y coordinate of mouse press and converts it to world coordinates
 
         for (Infiltrator infiltrator: NPCCreator.infiltrators)
         {
@@ -142,7 +151,7 @@ public class Player extends Sprite implements InputProcessor {
                 Hud.ImposterCount += 1;
                 return true;
             }
-        }
+        } //If an infiltrator was clicked, remove it from the list
 
         for(CrewMembers crewMember: NPCCreator.crew) {
             if(crewMember.getBoundingRectangle().contains(point))
@@ -151,7 +160,7 @@ public class Player extends Sprite implements InputProcessor {
                 Hud.CrewmateCount += 1;
                 return true;
             }
-        }
+        }//If an crewmember was clicked, remove it from the list
         return true;
     }
 
@@ -175,6 +184,10 @@ public class Player extends Sprite implements InputProcessor {
         return false;
     }
 
+    /**
+     * Heal Auber for a certain amount
+     * @param amount Amount to heal by
+     */
     public void heal(int amount) {
         if(canHeal)
         {
@@ -182,7 +195,7 @@ public class Player extends Sprite implements InputProcessor {
             if (health > 100) {
                 health = 100;
             }
-        }
+        } //If he can heal, add health
         else
         {
             if(System.currentTimeMillis() - healStopTime > 20 * 100)
@@ -190,14 +203,17 @@ public class Player extends Sprite implements InputProcessor {
                 canHeal = true;
                 heal(amount);
             }
-        }
+        } //If he cant heal, check if time has passed, if it has set canHeal to true and heal for the amount
     }
 
+    /**
+     * Heal Auber for the full amount
+     */
     public void heal() {
         if(canHeal)
         {
             health = 100;
-        }
+        } //If can heal, heal
         else
         {
             if(System.currentTimeMillis() - healStopTime > 20 * 100)
@@ -205,9 +221,13 @@ public class Player extends Sprite implements InputProcessor {
                 canHeal = true;
                 heal();
             }
-        }
+        } //If he cant heal, check if time has passed, if it has set canHeal to true and heal
     }
 
+    /**
+     * Take damage for amount given
+     * @param amount Amount of damage to deal
+     */
     public static void takeDamage(int amount) {
         health -= amount;
     }
