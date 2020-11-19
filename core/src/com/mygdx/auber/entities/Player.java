@@ -13,7 +13,6 @@ import com.mygdx.auber.Screens.PlayScreen;
 
 
 public class Player extends Sprite implements InputProcessor {
-    /**The movement velocity */
     public Vector2 velocity = new Vector2(0,0);
 
     private final Collision collision;

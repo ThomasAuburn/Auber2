@@ -68,7 +68,7 @@ public class KeySystemManager {
         return destroyed;
     }
 
-    public KeySystem getClosestKeySystem(float x, float y, int range) {
+    public static KeySystem getClosestKeySystem(float x, float y, int range) {
         KeySystem closest = null;
         for (KeySystem keySystem : keySystems) {
             if (closest == null) {

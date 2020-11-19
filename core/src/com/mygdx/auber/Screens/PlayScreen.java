@@ -21,20 +21,20 @@ import com.mygdx.auber.ScrollingBackground;
 import com.mygdx.auber.entities.*;
 
 public class PlayScreen implements Screen {
-    private Auber game;
+    private final Auber game;
+    private final Viewport viewport;
+    private final Hud hud;
+    private final TmxMapLoader mapLoader;
+    private final TiledMap map;
+    private final OrthogonalTiledMapRenderer renderer;
+    private final GraphCreator graphCreator;
+    private final ScrollingBackground scrollingBackground;
     public static OrthographicCamera camera;
-    private Viewport viewport;
-    private Hud hud;
-    private TmxMapLoader mapLoader;
-    private TiledMap map;
-    private OrthogonalTiledMapRenderer renderer;
-    private GraphCreator graphCreator;
     public Player player;
-    private ScrollingBackground scrollingBackground;
 
-    private int numberOfInfiltrators = 10;
-    private int numberOfCrew = 10;
-    
+    private final int numberOfInfiltrators = 5;
+    private final int numberOfCrew = 50;
+
     public PlayScreen(Auber game){
         this.game = game;
 
@@ -93,7 +93,7 @@ public class PlayScreen implements Screen {
      * @return Boolean if the game is over or not
      */
     public boolean gameOver() {
-        return Player.health <= 0 || hud.CrewmateCount >= 3 || KeySystemManager.destroyedKeySystemsCount() >= 15;
+        return Player.health <= 0 || Hud.CrewmateCount >= 3 || KeySystemManager.destroyedKeySystemsCount() >= 15 ;
     }
 
     /**

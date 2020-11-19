@@ -13,6 +13,7 @@ import com.mygdx.auber.Screens.PlayScreen;
 
 public class Infiltrator extends NPC{
     public boolean isDestroying = false;
+    public float destroyingTime;
     public double timeToWait = Math.random() * 15;
 
     private float timeInvisible;
@@ -42,21 +43,23 @@ public class Infiltrator extends NPC{
      * Step needs to be called in the update method, makes the NPC move and check if it has reached its next node
      */
     public void step(float delta) {
-        this.moveNPC();
+        this.moveNPC(); //Moves the npc and sets their scale
 
         if(isDestroying)
         {
             if(Vector2.dst(Player.x, Player.y, this.getX(), this.getY()) < 50)
             {
+                KeySystem keySystem = KeySystemManager.getClosestKeySystem(this.getX(), this.getY(), 50);
+                keySystem.stopDestroy();
                 this.useAbility();
                 this.isDestroying = false;
             }
             else
             {
-                this.elapsedTime += delta;
+                this.destroyingTime += delta;
             }
             return;
-        }
+        } //If isDestroying, if the distance to the player is less than 50, use ability and stop destroying, else keep adding time
 
         if(isInvisible)
         {
@@ -70,18 +73,17 @@ public class Infiltrator extends NPC{
         {
             timeInvisible = 0;
             this.setAlpha(.99f);
-        }
+        } //If isInvisible, keep adding time to timeInvisible, and if its longer than 10 seconds set isInvisible to false. If not timeInvisible, set the alpha to 1 and time to 0
 
         this.elapsedTime += delta;
-        this.checkCollision();
+        this.checkCollision(); //Add elapsed time and check collisions
 
         if((this.elapsedTime >= timeToWait) && this.pathQueue.isEmpty()) {
             this.elapsedTime = 0;
             reachDestination();
-        }
+        } //If there is no queue and elapsed time is greater than time to wait, reach destination
     }
 
-    //TODO: Redo this function
     /**
      * Called when the path queue is empty
      */
@@ -94,16 +96,17 @@ public class Infiltrator extends NPC{
 
         if(Math.random() > .95f && !this.isDestroying && !this.isInvisible) // 1/10 chance of infiltrator deciding to destroy a keysystem
         {
-            this.destroyKeySystem();
+            this.destroyKeySystem(50);
             return;
-        }
+        } //If not invisible or currently destroying a key system, random chance to go destroying a key system
 
         if(pathQueue.size == 0 && GraphCreator.keySystemsNodes.contains(this.previousNode, false))
         {
             this.isDestroying = true;
-            //KeySystem.startDestroy();
+            KeySystem keySystem = KeySystemManager.getClosestKeySystem(this.getX(), this.getY(), 50);
+            keySystem.startDestroy();
             return;
-        }
+        } //If no queue, and the last node in queue was a key systems node, start destroying
 
         Node newGoal;
         do {
@@ -111,7 +114,7 @@ public class Infiltrator extends NPC{
         }while(newGoal == previousNode);
         {
             setGoal(newGoal);
-        }
+        } //Set a new goal node and start moving towards it
 
     }
 
@@ -132,12 +135,31 @@ public class Infiltrator extends NPC{
     /**
      * Starts destroying a random keySystem, moves towards it, sets isDestroying to true
      */
-    public void destroyKeySystem()
+    public void destroyKeySystem(int range)
     {
-        System.out.println("Infiltrator moving to destroy");
         this.pathQueue.clear();
-        Node keySystem = GraphCreator.keySystemsNodes.random();
-        this.setGoal(keySystem);
+        Node keySystemNode = GraphCreator.keySystemsNodes.random();
+        KeySystem keySystem = KeySystemManager.getClosestKeySystem(keySystemNode.x, keySystemNode.y, range);
+
+        if(keySystem == null)
+        {
+            if(KeySystemManager.safeKeySystemsCount() == 0)
+            {
+                return;
+            }
+            else
+            {
+                destroyKeySystem(range + 10);
+            }
+        }
+        if(keySystem.isDestroyed() || keySystem.isBeingDestroyed())
+        {
+            destroyKeySystem(range);
+        }
+        else
+        {
+            this.setGoal(keySystemNode);
+        } //If Key system is being destroyed or is already destroyed, select a new key system
     }
 
     /**
