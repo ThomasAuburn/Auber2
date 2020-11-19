@@ -67,4 +67,18 @@ public class KeySystemManager {
         }
         return destroyed;
     }
+
+    public KeySystem getClosestKeySystem(float x, float y, int range) {
+        KeySystem closest = null;
+        for (KeySystem keySystem : keySystems) {
+            if (closest == null) {
+                closest = keySystem;
+                continue;
+            }
+            if (keySystem.position.dst2(x, y) < closest.position.dst2(x, y)) {
+                closest = keySystem;
+            }
+        }
+        return closest;
+    }
 }
