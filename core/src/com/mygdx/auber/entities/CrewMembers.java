@@ -18,14 +18,6 @@ public class CrewMembers extends NPC {
         this.setPosition(node.x, node.y);
     }
 
-    public void setIndex(int index) {
-        this.index = index;
-    }
-
-    public static void dispose() {
-        return;
-    }
-
     /**
      * Step needs to be called in the update method, makes the NPC move and check if it has reached its next node
      */
@@ -71,5 +63,13 @@ public class CrewMembers extends NPC {
         CrewMembers.crewSprites.add(new Sprite(new Texture("Luffy.png")));
         CrewMembers.crewSprites.add(new Sprite(new Texture("AlienInfiltratorStand.png")));
 
+    }
+
+    public void setIndex(int index) {
+        this.index = index;
+    }
+
+    public static void dispose() {
+        return;
     }
 }
