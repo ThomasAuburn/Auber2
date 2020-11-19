@@ -30,25 +30,26 @@ public class PlayScreen implements Screen {
     private OrthogonalTiledMapRenderer renderer;
     private GraphCreator graphCreator;
     public Player player;
-    private int numberOfInfiltrators = 10;
-    private int numberOfCrew = 10;
     private ScrollingBackground scrollingBackground;
 
+    private int numberOfInfiltrators = 10;
+    private int numberOfCrew = 10;
+    
     public PlayScreen(Auber game){
         this.game = game;
 
         camera = new OrthographicCamera();
         viewport = new ExtendViewport(Auber.VirtualWidth, Auber.VirtualHeight, camera);
         hud = new Hud(game.batch);
-        this.scrollingBackground = new ScrollingBackground();
+        scrollingBackground = new ScrollingBackground(); //Creating a new camera, viewport, hud and scrolling background, setting the viewport to camera and virtual height/width
 
         mapLoader = new TmxMapLoader();
-        map = mapLoader.load("testmap2.tmx");
+        map = mapLoader.load("testmap2.tmx"); //Creates a new map loader and loads the map into map
 
         Infiltrator.createInfiltratorSprites();
-        CrewMembers.createCrewSprites();
+        CrewMembers.createCrewSprites(); //Generates the infiltrator and crewmember sprites
 
-        graphCreator = new GraphCreator((TiledMapTileLayer)map.getLayers().get(0));
+        graphCreator = new GraphCreator((TiledMapTileLayer)map.getLayers().get(0)); //Generates all the nodes and paths for the given map layer
 
         for (int i = 0; i < numberOfInfiltrators; i++) {
             System.out.println("Infiltrator created!");
@@ -62,22 +63,23 @@ public class PlayScreen implements Screen {
                 NPCCreator.createInfiltrator(Infiltrator.hardSprites.random(), MapGraph.getRandomNode(), graphCreator.mapGraph);
             }
 
-        }
+        } //Creates numberOfInfiltrators infiltrators, gives them a random hard or easy sprite
 
 
         for(int i = 0; i < numberOfCrew; i++)
         {
             System.out.println("Crewmember created!");
             NPCCreator.createCrew(CrewMembers.crewSprites.random(), MapGraph.getRandomNode(), graphCreator.mapGraph);
-        }
+        } //Creates numberOfCrew crewmembers, gives them a random sprite
 
         player = new Player(new Sprite(new Texture("AuberStand.png")),(TiledMapTileLayer)map.getLayers().get(0));
-        player.setPosition(600, 1000);
+        player.setPosition(600, 1000); //Creates a player and sets him to the given position
 
-        renderer = new OrthogonalTiledMapRenderer(map);
-        camera.position.set(player.getX(),player.getY(),0);
+        renderer = new OrthogonalTiledMapRenderer(map); //Creates a new renderer with the given map
 
-        Gdx.input.setInputProcessor(player);
+        camera.position.set(player.getX(),player.getY(),0); //Sets the camera position to the player
+
+        Gdx.input.setInputProcessor(player); //Sets the input to be handled by the player class
     }
 
     @Override
@@ -86,21 +88,34 @@ public class PlayScreen implements Screen {
 
     }
 
+    /**
+     * If any of the game over conditions are true, returns true
+     * @return Boolean if the game is over or not
+     */
     public boolean gameOver() {
         return Player.health <= 0 || hud.CrewmateCount >= 3 || KeySystemManager.destroyedKeySystemsCount() >= 15;
     }
 
+    /**
+     * If any of the win conditions are true, returns true
+     * @return Boolean If the game is won or not
+     */
     public boolean gameWin()
     {
         return NPCCreator.infiltrators.isEmpty();
     }
 
+    /**
+     * Called every frame, call update methods in here
+     * @param time Time between last frame and this frame
+     */
     public void update(float time){
         NPC.updateNPC(time);
         player.update();
         hud.update();
-        camera.update();
-        renderer.setView(camera);
+        camera.update(); //Updating everything that needs to be updated
+
+        renderer.setView(camera); //Needed for some reason
 
         if(gameOver()){
             game.setScreen(new GameOverScreen(game));
@@ -110,9 +125,13 @@ public class PlayScreen implements Screen {
         {
             game.setScreen(new GameOverScreen(game));
             dispose();
-        }
+        } //If game won, show game win screen and dispose of all assets
     }
 
+    /**
+     * Called every frame, call render methods in here
+     * @param delta Time between last frame and this frame
+     */
     @Override
     public void render(float delta) {
         Gdx.gl.glClearColor(0.09f, 0.09f, 0.09f, 1);
@@ -138,6 +157,11 @@ public class PlayScreen implements Screen {
         //graphCreator.render(); //Debugging shows nodes and paths
     }
 
+    /**
+     * Called upon window being resized, and at the beginning
+     * @param width Width of the window
+     * @param height Height of the window
+     */
     @Override
     public void resize(int width, int height) {
         viewport.update(width, height);
@@ -162,6 +186,9 @@ public class PlayScreen implements Screen {
 
     }
 
+    /**
+     * Called when the screen is closed, need to call dispose methods of classes to ensure no memory leaks
+     */
     @Override
     public void dispose() {
         game.dispose();
