@@ -2,19 +2,24 @@ package com.mygdx.auber.entities;
 
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
+import com.mygdx.auber.Scenes.Hud;
+import com.mygdx.auber.Screens.PlayScreen;
 
 
 public class Player extends Sprite implements InputProcessor {
     /**The movement velocity */
-    private Vector2 velocity = new Vector2(0,0);
+    public Vector2 velocity = new Vector2(0,0);
 
     private final Collision collision;
 
     public static int health = 10;
+    float SPEED = 1;
 
     private boolean isWHeld;
     private boolean isAHeld;
@@ -23,24 +28,24 @@ public class Player extends Sprite implements InputProcessor {
 
     private final TiledMapTileLayer collisionLayer;
 
+    public static float x,y;
 
     public Player(Sprite sprite, TiledMapTileLayer collisionLayer) {
         super(sprite);
         this.collisionLayer = collisionLayer;
         this.collision = new Collision();
-        this.setPosition(16*25, 16*25);
     }
 
-    @Override
-    public void draw(Batch batch) {
-        update();
+    public void draw(Batch batch)
+    {
         super.draw(batch);
     }
 
+
     public void update() {
         velocity.x = 0; velocity.y = 0;
+        Player.x = getX(); Player.y = getY();
 
-        float SPEED = 1;
         if(isWHeld) {
             velocity.y += SPEED;
         }
@@ -49,16 +54,17 @@ public class Player extends Sprite implements InputProcessor {
         }
         if(isAHeld) {
             velocity.x -= SPEED;
+            this.setScale(-1,1);
         }
         if(isDHeld) {
             velocity.x += SPEED;
+            this.setScale(1,1);
         }
 
         velocity = collision.checkForCollision(this, collisionLayer, velocity, collision);
         setX(getX() + velocity.x);
         setY(getY() + velocity.y);
     }
-
 
     @Override
     public boolean keyDown(int keycode) {
@@ -121,7 +127,29 @@ public class Player extends Sprite implements InputProcessor {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        return false;
+        Vector3 vec=new Vector3(screenX,screenY,0);
+        PlayScreen.camera.unproject(vec);
+        Vector2 point = new Vector2(vec.x,vec.y);
+
+        for (Infiltrator infiltrator: NPCCreator.infiltrators)
+        {
+            if(infiltrator.getBoundingRectangle().contains(point))
+            {
+                NPCCreator.removeInfiltrator(infiltrator.index);
+                Hud.ImposterCount += 1;
+                return true;
+            }
+        }
+
+        for(CrewMembers crewMember: NPCCreator.crew) {
+            if(crewMember.getBoundingRectangle().contains(point))
+            {
+                NPCCreator.removeCrewmember(crewMember.index);
+                Hud.CrewmateCount += 1;
+                return true;
+            }
+        }
+        return true;
     }
 
     @Override
@@ -155,7 +183,7 @@ public class Player extends Sprite implements InputProcessor {
         health = 100;
     }
 
-    public void takeDamage(int amount) {
+    public static void takeDamage(int amount) {
         health -= amount;
     }
 }
