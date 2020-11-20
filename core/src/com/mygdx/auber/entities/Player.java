@@ -16,7 +16,7 @@ public class Player extends Sprite implements InputProcessor {
     public Vector2 velocity = new Vector2(0,0);
 
     private final Collision collision;
-    private final TiledMapTileLayer collisionLayer;
+    public final TiledMapTileLayer collisionLayer;
     public static float x,y;
 
     public static int health = 100;

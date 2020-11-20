@@ -25,7 +25,7 @@ public class PlayScreen implements Screen {
     private final Viewport viewport;
     private final Hud hud;
     private final TmxMapLoader mapLoader;
-    private final TiledMap map;
+    public final TiledMap map;
     private final OrthogonalTiledMapRenderer renderer;
     private final GraphCreator graphCreator;
     private final ScrollingBackground scrollingBackground;
@@ -34,7 +34,7 @@ public class PlayScreen implements Screen {
     public Player player;
 
     private final int numberOfInfiltrators = 50;
-    private final int numberOfCrew = 1;
+    private final int numberOfCrew = 50;
 
     public PlayScreen(Auber game){
         this.game = game;
@@ -112,14 +112,12 @@ public class PlayScreen implements Screen {
      * @param time Time between last frame and this frame
      */
     public void update(float time){
-        NPC.updateNPC(time);
+        NPC.updateNPC(time, (TiledMapTileLayer) map.getLayers().get(0));
         player.update(time);
         hud.update();
         camera.update(); //Updating everything that needs to be updated
 
         renderer.setView(camera); //Needed for some reason
-
-        System.out.println(KeySystemManager.destroyedKeySystemsCount());
 
         if(gameOver()){
             game.setScreen(new GameOverScreen(game));
@@ -157,8 +155,8 @@ public class PlayScreen implements Screen {
 
         renderer.getBatch().end(); //Finishes the sprite batch
 
-        //graphCreator.shapeRenderer.setProjectionMatrix(camera.combined); //Ensures nodes are rendered properly
-        //graphCreator.render(); //Debugging shows nodes and paths
+        graphCreator.shapeRenderer.setProjectionMatrix(camera.combined); //Ensures nodes are rendered properly
+        graphCreator.render(); //Debugging shows nodes and paths
     }
 
     /**

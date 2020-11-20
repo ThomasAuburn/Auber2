@@ -43,7 +43,7 @@ public class Infiltrator extends NPC{
     /**
      * Step needs to be called in the update method, makes the NPC move and check if it has reached its next node
      */
-    public void step(float delta) {
+    public void step(float delta, TiledMapTileLayer layer) {
         this.moveNPC(); //Moves the npc and sets their scale
 
         if(isDestroying)
@@ -82,6 +82,8 @@ public class Infiltrator extends NPC{
         this.elapsedTime += delta;
         this.checkCollision(); //Add elapsed time and check collisions
 
+        this.collision.checkForCollision(this, layer, this.velocity, collision);
+
         if((this.elapsedTime >= timeToWait) && this.pathQueue.isEmpty()) {
             this.elapsedTime = 0;
             reachDestination();
@@ -116,6 +118,7 @@ public class Infiltrator extends NPC{
             if(keySystem.isSafe())
             {
                 keySystem.startDestroy();
+                timeToWait += 20;
             }
         } //If no queue, and the last node in queue was a key systems node, start destroying
 

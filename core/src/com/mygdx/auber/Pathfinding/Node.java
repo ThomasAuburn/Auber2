@@ -42,7 +42,6 @@ public class Node {
             // blue
             shapeRenderer.setColor(.8f, .88f, .95f, 1);
         }
-        shapeRenderer.setColor(.8f, .88f, .95f, 1);
         shapeRenderer.circle(x, y, 5);
         shapeRenderer.end();
 
