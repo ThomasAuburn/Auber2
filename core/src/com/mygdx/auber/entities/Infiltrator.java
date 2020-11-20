@@ -39,6 +39,7 @@ public class Infiltrator extends NPC{
         return;
     }
 
+    //TODO: Fix infiltrators stopping destroying key systems
     /**
      * Step needs to be called in the update method, makes the NPC move and check if it has reached its next node
      */
@@ -49,8 +50,8 @@ public class Infiltrator extends NPC{
         {
             if(Vector2.dst(Player.x, Player.y, this.getX(), this.getY()) < 50)
             {
-                KeySystem keySystem = KeySystemManager.getClosestKeySystem(this.getX(), this.getY(), 50);
-                keySystem.stopDestroy();
+                KeySystem keySystem = KeySystemManager.getClosestKeySystem(this.getX(), this.getY(), 200);
+                //keySystem.stopDestroy();
                 this.useAbility();
                 this.isDestroying = false;
             }
@@ -103,7 +104,12 @@ public class Infiltrator extends NPC{
         if(pathQueue.size == 0 && GraphCreator.keySystemsNodes.contains(this.previousNode, false))
         {
             this.isDestroying = true;
-            KeySystem keySystem = KeySystemManager.getClosestKeySystem(this.getX(), this.getY(), 50);
+            KeySystem keySystem = KeySystemManager.getClosestKeySystem(this.getX(), this.getY(), 100);
+            if(keySystem == null)
+            {
+                setGoal(MapGraph.getRandomNode());
+                return;
+            }
             keySystem.startDestroy();
             return;
         } //If no queue, and the last node in queue was a key systems node, start destroying
@@ -143,16 +149,12 @@ public class Infiltrator extends NPC{
 
         if(keySystem == null)
         {
-            if(KeySystemManager.safeKeySystemsCount() == 0)
-            {
-                return;
-            }
-            else
+            if(KeySystemManager.safeKeySystemsCount() != 0)
             {
                 destroyKeySystem(range + 10);
             }
         }
-        if(keySystem.isDestroyed() || keySystem.isBeingDestroyed())
+        if((keySystem.isDestroyed() || keySystem.isBeingDestroyed()) && KeySystemManager.safeKeySystemsCount() != 0)
         {
             destroyKeySystem(range);
         }

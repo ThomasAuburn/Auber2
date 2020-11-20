@@ -29,11 +29,12 @@ public class PlayScreen implements Screen {
     private final OrthogonalTiledMapRenderer renderer;
     private final GraphCreator graphCreator;
     private final ScrollingBackground scrollingBackground;
+    private final KeySystemManager keySystemManager;
     public static OrthographicCamera camera;
     public Player player;
 
-    private final int numberOfInfiltrators = 5;
-    private final int numberOfCrew = 50;
+    private final int numberOfInfiltrators = 50;
+    private final int numberOfCrew = 1;
 
     public PlayScreen(Auber game){
         this.game = game;
@@ -50,6 +51,7 @@ public class PlayScreen implements Screen {
         CrewMembers.createCrewSprites(); //Generates the infiltrator and crewmember sprites
 
         graphCreator = new GraphCreator((TiledMapTileLayer)map.getLayers().get(0)); //Generates all the nodes and paths for the given map layer
+        keySystemManager = new KeySystemManager((TiledMapTileLayer)map.getLayers().get(0));
 
         for (int i = 0; i < numberOfInfiltrators; i++) {
             System.out.println("Infiltrator created!");

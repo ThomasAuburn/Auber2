@@ -8,7 +8,7 @@ import com.badlogic.gdx.math.Vector2;
 import java.util.Vector;
 
 public class KeySystem {
-    String name;
+    public String name;
     final TiledMapTileLayer.Cell cell;
     private Long destructionStartTime;
     public Vector2 position;
