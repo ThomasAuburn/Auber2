@@ -16,6 +16,7 @@ public class GraphCreator extends ApplicationAdapter {
     public MapGraph mapGraph;
     private TiledMapTileLayer tileLayer;
     public static Array<Node> keySystemsNodes = new Array<>();
+    public static GraphPath<Node> nodePath;
 
     public GraphCreator(TiledMapTileLayer tileLayer)
     {
@@ -43,6 +44,11 @@ public class GraphCreator extends ApplicationAdapter {
         for(Node node : MapGraph.nodes)
         {
             node.render(shapeRenderer, batch, font, false);
+        }
+
+        for(Node node : nodePath)
+        {
+            node.render(shapeRenderer, batch, font, true);
         }
     }
 

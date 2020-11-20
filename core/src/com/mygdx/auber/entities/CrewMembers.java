@@ -21,11 +21,13 @@ public class CrewMembers extends NPC {
     /**
      * Step needs to be called in the update method, makes the NPC move and check if it has reached its next node
      */
-    public void step(float delta) {
+    public void step(float delta, TiledMapTileLayer layer) {
         this.moveNPC();
 
         this.elapsedTime += delta;
         this.checkCollision();
+
+        this.collision.checkForCollision(this, layer, this.velocity, this.collision);
 
         if ((this.elapsedTime >= timeToWait) && this.pathQueue.isEmpty()) {
             this.elapsedTime = 0;

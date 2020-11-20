@@ -10,6 +10,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Queue;
+import com.mygdx.auber.Pathfinding.GraphCreator;
 import com.mygdx.auber.Pathfinding.MapGraph;
 import com.mygdx.auber.Pathfinding.Node;
 
@@ -29,6 +30,7 @@ public class NPC extends Sprite {
     Node previousNode; //Previous node the NPC visited
     public Queue<Node> pathQueue = new Queue<>(); //pathQueue the NPC is currently traversing
 
+    public Collision collision;
 
     /**
      * Constructor for NPC
@@ -43,19 +45,20 @@ public class NPC extends Sprite {
         this.previousNode = start;
         this.setPosition(start.x ,start.y);
         this.setGoal(MapGraph.getRandomNode());
+        this.collision = new Collision();
     }
 
     /**
      * Updates every NPC, to be called in a screens update method
      * @param delta Float of time between last and current frame, used for movement
      */
-    public static void updateNPC(float delta)
+    public static void updateNPC(float delta, TiledMapTileLayer layer)
     {
         if(NPCCreator.crew.notEmpty())
         {
             for (CrewMembers crewMember:
                     NPCCreator.crew) {
-                crewMember.step(delta);
+                crewMember.step(delta, layer);
             }
         }
 
@@ -63,7 +66,7 @@ public class NPC extends Sprite {
         {
             for (Infiltrator infiltrator:
                     NPCCreator.infiltrators) {
-                infiltrator.step(delta);
+                infiltrator.step(delta, layer);
             }
         }
     }
@@ -92,8 +95,8 @@ public class NPC extends Sprite {
         this.velocity.y = 0;
         if(this.pathQueue.size > 0){
             Node targetNode = this.pathQueue.first();
-            if(Vector2.dst(this.getX(),this.getY(),targetNode.x,targetNode.y) <= 10)
-            {
+            if(Vector2.dst(this.getX(),this.getY(),targetNode.x,targetNode.y) <= 5)
+
                 reachNextNode(); //If the sprite is within 5 pixels of the node, it has reached the node
             }
             else
@@ -101,7 +104,6 @@ public class NPC extends Sprite {
                 setSpeedToNextNode(); //Else keep moving towards it
             }
         }
-    }
 
     /**
      * Called when NPC has reached a node, sets the next node to be moved to, or if the path queue is empty, destination is reached
@@ -140,9 +142,9 @@ public class NPC extends Sprite {
         }
 
         Node nextNode = this.pathQueue.first();
-        float angle = MathUtils.atan2(nextNode.y - previousNode.y, nextNode.x - previousNode.x);
-        this.velocity.x += MathUtils.cos(angle) * SPEED;
-        this.velocity.y += MathUtils.sin(angle) * SPEED;
+        double angle = MathUtils.atan2(this.getY() - nextNode.y, this.getX() - nextNode.x);
+        this.velocity.x -= (MathUtils.cos((float) angle) * SPEED);
+        this.velocity.y -= (MathUtils.sin((float) angle) * SPEED);
     }
 
     /**
