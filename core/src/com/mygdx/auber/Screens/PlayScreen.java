@@ -155,8 +155,8 @@ public class PlayScreen implements Screen {
 
         renderer.getBatch().end(); //Finishes the sprite batch
 
-        graphCreator.shapeRenderer.setProjectionMatrix(camera.combined); //Ensures nodes are rendered properly
-        graphCreator.render(); //Debugging shows nodes and paths
+        //graphCreator.shapeRenderer.setProjectionMatrix(camera.combined); //Ensures nodes are rendered properly
+        //graphCreator.render(); //Debugging shows nodes and paths
     }
 
     /**
