@@ -9,7 +9,7 @@ public class KeySystemManager {
 
     private final TiledMapTileLayer keySystemLayer;
 
-    KeySystemManager(TiledMapTileLayer tileLayer) {
+    public KeySystemManager(TiledMapTileLayer tileLayer) {
         this.keySystemLayer = tileLayer;
         loadKeySystems(tileLayer);
     }
@@ -68,17 +68,30 @@ public class KeySystemManager {
         return destroyed;
     }
 
-    public KeySystem getClosestKeySystem(float x, float y, int range) {
+    public static KeySystem getClosestKeySystem(float x, float y) {
         KeySystem closest = null;
         for (KeySystem keySystem : keySystems) {
             if (closest == null) {
                 closest = keySystem;
                 continue;
             }
-            if (keySystem.position.dst2(x, y) < closest.position.dst2(x, y)) {
+            if (keySystem.position.dst(x, y) < closest.position.dst(x, y)) {
                 closest = keySystem;
             }
         }
         return closest;
+    }
+
+    public static Array<KeySystem> getBeingDestroyedKeySystems()
+    {
+        Array<KeySystem> keySystemsList = new Array<>();
+        for ( KeySystem keySystem:
+             keySystems) {
+            if(keySystem.isBeingDestroyed())
+            {
+                keySystemsList.add(keySystem);
+            }
+        }
+        return keySystemsList;
     }
 }

@@ -4,6 +4,7 @@
  <tile id="0">
   <properties>
    <property name="keysystemnode" value=""/>
+   <property name="name" value="Infirmary"/>
   </properties>
  </tile>
 </tileset>

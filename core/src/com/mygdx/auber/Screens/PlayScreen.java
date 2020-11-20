@@ -21,20 +21,21 @@ import com.mygdx.auber.ScrollingBackground;
 import com.mygdx.auber.entities.*;
 
 public class PlayScreen implements Screen {
-    private Auber game;
+    private final Auber game;
+    private final Viewport viewport;
+    private final Hud hud;
+    private final TmxMapLoader mapLoader;
+    private final TiledMap map;
+    private final OrthogonalTiledMapRenderer renderer;
+    private final GraphCreator graphCreator;
+    private final ScrollingBackground scrollingBackground;
+    private final KeySystemManager keySystemManager;
     public static OrthographicCamera camera;
-    private Viewport viewport;
-    private Hud hud;
-    private TmxMapLoader mapLoader;
-    private TiledMap map;
-    private OrthogonalTiledMapRenderer renderer;
-    private GraphCreator graphCreator;
     public Player player;
-    private ScrollingBackground scrollingBackground;
 
-    private int numberOfInfiltrators = 10;
-    private int numberOfCrew = 10;
-    
+    private final int numberOfInfiltrators = 50;
+    private final int numberOfCrew = 1;
+
     public PlayScreen(Auber game){
         this.game = game;
 
@@ -50,6 +51,7 @@ public class PlayScreen implements Screen {
         CrewMembers.createCrewSprites(); //Generates the infiltrator and crewmember sprites
 
         graphCreator = new GraphCreator((TiledMapTileLayer)map.getLayers().get(0)); //Generates all the nodes and paths for the given map layer
+        keySystemManager = new KeySystemManager((TiledMapTileLayer)map.getLayers().get(0));
 
         for (int i = 0; i < numberOfInfiltrators; i++) {
             System.out.println("Infiltrator created!");
@@ -93,7 +95,7 @@ public class PlayScreen implements Screen {
      * @return Boolean if the game is over or not
      */
     public boolean gameOver() {
-        return Player.health <= 0 || hud.CrewmateCount >= 3 || KeySystemManager.destroyedKeySystemsCount() >= 15;
+        return Player.health <= 0 || Hud.CrewmateCount >= 3 || KeySystemManager.destroyedKeySystemsCount() >= 15 ;
     }
 
     /**
@@ -111,11 +113,13 @@ public class PlayScreen implements Screen {
      */
     public void update(float time){
         NPC.updateNPC(time);
-        player.update();
+        player.update(time);
         hud.update();
         camera.update(); //Updating everything that needs to be updated
 
         renderer.setView(camera); //Needed for some reason
+
+        System.out.println(KeySystemManager.destroyedKeySystemsCount());
 
         if(gameOver()){
             game.setScreen(new GameOverScreen(game));

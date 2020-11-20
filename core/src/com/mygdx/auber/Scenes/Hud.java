@@ -8,19 +8,26 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.auber.Auber;
 import com.mygdx.auber.entities.CrewMembers;
+import com.mygdx.auber.entities.KeySystem;
+import com.mygdx.auber.entities.KeySystemManager;
 import com.mygdx.auber.entities.Player;
 
 
 public class Hud {
     public Stage stage;//2D scene graph, handles viewport and distributes input events.
     private Viewport viewport;
+    private Table hudTable;
 
     public static Integer ImposterCount;
     public static Integer CrewmateCount;
+
+    Array<KeySystem> keySystems = new Array<>();
+    Array<Label> keySystemAlertLabels = new Array<>();
 
     Label imposterCountLabel;
     Label crewmateCountLabel;
@@ -33,7 +40,7 @@ public class Hud {
         viewport = new FitViewport(Auber.VirtualWidth, Auber.VirtualHeight, new OrthographicCamera());
         stage = new Stage(viewport, spritebatch);
 
-        Table hudTable = new Table();
+        hudTable = new Table();
         hudTable.top();
         hudTable.setFillParent(true);
 
@@ -50,12 +57,18 @@ public class Hud {
         stage.addActor(hudTable);
     }
 
-    public void update()
-    {
+    public void update() {
         imposterCountLabel.setText(String.format("Imposter Arrests: %02d", ImposterCount));
         crewmateCountLabel.setText(String.format("Crewmate Arrests: %02d", CrewmateCount));
         playerHealthLabel.setText(String.format("Health: %02d", Player.health));
-    }
 
+        for (KeySystem keySystem :
+                KeySystemManager.getBeingDestroyedKeySystems()) {
+            if (!keySystems.contains(keySystem, false)) {
+                keySystems.add(keySystem);
+                keySystemAlertLabels.add(new Label(String.format("Alert! Key System being destroyed: %s", keySystem.name), new Label.LabelStyle(new BitmapFont(), Color.RED)));
+            }
+        }
+    }
 
 }

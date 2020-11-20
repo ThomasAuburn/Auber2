@@ -13,10 +13,11 @@ import com.mygdx.auber.Screens.PlayScreen;
 
 
 public class Player extends Sprite implements InputProcessor {
-    /**The movement velocity */
     public Vector2 velocity = new Vector2(0,0);
 
     private final Collision collision;
+    private final TiledMapTileLayer collisionLayer;
+    public static float x,y;
 
     public static int health = 100;
     float SPEED = 1;
@@ -28,10 +29,6 @@ public class Player extends Sprite implements InputProcessor {
     private boolean isAHeld;
     private boolean isSHeld;
     private boolean isDHeld;
-
-    private final TiledMapTileLayer collisionLayer;
-
-    public static float x,y;
 
     public Player(Sprite sprite, TiledMapTileLayer collisionLayer) {
         super(sprite);
@@ -51,9 +48,14 @@ public class Player extends Sprite implements InputProcessor {
     /**
      * Used to update the player, move in direction, change scale, and check for collision
      */
-    public void update() {
+    public void update(float delta) {
         velocity.x = 0; velocity.y = 0;
         Player.x = getX(); Player.y = getY(); //Set the velocity to 0 and set the current x/y to x and y
+
+        if(!canHeal)
+        {
+            healStopTime += delta;
+        } //If cant heal, add time to healStopTime
 
         if(isWHeld) {
             velocity.y += SPEED;
