@@ -119,6 +119,8 @@ public class NPC extends Sprite {
         }
 //        else
 //        {
+//            this.velocity.x = 0;
+//            this.velocity.y = 0;
 //            this.reachDestination();
 //        }
     }
@@ -133,7 +135,8 @@ public class NPC extends Sprite {
 
         if(pathQueue.isEmpty())
         {
-            this.setGoal(MapGraph.getRandomNode());
+            this.reachDestination();
+            //this.setGoal(MapGraph.getRandomNode());
         }
 
         Node nextNode = this.pathQueue.first();

@@ -48,18 +48,21 @@ public class Infiltrator extends NPC{
 
         if(isDestroying)
         {
-            if(Vector2.dst(Player.x, Player.y, this.getX(), this.getY()) < 50)
+            KeySystem keySystem = KeySystemManager.getClosestKeySystem(this.getX(), this.getY());
+
+            if(keySystem.isDestroyed())
             {
-                KeySystem keySystem = KeySystemManager.getClosestKeySystem(this.getX(), this.getY(), 200);
-                //keySystem.stopDestroy();
+                this.isDestroying = false;
+                this.pathQueue.clear();
+                this.setGoal(MapGraph.getRandomNode());
+            }
+
+            if(Vector2.dst(Player.x, Player.y, this.getX(), this.getY()) < 75)
+            {
+                keySystem.stopDestroy();
                 this.useAbility();
                 this.isDestroying = false;
             }
-            else
-            {
-                this.destroyingTime += delta;
-            }
-            return;
         } //If isDestroying, if the distance to the player is less than 50, use ability and stop destroying, else keep adding time
 
         if(isInvisible)
@@ -95,23 +98,25 @@ public class Infiltrator extends NPC{
         this.velocity.y = 0;
         timeToWait = Math.random() * 15;
 
-        if(Math.random() > .95f && !this.isDestroying && !this.isInvisible) // 1/10 chance of infiltrator deciding to destroy a keysystem
+        if(Math.random() > .95f && !this.isDestroying && !this.isInvisible && KeySystemManager.safeKeySystemsCount() != 0) // 1/10 chance of infiltrator deciding to destroy a keysystem
         {
-            this.destroyKeySystem(50);
+            this.destroyKeySystem();
             return;
         } //If not invisible or currently destroying a key system, random chance to go destroying a key system
 
         if(pathQueue.size == 0 && GraphCreator.keySystemsNodes.contains(this.previousNode, false))
         {
             this.isDestroying = true;
-            KeySystem keySystem = KeySystemManager.getClosestKeySystem(this.getX(), this.getY(), 100);
+            KeySystem keySystem = KeySystemManager.getClosestKeySystem(this.getX(), this.getY());
             if(keySystem == null)
             {
                 setGoal(MapGraph.getRandomNode());
                 return;
             }
-            keySystem.startDestroy();
-            return;
+            if(keySystem.isSafe())
+            {
+                keySystem.startDestroy();
+            }
         } //If no queue, and the last node in queue was a key systems node, start destroying
 
         Node newGoal;
@@ -131,7 +136,7 @@ public class Infiltrator extends NPC{
     {
         if(this.pathQueue.size > 0){
             Node targetNode = this.pathQueue.first();
-            if(Vector2.dst(this.getX(),this.getY(),targetNode.x,targetNode.y) <= 10)
+            if(Vector2.dst(this.getX(),this.getY(),targetNode.x,targetNode.y) <= 15)
             {
                 reachNextNode(); //If the sprite is within 5 pixels of the node, it has reached the node
             }
@@ -141,22 +146,15 @@ public class Infiltrator extends NPC{
     /**
      * Starts destroying a random keySystem, moves towards it, sets isDestroying to true
      */
-    public void destroyKeySystem(int range)
+    public void destroyKeySystem()
     {
         this.pathQueue.clear();
         Node keySystemNode = GraphCreator.keySystemsNodes.random();
-        KeySystem keySystem = KeySystemManager.getClosestKeySystem(keySystemNode.x, keySystemNode.y, range);
+        KeySystem keySystem = KeySystemManager.getClosestKeySystem(keySystemNode.x, keySystemNode.y);
 
-        if(keySystem == null)
-        {
-            if(KeySystemManager.safeKeySystemsCount() != 0)
-            {
-                destroyKeySystem(range + 10);
-            }
-        }
         if((keySystem.isDestroyed() || keySystem.isBeingDestroyed()) && KeySystemManager.safeKeySystemsCount() != 0)
         {
-            destroyKeySystem(range);
+            destroyKeySystem();
         }
         else
         {

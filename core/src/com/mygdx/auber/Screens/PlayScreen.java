@@ -119,6 +119,8 @@ public class PlayScreen implements Screen {
 
         renderer.setView(camera); //Needed for some reason
 
+        System.out.println(KeySystemManager.destroyedKeySystemsCount());
+
         if(gameOver()){
             game.setScreen(new GameOverScreen(game));
             dispose();
