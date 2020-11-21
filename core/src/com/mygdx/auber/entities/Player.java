@@ -18,6 +18,7 @@ public class Player extends Sprite implements InputProcessor {
     private final Collision collision;
     public final TiledMapTileLayer collisionLayer;
     public static float x,y;
+    public boolean demo;
 
     public static int health = 100;
     float SPEED = 1;
@@ -30,10 +31,11 @@ public class Player extends Sprite implements InputProcessor {
     private boolean isSHeld;
     private boolean isDHeld;
 
-    public Player(Sprite sprite, TiledMapTileLayer collisionLayer) {
+    public Player(Sprite sprite, TiledMapTileLayer collisionLayer, boolean demo) {
         super(sprite);
         this.collisionLayer = collisionLayer;
         this.collision = new Collision();
+        this.demo = demo;
     }
 
     /**
@@ -85,6 +87,9 @@ public class Player extends Sprite implements InputProcessor {
      */
     @Override
     public boolean keyDown(int keycode) {
+        if (demo) {
+            return false;
+        }
         switch (keycode) {
             case Input.Keys.W:
                 isWHeld = true;
@@ -109,6 +114,9 @@ public class Player extends Sprite implements InputProcessor {
      */
     @Override
     public boolean keyUp(int keycode) {
+        if (demo) {
+            return false;
+        }
         switch (keycode) {
             case Input.Keys.W:
                 isWHeld = false;
@@ -141,6 +149,9 @@ public class Player extends Sprite implements InputProcessor {
      */
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+        if (demo) {
+            return false;
+        }
         Vector3 vec=new Vector3(screenX,screenY,0);
         PlayScreen.camera.unproject(vec);
         Vector2 point = new Vector2(vec.x,vec.y); //Gets the x,y coordinate of mouse press and converts it to world coordinates

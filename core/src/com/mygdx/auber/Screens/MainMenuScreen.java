@@ -64,7 +64,7 @@ public class MainMenuScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 System.out.println("Clicked");
-                game.setScreen(new PlayScreen(game));
+                game.setScreen(new PlayScreen(game, false));
             }
 
             @Override
@@ -100,7 +100,7 @@ public class MainMenuScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 System.out.println("Clicked");
-                game.setScreen(new PlayScreen(game));
+                game.setScreen(new PlayScreen(game, true));
             }
 
 
