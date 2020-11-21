@@ -120,12 +120,12 @@ public class PlayScreen implements Screen {
         renderer.setView(camera); //Needed for some reason
 
         if(gameOver()){
-            game.setScreen(new GameOverScreen(game));
+            game.setScreen(new GameOverScreen(game, false));
             dispose();
         } //If game over, show game over screen and dispose of all assets
         if(gameWin())
         {
-            game.setScreen(new GameOverScreen(game));
+            game.setScreen(new GameOverScreen(game, true));
             dispose();
         } //If game won, show game win screen and dispose of all assets
     }
