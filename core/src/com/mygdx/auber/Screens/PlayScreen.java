@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
@@ -30,10 +31,11 @@ public class PlayScreen implements Screen {
     private final GraphCreator graphCreator;
     private final ScrollingBackground scrollingBackground;
     private final KeySystemManager keySystemManager;
+    private ShapeRenderer shapeRenderer;
     public static OrthographicCamera camera;
     public Player player;
 
-    private final int numberOfInfiltrators = 1;
+    private final int numberOfInfiltrators = 50;
     private final int numberOfCrew = 1;
 
     public PlayScreen(Auber game){
@@ -42,6 +44,7 @@ public class PlayScreen implements Screen {
         camera = new OrthographicCamera();
         viewport = new ExtendViewport(Auber.VirtualWidth, Auber.VirtualHeight, camera);
         hud = new Hud(game.batch);
+        shapeRenderer = new ShapeRenderer();
         scrollingBackground = new ScrollingBackground(); //Creating a new camera, viewport, hud and scrolling background, setting the viewport to camera and virtual height/width
 
         mapLoader = new TmxMapLoader();
@@ -117,7 +120,7 @@ public class PlayScreen implements Screen {
         hud.update();
         camera.update(); //Updating everything that needs to be updated
 
-        debugText();
+        //debugText();
 
         renderer.setView(camera); //Needed for some reason
 
@@ -149,13 +152,14 @@ public class PlayScreen implements Screen {
 
         NPC.render(renderer.getBatch()); //Renders all NPCs
         player.draw(renderer.getBatch()); //Renders the player
+        player.drawArrow(renderer.getBatch()); //Renders arrows towards key systems
 
         update(delta); //Updates the game camera and NPCs
         hud.stage.draw(); //Draws the HUD on the game
 
         renderer.getBatch().end(); //Finishes the sprite batch
 
-        //graphCreator.shapeRenderer.setProjectionMatrix(camera.combined); //Ensures nodes are rendered properly
+        //shapeRenderer.setProjectionMatrix(camera.combined); //Ensures shapes are rendered properly
         //graphCreator.render(); //Debugging shows nodes and paths
     }
 
@@ -188,6 +192,7 @@ public class PlayScreen implements Screen {
         graphCreator.dispose();
         NPC.disposeNPC();
         KeySystemManager.dispose();
+        player.dispose();
     }
 
     /**
@@ -198,8 +203,10 @@ public class PlayScreen implements Screen {
         graphCreator.dispose();
         NPC.disposeNPC();
         KeySystemManager.dispose();
+        player.dispose();
         map.dispose();
         game.dispose();
+        shapeRenderer.dispose();
         renderer.dispose();
     }
 
