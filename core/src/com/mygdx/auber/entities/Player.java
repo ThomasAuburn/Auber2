@@ -2,10 +2,14 @@ package com.mygdx.auber.entities;
 
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.mygdx.auber.Scenes.Hud;
@@ -30,12 +34,16 @@ public class Player extends Sprite implements InputProcessor {
     private boolean isSHeld;
     private boolean isDHeld;
 
+    Sprite arrow;
+
     public Player(Sprite sprite, TiledMapTileLayer collisionLayer) {
         super(sprite);
         this.collisionLayer = collisionLayer;
         this.collision = new Collision();
+        this.arrow = new Sprite(new Texture("arrow.png"));
+        arrow.setOrigin(arrow.getWidth()/2, arrow.getHeight()/2);
 
-        this.health = 100;
+        health = 100;
     }
 
     /**
@@ -46,6 +54,28 @@ public class Player extends Sprite implements InputProcessor {
     {
         super.draw(batch);
     }
+
+    public void drawArrow(Batch batch)
+    {
+        for (KeySystem keySystem:
+             KeySystemManager.getBeingDestroyedKeySystems()) {
+
+            Vector2 position = new Vector2(this.getX(), this.getY());
+            double angle = Math.atan((keySystem.position.x - position.x) / (keySystem.position.y - position.y));;
+
+            angle = Math.toDegrees(angle);
+
+            if(this.getY() > keySystem.position.y)
+            {
+                angle = angle - 180;
+            }
+
+            arrow.setRotation((float) -angle);
+            arrow.setPosition(this.getX(), this.getY());
+            arrow.draw(batch);
+        }
+    }
+
 
     /**
      * Used to update the player, move in direction, change scale, and check for collision
@@ -234,5 +264,9 @@ public class Player extends Sprite implements InputProcessor {
      */
     public static void takeDamage(int amount) {
         health -= amount;
+    }
+
+    public void dispose()
+    {
     }
 }
