@@ -29,8 +29,6 @@ public class GraphCreator extends ApplicationAdapter {
 
         generateNodeMap();
         generateConnections();
-
-        System.out.println(MapGraph.nodes);
     }
 
     /**

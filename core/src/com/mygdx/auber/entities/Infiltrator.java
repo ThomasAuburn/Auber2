@@ -31,7 +31,7 @@ public class Infiltrator extends NPC{
         this.index = index;
     }
 
-    public static void dispose()
+    public void dispose()
     {
         easySprites.clear();
         hardSprites.clear();

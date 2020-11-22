@@ -6,7 +6,6 @@ import com.badlogic.gdx.utils.Array;
 
 public class KeySystemManager {
     public static Array<KeySystem> keySystems = new Array<>();
-
     private final TiledMapTileLayer keySystemLayer;
 
     public KeySystemManager(TiledMapTileLayer tileLayer) {

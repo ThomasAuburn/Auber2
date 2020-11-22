@@ -33,8 +33,8 @@ public class PlayScreen implements Screen {
     public static OrthographicCamera camera;
     public Player player;
 
-    private final int numberOfInfiltrators = 8;
-    private final int numberOfCrew = 10;
+    private final int numberOfInfiltrators = 1;
+    private final int numberOfCrew = 1;
 
     public PlayScreen(Auber game){
         this.game = game;
@@ -116,7 +116,7 @@ public class PlayScreen implements Screen {
         hud.update();
         camera.update(); //Updating everything that needs to be updated
 
-        //debugText();
+        debugText();
 
         renderer.setView(camera); //Needed for some reason
 
@@ -184,7 +184,9 @@ public class PlayScreen implements Screen {
 
     @Override
     public void hide() {
-
+        graphCreator.dispose();
+        NPC.disposeNPC();
+        KeySystemManager.dispose();
     }
 
     /**
@@ -193,7 +195,7 @@ public class PlayScreen implements Screen {
     @Override
     public void dispose() {
         graphCreator.dispose();
-        NPC.dispose();
+        NPC.disposeNPC();
         KeySystemManager.dispose();
         map.dispose();
         game.dispose();

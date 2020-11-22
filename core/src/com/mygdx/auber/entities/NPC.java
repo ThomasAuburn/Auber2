@@ -180,7 +180,7 @@ public class NPC extends Sprite {
     /**
      * Dispose method to be called in dispose method of screen
      */
-    public static void dispose()
+    public static void disposeNPC()
     {
         for (Infiltrator infiltrator: NPCCreator.infiltrators)
         {
