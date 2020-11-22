@@ -29,6 +29,8 @@ public class GraphCreator extends ApplicationAdapter {
 
         generateNodeMap();
         generateConnections();
+
+        System.out.println(MapGraph.nodes);
     }
 
     /**
@@ -132,6 +134,9 @@ public class GraphCreator extends ApplicationAdapter {
         shapeRenderer.dispose();
         batch.dispose();
         font.dispose();
+        keySystemsNodes.clear();
+        nodePath.clear();
+        MapGraph.dispose();
     }
 }
 

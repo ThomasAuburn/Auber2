@@ -69,6 +69,13 @@ public class MapGraph implements IndexedGraph<Node> {
         paths.add(path);
     }
 
+    public static void dispose() {
+        nodes.clear();
+        paths.clear();
+        pathsMap.clear();
+        lastNodeIndex = 0;
+    }
+
     /**
      * Calculates a path from one node to another, populates the nodePath variable with the path it finds
      * @param startNode Node to start the search from

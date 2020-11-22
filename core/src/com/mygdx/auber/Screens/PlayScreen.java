@@ -67,7 +67,6 @@ public class PlayScreen implements Screen {
 
         } //Creates numberOfInfiltrators infiltrators, gives them a random hard or easy sprite
 
-
         for(int i = 0; i < numberOfCrew; i++)
         {
             System.out.println("Crewmember created!");
@@ -117,18 +116,16 @@ public class PlayScreen implements Screen {
         hud.update();
         camera.update(); //Updating everything that needs to be updated
 
-        debugText();
+        //debugText();
 
         renderer.setView(camera); //Needed for some reason
 
         if(gameOver()){
             game.setScreen(new GameOverScreen(game, false));
-            dispose();
         } //If game over, show game over screen and dispose of all assets
         if(gameWin())
         {
             game.setScreen(new GameOverScreen(game, true));
-            dispose();
         } //If game won, show game win screen and dispose of all assets
     }
 
@@ -195,12 +192,12 @@ public class PlayScreen implements Screen {
      */
     @Override
     public void dispose() {
-        game.dispose();
-        map.dispose();
-        renderer.dispose();
         graphCreator.dispose();
         NPC.dispose();
         KeySystemManager.dispose();
+        map.dispose();
+        game.dispose();
+        renderer.dispose();
     }
 
     public void debugText()

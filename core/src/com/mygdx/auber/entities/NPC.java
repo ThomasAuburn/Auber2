@@ -132,6 +132,7 @@ public class NPC extends Sprite {
         {
             this.reachDestination();
             //this.setGoal(MapGraph.getRandomNode());
+            return;
         }
 
         Node nextNode = this.pathQueue.first();
