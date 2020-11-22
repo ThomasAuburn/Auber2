@@ -117,6 +117,7 @@ public class Infiltrator extends NPC{
                 this.isDestroying = true;
                 keySystem.startDestroy();
                 timeToWait += 20;
+                return;
             }
         } //If no queue, and the last node in queue was a key systems node, start destroying
 

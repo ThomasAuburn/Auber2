@@ -5,7 +5,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.auber.Screens.MainMenuScreen;
-Cimport java.util.HashMap;
 
 public class Auber extends Game {
 	public static final int VirtualWidth = 800;
