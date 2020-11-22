@@ -46,7 +46,7 @@ public class PlayScreen implements Screen {
 
         mapLoader = new TmxMapLoader();
 
-        map = mapLoader.load("testmap2.tmx"); //Creates a new map loader and loads the map into map
+        map = mapLoader.load("AuberMap4.0.tmx"); //Creates a new map loader and loads the map into map
 
         Infiltrator.createInfiltratorSprites();
         CrewMembers.createCrewSprites(); //Generates the infiltrator and crewmember sprites
