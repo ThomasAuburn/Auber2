@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
@@ -34,7 +35,6 @@ public class MainMenuScreen implements Screen {
     Image titleCard;
     private Auber game;
     private ScrollingBackground scrollingBackground;
-    private Screen PlayScreen;
 
     public MainMenuScreen(final Auber game){
         this.game = game;
@@ -55,9 +55,9 @@ public class MainMenuScreen implements Screen {
         textButtonStyle.checked = skin.getDrawable("checked-button");
         playButton = new TextButton("PLAY", textButtonStyle);
         demoButton = new TextButton("DEMO", textButtonStyle);
-        exitButton = new TextButton("QUIT", textButtonStyle);
+        exitButton = new TextButton("EXIT", textButtonStyle);
         titleCard = new Image(title);
-        playButton.setSize(200, 200);
+        playButton.setSize(200, 190);
 
         playButton.addListener(new ClickListener(){
             @Override
@@ -65,11 +65,54 @@ public class MainMenuScreen implements Screen {
                 System.out.println("Clicked");
                 game.setScreen(new PlayScreen(game));
             }
+
+            @Override
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                System.out.println("Hovered");
+                playButton.setChecked(true);
+            }
+
+            @Override
+            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
+                System.out.println("Exited");
+                playButton.setChecked(false);
+            }
         });
         exitButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 Gdx.app.exit();
+            }
+            @Override
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                System.out.println("Hovered");
+                exitButton.setChecked(true);
+            }
+
+            @Override
+            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
+                System.out.println("Exited");
+                exitButton.setChecked(false);
+            }
+        });
+        demoButton.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                System.out.println("Clicked");
+                game.setScreen(new PlayScreen(game));
+            }
+
+
+            @Override
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                System.out.println("Hovered");
+                demoButton.setChecked(true);
+            }
+
+            @Override
+            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
+                System.out.println("Exited");
+                demoButton.setChecked(false);
             }
         });
 
@@ -98,6 +141,7 @@ public class MainMenuScreen implements Screen {
     public void render(float delta) {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         stage.draw();
+        stage.act();
     }
 
     @Override
