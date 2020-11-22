@@ -108,23 +108,16 @@ public class NPC extends Sprite {
     /**
      * Called when NPC has reached a node, sets the next node to be moved to, or if the path queue is empty, destination is reached
      */
-    public void reachNextNode()
-    {
+    public void reachNextNode() {
         this.velocity.x = 0;
         this.velocity.y = 0;
 
         this.previousNode = this.pathQueue.first();
         this.pathQueue.removeFirst();
 
-        if(this.pathQueue.size != 0) {
+        if (this.pathQueue.size != 0) {
             this.setSpeedToNextNode(); //If there are items in the queue, set the velocity towards the next node
         }
-//        else
-//        {
-//            this.velocity.x = 0;
-//            this.velocity.y = 0;
-//            this.reachDestination();
-//        }
     }
 
     /**
