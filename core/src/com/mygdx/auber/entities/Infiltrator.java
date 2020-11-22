@@ -13,13 +13,10 @@ import com.mygdx.auber.Screens.PlayScreen;
 
 public class Infiltrator extends NPC{
     public boolean isDestroying = false;
-    public float destroyingTime;
     public double timeToWait = Math.random() * 15;
 
     private float timeInvisible;
     private boolean isInvisible = false;
-
-    private boolean isMoving = true;
 
     public static Array<Sprite> easySprites = new Array<>();
     public static Array<Sprite> hardSprites = new Array<>();
@@ -39,7 +36,6 @@ public class Infiltrator extends NPC{
         return;
     }
 
-    //TODO: Fix infiltrators stopping destroying key systems
     /**
      * Step needs to be called in the update method, makes the NPC move and check if it has reached its next node
      */
@@ -48,7 +44,7 @@ public class Infiltrator extends NPC{
 
         if(isDestroying)
         {
-            KeySystem keySystem = KeySystemManager.getClosestKeySystem(this.getX(), this.getY());
+            KeySystem keySystem = KeySystemManager.getClosestKeySystem(previousNode.x, previousNode.y);
 
             if(keySystem.isDestroyed())
             {
@@ -57,7 +53,7 @@ public class Infiltrator extends NPC{
                 this.setGoal(MapGraph.getRandomNode());
             }
 
-            if(Vector2.dst(Player.x, Player.y, this.getX(), this.getY()) < 75)
+            if(Vector2.dst(Player.x, Player.y, this.getX(), this.getY()) < 50)
             {
                 keySystem.stopDestroy();
                 this.useAbility();
@@ -106,17 +102,19 @@ public class Infiltrator extends NPC{
             return;
         } //If not invisible or currently destroying a key system, random chance to go destroying a key system
 
-        if(pathQueue.size == 0 && GraphCreator.keySystemsNodes.contains(this.previousNode, false))
+        if(pathQueue.size == 0 && GraphCreator.keySystemsNodes.contains(this.previousNode, true))
         {
-            this.isDestroying = true;
-            KeySystem keySystem = KeySystemManager.getClosestKeySystem(this.getX(), this.getY());
+
+            KeySystem keySystem = KeySystemManager.getClosestKeySystem(previousNode.x, previousNode.y);
             if(keySystem == null)
             {
+                this.isDestroying = false;
                 setGoal(MapGraph.getRandomNode());
                 return;
             }
             if(keySystem.isSafe())
             {
+                this.isDestroying = true;
                 keySystem.startDestroy();
                 timeToWait += 20;
             }
@@ -172,6 +170,10 @@ public class Infiltrator extends NPC{
     {
         double chance = Math.random() * 3;
 
+        if(!this.isDestroying)
+        {
+            return;
+        }
         if(chance < 1)
         {
             this.goInvisible();
