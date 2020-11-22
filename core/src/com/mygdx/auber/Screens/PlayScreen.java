@@ -117,8 +117,7 @@ public class PlayScreen implements Screen {
         hud.update();
         camera.update(); //Updating everything that needs to be updated
 
-        System.out.format("BeingDestroyed: %d\n", KeySystemManager.beingDestroyedKeySystemsCount());
-        System.out.format("Safe: %d\n", KeySystemManager.safeKeySystemsCount());
+        debugText();
 
         renderer.setView(camera); //Needed for some reason
 
@@ -201,5 +200,14 @@ public class PlayScreen implements Screen {
         renderer.dispose();
         graphCreator.dispose();
         NPC.dispose();
+    }
+
+    public void debugText()
+    {
+        System.out.println("KeySystems:");
+        System.out.format(" Safe: %d\n", KeySystemManager.safeKeySystemsCount());
+        System.out.format(" BeingDestroyed: %d\n", KeySystemManager.beingDestroyedKeySystemsCount());
+        System.out.format(" Destroyed: %d\n", KeySystemManager.destroyedKeySystemsCount());
+        System.out.println();
     }
 }
