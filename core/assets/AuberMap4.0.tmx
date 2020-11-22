@@ -144,7 +144,7 @@
   </tile>
  </tileset>
  <tileset firstgid="33" name="Edges" tilewidth="32" tileheight="32" tilecount="16" columns="4">
-  <image source="../edgeTiles.png" width="128" height="128"/>
+  <image source="edgeTiles.png" width="128" height="128"/>
   <tile id="0">
    <properties>
     <property name="blocked" value=""/>
@@ -290,7 +290,7 @@
   </tile>
  </tileset>
  <tileset firstgid="65" name="Key Systems Merged 1" tilewidth="32" tileheight="32" tilecount="40" columns="2">
-  <image source="../Key Systems Merged 1.png" width="64" height="640"/>
+  <image source="Key Systems Merged 1.png" width="64" height="640"/>
   <tile id="0">
    <properties>
     <property name="blocked" value=""/>
@@ -493,7 +493,7 @@
   </tile>
  </tileset>
  <tileset firstgid="105" name="Key Systems Merged 2" tilewidth="32" tileheight="32" tilecount="24" columns="2">
-  <image source="../Key Systems Merged 2.png" width="64" height="384"/>
+  <image source="Key Systems Merged 2.png" width="64" height="384"/>
   <tile id="0">
    <properties>
     <property name="blocked" value=""/>
@@ -616,16 +616,16 @@
   </tile>
  </tileset>
  <tileset firstgid="129" name="Signs" tilewidth="32" tileheight="32" tilecount="5" columns="1">
-  <image source="../Merged Signs.png" width="32" height="160"/>
+  <image source="Merged Signs.png" width="32" height="160"/>
  </tileset>
  <tileset firstgid="134" name="Outside Wall" tilewidth="32" tileheight="32" tilecount="16" columns="4">
   <properties>
    <property name="blocked" value=""/>
   </properties>
-  <image source="../outside wall.png" width="128" height="128"/>
+  <image source="outside wall.png" width="128" height="128"/>
  </tileset>
  <tileset firstgid="150" name="Key System Wall" tilewidth="32" tileheight="32" tilecount="1" columns="1">
-  <image source="../key system tile.png" width="32" height="32"/>
+  <image source="key system tile.png" width="32" height="32"/>
   <tile id="0">
    <properties>
     <property name="blocked" value=""/>
