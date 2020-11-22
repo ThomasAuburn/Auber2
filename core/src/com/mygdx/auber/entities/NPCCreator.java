@@ -8,11 +8,17 @@ import com.mygdx.auber.Pathfinding.Node;
 
 public class NPCCreator {
     public static Array<Infiltrator> infiltrators = new Array<>();
-    public static Array<CrewMembers> crew = new Array<>();
+    public static Array<CrewMembers> crew = new Array<>(); //Arrays which hold each instance of Crewmembers and infiltrators
 
     private static int lastInfiltratorIndex = 0;
-    private static int lastCrewIndex = 0;
+    private static int lastCrewIndex = 0; //Last index given to an infiltrator and crewmember
 
+    /**
+     * Creates infiltrators, adds them to the array, sets its index and increments the index counter
+     * @param sprite Sprite to give infiltrator
+     * @param start Start node for infiltrator
+     * @param graph MapGraph for the infiltrator to reference
+     */
     public static void createInfiltrator(Sprite sprite, Node start, MapGraph graph)
     {
         Infiltrator infiltrator = new Infiltrator(sprite, start, graph);
@@ -21,6 +27,12 @@ public class NPCCreator {
         lastInfiltratorIndex++;
     }
 
+    /**
+     * Creates crewmembers, adds them to the array, sets its index and increments the index counter
+     * @param sprite
+     * @param start
+     * @param graph
+     */
     public static void createCrew(Sprite sprite, Node start, MapGraph graph)
     {
         CrewMembers crewMember = new CrewMembers(sprite, start, graph);
@@ -29,6 +41,10 @@ public class NPCCreator {
         lastCrewIndex++;
     }
 
+    /**
+     * Removes infiltrator for given id
+     * @param id id to remove
+     */
     public static void removeInfiltrator(int id)
     {
         infiltrators.removeIndex(id);
@@ -39,6 +55,10 @@ public class NPCCreator {
         }
     }
 
+    /**
+     * Removes crewmember for given id
+     * @param id id to remove
+     */
     public static void removeCrewmember(int id)
     {
         crew.removeIndex(id);

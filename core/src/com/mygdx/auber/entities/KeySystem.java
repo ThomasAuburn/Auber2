@@ -1,15 +1,22 @@
 package com.mygdx.auber.entities;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.maps.tiled.TiledMapTile;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import com.badlogic.gdx.math.Vector2;
+
+import java.util.Vector;
 
 public class KeySystem {
-    String name;
-    final Sprite sprite;
+    public String name;
+    final TiledMapTileLayer.Cell cell;
     private Long destructionStartTime;
+    public Vector2 position;
 
-    KeySystem(Sprite sprite, String name) {
-        this.sprite = sprite;
+    KeySystem(TiledMapTileLayer.Cell cell, String name, Vector2 position) {
+        this.cell = cell;
         this.name = name;
+        this.position = position;
     }
 
     void startDestroy() {
@@ -17,7 +24,10 @@ public class KeySystem {
     }
 
     void stopDestroy() {
-        destructionStartTime = null;
+        if(!isDestroyed())
+        {
+            destructionStartTime = null;
+        }
     }
 
     /**
@@ -30,7 +40,7 @@ public class KeySystem {
             return null;
         }
         long timeElapsed = System.currentTimeMillis() - destructionStartTime;
-        if (timeElapsed <= 60*1000) {
+        if (timeElapsed <= 60*100) {
             // System is being destroyed. Less than 60 seconds remaining.
             return timeElapsed;
         }
