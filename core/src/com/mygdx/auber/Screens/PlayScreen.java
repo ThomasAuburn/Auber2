@@ -200,6 +200,7 @@ public class PlayScreen implements Screen {
         renderer.dispose();
         graphCreator.dispose();
         NPC.dispose();
+        KeySystemManager.dispose();
     }
 
     public void debugText()

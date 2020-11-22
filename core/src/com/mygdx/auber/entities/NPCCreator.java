@@ -68,4 +68,12 @@ public class NPCCreator {
             crewMember.index -= 1;
         }
     }
+
+    public static void dispose()
+    {
+        lastInfiltratorIndex = 0;
+        lastCrewIndex = 0;
+        infiltrators.clear();
+        crew.clear();
+    }
 }

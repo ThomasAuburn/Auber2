@@ -33,7 +33,8 @@ public class Infiltrator extends NPC{
 
     public static void dispose()
     {
-        return;
+        easySprites.clear();
+        hardSprites.clear();
     }
 
     /**

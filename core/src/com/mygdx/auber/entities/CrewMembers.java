@@ -71,6 +71,6 @@ public class CrewMembers extends NPC {
     }
 
     public static void dispose() {
-        return;
+        crewSprites.clear();
     }
 }

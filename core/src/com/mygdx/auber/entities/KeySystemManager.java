@@ -94,4 +94,9 @@ public class KeySystemManager {
         }
         return keySystemsList;
     }
+
+    public static void dispose()
+    {
+        keySystems.clear();
+    }
 }

@@ -190,6 +190,8 @@ public class NPC extends Sprite {
         {
             crewMember.dispose();
         }
+
+        NPCCreator.dispose();
     }
 
     /**
