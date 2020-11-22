@@ -19,7 +19,7 @@ public class Player extends Sprite implements InputProcessor {
     public final TiledMapTileLayer collisionLayer;
     public static float x,y;
 
-    public static int health = 100;
+    public static int health;
     float SPEED = 1;
 
     public static boolean canHeal = true;
@@ -34,6 +34,8 @@ public class Player extends Sprite implements InputProcessor {
         super(sprite);
         this.collisionLayer = collisionLayer;
         this.collision = new Collision();
+
+        this.health = 100;
     }
 
     /**
