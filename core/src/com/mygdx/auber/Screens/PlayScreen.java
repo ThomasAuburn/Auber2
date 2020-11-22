@@ -33,8 +33,8 @@ public class PlayScreen implements Screen {
     public static OrthographicCamera camera;
     public Player player;
 
-    private final int numberOfInfiltrators = 8;
-    private final int numberOfCrew = 10;
+    private final int numberOfInfiltrators = 1;
+    private final int numberOfCrew = 1;
 
     public PlayScreen(Auber game){
         this.game = game;
@@ -67,7 +67,6 @@ public class PlayScreen implements Screen {
             }
 
         } //Creates numberOfInfiltrators infiltrators, gives them a random hard or easy sprite
-
 
         for(int i = 0; i < numberOfCrew; i++)
         {
@@ -124,12 +123,10 @@ public class PlayScreen implements Screen {
 
         if(gameOver()){
             game.setScreen(new GameOverScreen(game, false));
-            dispose();
         } //If game over, show game over screen and dispose of all assets
         if(gameWin())
         {
             game.setScreen(new GameOverScreen(game, true));
-            dispose();
         } //If game won, show game win screen and dispose of all assets
     }
 
@@ -188,7 +185,9 @@ public class PlayScreen implements Screen {
 
     @Override
     public void hide() {
-
+        graphCreator.dispose();
+        NPC.disposeNPC();
+        KeySystemManager.dispose();
     }
 
     /**
@@ -196,11 +195,12 @@ public class PlayScreen implements Screen {
      */
     @Override
     public void dispose() {
-        game.dispose();
-        map.dispose();
-        renderer.dispose();
         graphCreator.dispose();
-        NPC.dispose();
+        NPC.disposeNPC();
+        KeySystemManager.dispose();
+        map.dispose();
+        game.dispose();
+        renderer.dispose();
     }
 
     public void debugText()

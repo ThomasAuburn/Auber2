@@ -132,6 +132,7 @@ public class NPC extends Sprite {
         {
             this.reachDestination();
             //this.setGoal(MapGraph.getRandomNode());
+            return;
         }
 
         Node nextNode = this.pathQueue.first();
@@ -179,7 +180,7 @@ public class NPC extends Sprite {
     /**
      * Dispose method to be called in dispose method of screen
      */
-    public static void dispose()
+    public static void disposeNPC()
     {
         for (Infiltrator infiltrator: NPCCreator.infiltrators)
         {
@@ -190,6 +191,8 @@ public class NPC extends Sprite {
         {
             crewMember.dispose();
         }
+
+        NPCCreator.dispose();
     }
 
     /**

@@ -48,6 +48,10 @@ public class NPCCreator {
     public static void removeInfiltrator(int id)
     {
         infiltrators.removeIndex(id);
+        if(infiltrators.isEmpty())
+        {
+            return;
+        }
         for(int i = id; i < infiltrators.size; i++)
         {
             Infiltrator infiltrator = infiltrators.get(i);
@@ -62,10 +66,22 @@ public class NPCCreator {
     public static void removeCrewmember(int id)
     {
         crew.removeIndex(id);
+        if(crew.isEmpty())
+        {
+            return;
+        }
         for(int i = id; i < crew.size; i++)
         {
             CrewMembers crewMember = crew.get(i);
             crewMember.index -= 1;
         }
+    }
+
+    public static void dispose()
+    {
+        lastInfiltratorIndex = 0;
+        lastCrewIndex = 0;
+        infiltrators.clear();
+        crew.clear();
     }
 }

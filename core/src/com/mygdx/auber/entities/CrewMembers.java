@@ -70,7 +70,7 @@ public class CrewMembers extends NPC {
         this.index = index;
     }
 
-    public static void dispose() {
-        return;
+    public void dispose() {
+        crewSprites.clear();
     }
 }
