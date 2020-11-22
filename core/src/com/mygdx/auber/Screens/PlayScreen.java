@@ -33,8 +33,8 @@ public class PlayScreen implements Screen {
     public static OrthographicCamera camera;
     public Player player;
 
-    private final int numberOfInfiltrators = 50;
-    private final int numberOfCrew = 50;
+    private final int numberOfInfiltrators = 8;
+    private final int numberOfCrew = 10;
 
     public PlayScreen(Auber game, boolean demo){
         this.game = game;
@@ -117,6 +117,8 @@ public class PlayScreen implements Screen {
         hud.update();
         camera.update(); //Updating everything that needs to be updated
 
+        debugText();
+
         renderer.setView(camera); //Needed for some reason
 
         if(gameOver()){
@@ -198,5 +200,14 @@ public class PlayScreen implements Screen {
         renderer.dispose();
         graphCreator.dispose();
         NPC.dispose();
+    }
+
+    public void debugText()
+    {
+        System.out.println("KeySystems:");
+        System.out.format(" Safe: %d\n", KeySystemManager.safeKeySystemsCount());
+        System.out.format(" BeingDestroyed: %d\n", KeySystemManager.beingDestroyedKeySystemsCount());
+        System.out.format(" Destroyed: %d\n", KeySystemManager.destroyedKeySystemsCount());
+        System.out.println();
     }
 }

@@ -1,9 +1,7 @@
 package com.mygdx.auber;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.mygdx.auber.entities.Player;
 
 public class ScrollingBackground {
 

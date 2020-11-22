@@ -17,7 +17,6 @@ import com.mygdx.auber.entities.KeySystem;
 import com.mygdx.auber.entities.KeySystemManager;
 import com.mygdx.auber.entities.Player;
 
-
 public class Hud {
     public Stage stage;//2D scene graph, handles viewport and distributes input events.
     private Viewport viewport;
@@ -25,9 +24,6 @@ public class Hud {
 
     public static Integer ImposterCount;
     public static Integer CrewmateCount;
-
-    Array<KeySystem> keySystems = new Array<>();
-    Array<Label> keySystemAlertLabels = new Array<>();
 
     Label imposterCountLabel;
     Label crewmateCountLabel;
@@ -61,14 +57,6 @@ public class Hud {
         imposterCountLabel.setText(String.format("Imposter Arrests: %02d", ImposterCount));
         crewmateCountLabel.setText(String.format("Crewmate Arrests: %02d", CrewmateCount));
         playerHealthLabel.setText(String.format("Health: %02d", Player.health));
-
-        for (KeySystem keySystem :
-                KeySystemManager.getBeingDestroyedKeySystems()) {
-            if (!keySystems.contains(keySystem, false)) {
-                keySystems.add(keySystem);
-                keySystemAlertLabels.add(new Label(String.format("Alert! Key System being destroyed: %s", keySystem.name), new Label.LabelStyle(new BitmapFont(), Color.RED)));
-            }
-        }
     }
 
 }

@@ -20,7 +20,7 @@ public class Player extends Sprite implements InputProcessor {
     public static float x,y;
     public boolean demo;
 
-    public static int health = 100;
+    public static int health;
     float SPEED = 1;
 
     public static boolean canHeal = true;
@@ -36,6 +36,8 @@ public class Player extends Sprite implements InputProcessor {
         this.collisionLayer = collisionLayer;
         this.collision = new Collision();
         this.demo = demo;
+
+        this.health = 100;
     }
 
     /**
