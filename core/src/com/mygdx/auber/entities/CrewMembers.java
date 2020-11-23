@@ -63,14 +63,14 @@ public class CrewMembers extends NPC {
         CrewMembers.crewSprites.add(new Sprite(new Texture("AlienStand.png")));
         CrewMembers.crewSprites.add(new Sprite(new Texture("HumanStand.png")));
         CrewMembers.crewSprites.add(new Sprite(new Texture("Luffy.png")));
-        //CrewMembers.crewSprites.add(new Sprite(new Texture("AlienInfiltratorStand.png")));
+        CrewMembers.crewSprites.add(new Sprite(new Texture("Sagiri.png")));
     }
 
     public void setIndex(int index) {
         this.index = index;
     }
 
-    public static void dispose() {
-        return;
+    public void dispose() {
+        crewSprites.clear();
     }
 }

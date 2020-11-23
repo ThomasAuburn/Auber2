@@ -31,15 +31,17 @@ public class Infiltrator extends NPC{
         this.index = index;
     }
 
-    public static void dispose()
+    public void dispose()
     {
-        return;
+        easySprites.clear();
+        hardSprites.clear();
     }
 
     /**
      * Step needs to be called in the update method, makes the NPC move and check if it has reached its next node
      */
-    public void step(float delta, TiledMapTileLayer layer) {
+    public void step(float delta, TiledMapTileLayer layer)
+    {
         this.moveNPC(); //Moves the npc and sets their scale
 
         if(isDestroying)

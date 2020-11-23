@@ -1,11 +1,7 @@
 package com.mygdx.auber.entities;
 
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Vector2;
-
-import java.util.Vector;
 
 public class KeySystem {
     public String name;
@@ -30,6 +26,7 @@ public class KeySystem {
         }
     }
 
+    //TODO: Change system destruction time
     /**
      * Calculates time remaining for the system to be destroyed. Note: System is destroyed in 60 seconds.
      * @return Null if system isn't being/hasn't been destroyed. Time remaining in milliseconds.

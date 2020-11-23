@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -33,8 +34,8 @@ public class MainMenuScreen implements Screen {
     TextureAtlas buttonAtlas;
     Texture title;
     Image titleCard;
+    Texture background;
     private Auber game;
-    private ScrollingBackground scrollingBackground;
 
     public MainMenuScreen(final Auber game){
         this.game = game;
@@ -47,6 +48,7 @@ public class MainMenuScreen implements Screen {
         skin = new Skin();
         title = new Texture("TitleCard.png");
         buttonAtlas = new TextureAtlas("buttonAtlas.atlas");
+        background = new Texture("background.png");
         skin.addRegions(buttonAtlas);
         textButtonStyle = new TextButton.TextButtonStyle();
         textButtonStyle.font = font;
@@ -140,6 +142,9 @@ public class MainMenuScreen implements Screen {
     @Override
     public void render(float delta) {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        stage.getBatch().begin();
+        stage.getBatch().draw(background, -100f, 0f);
+        stage.getBatch().end();
         stage.draw();
         stage.act();
     }
