@@ -31,23 +31,26 @@ public class PlayScreen implements Screen {
     private final GraphCreator graphCreator;
     private final ScrollingBackground scrollingBackground;
     private final KeySystemManager keySystemManager;
+    private ShapeRenderer shapeRenderer;
     public static OrthographicCamera camera;
     public Player player;
 
-    private final int numberOfInfiltrators = 80;
-    private final int numberOfCrew = 100;
+    public static final int numberOfInfiltrators = 8;
+    public static final int numberOfCrew = 50;
+    public static final int maxIncorrectArrests = 3;
 
-    public PlayScreen(Auber game){
+    public PlayScreen(Auber game, boolean demo){
         this.game = game;
 
         camera = new OrthographicCamera();
         viewport = new ExtendViewport(Auber.VirtualWidth, Auber.VirtualHeight, camera);
         hud = new Hud(game.batch);
+        shapeRenderer = new ShapeRenderer();
         scrollingBackground = new ScrollingBackground(); //Creating a new camera, viewport, hud and scrolling background, setting the viewport to camera and virtual height/width
 
         mapLoader = new TmxMapLoader();
 
-        map = mapLoader.load("testmap2.tmx"); //Creates a new map loader and loads the map into map
+        map = mapLoader.load("AuberMap4.0.tmx"); //Creates a new map loader and loads the map into map
 
         Infiltrator.createInfiltratorSprites();
         CrewMembers.createCrewSprites(); //Generates the infiltrator and crewmember sprites
@@ -56,7 +59,7 @@ public class PlayScreen implements Screen {
         keySystemManager = new KeySystemManager((TiledMapTileLayer)map.getLayers().get(0));
 
         for (int i = 0; i < numberOfInfiltrators; i++) {
-            System.out.println("Infiltrator created!");
+            //System.out.println("Infiltrator created!");
             double random = Math.random();
             if(random >= 0.5f)
             {
@@ -71,11 +74,11 @@ public class PlayScreen implements Screen {
 
         for(int i = 0; i < numberOfCrew; i++)
         {
-            System.out.println("Crewmember created!");
+            //System.out.println("Crewmember created!");
             NPCCreator.createCrew(CrewMembers.crewSprites.random(), MapGraph.getRandomNode(), graphCreator.mapGraph);
         } //Creates numberOfCrew crewmembers, gives them a random sprite
 
-        player = new Player(new Sprite(new Texture("AuberStand.png")),(TiledMapTileLayer)map.getLayers().get(0));
+        player = new Player(new Sprite(new Texture("AuberStand.png")),(TiledMapTileLayer)map.getLayers().get(0), demo);
         player.setPosition(600, 1000); //Creates a player and sets him to the given position
 
         renderer = new OrthogonalTiledMapRenderer(map); //Creates a new renderer with the given map
@@ -152,14 +155,12 @@ public class PlayScreen implements Screen {
         player.draw(renderer.getBatch()); //Renders the player
         player.drawArrow(renderer.getBatch()); //Renders arrows towards key systems
 
-       //renderer.renderTileLayer((TiledMapTileLayer) map.getLayers().get(1));
-
         update(delta); //Updates the game camera and NPCs
         hud.stage.draw(); //Draws the HUD on the game
 
         renderer.getBatch().end(); //Finishes the sprite batch
 
-        //graphCreator.shapeRenderer.setProjectionMatrix(camera.combined); //Ensures shapes are rendered properly
+        //shapeRenderer.setProjectionMatrix(camera.combined); //Ensures shapes are rendered properly
         //graphCreator.render(); //Debugging shows nodes and paths
     }
 
@@ -206,6 +207,7 @@ public class PlayScreen implements Screen {
         player.dispose();
         map.dispose();
         game.dispose();
+        shapeRenderer.dispose();
         renderer.dispose();
     }
 
