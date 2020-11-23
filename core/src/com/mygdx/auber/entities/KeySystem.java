@@ -26,7 +26,6 @@ public class KeySystem {
         }
     }
 
-    //TODO: Change system destruction time
     /**
      * Calculates time remaining for the system to be destroyed. Note: System is destroyed in 60 seconds.
      * @return Null if system isn't being/hasn't been destroyed. Time remaining in milliseconds.

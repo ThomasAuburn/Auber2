@@ -114,7 +114,7 @@ public class PlayScreen implements Screen {
      * @param time Time between last frame and this frame
      */
     public void update(float time){
-        NPC.updateNPC(time, (TiledMapTileLayer) map.getLayers().get(0));
+        NPC.updateNPC(time);
         player.update(time);
         hud.update();
         camera.update(); //Updating everything that needs to be updated

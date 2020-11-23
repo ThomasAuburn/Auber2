@@ -52,13 +52,13 @@ public class NPC extends Sprite {
      * Updates every NPC, to be called in a screens update method
      * @param delta Float of time between last and current frame, used for movement
      */
-    public static void updateNPC(float delta, TiledMapTileLayer layer)
+    public static void updateNPC(float delta)
     {
         if(NPCCreator.crew.notEmpty())
         {
             for (CrewMembers crewMember:
                     NPCCreator.crew) {
-                crewMember.step(delta, layer);
+                crewMember.step(delta);
             }
         }
 
@@ -66,7 +66,7 @@ public class NPC extends Sprite {
         {
             for (Infiltrator infiltrator:
                     NPCCreator.infiltrators) {
-                infiltrator.step(delta, layer);
+                infiltrator.step(delta);
             }
         }
     }

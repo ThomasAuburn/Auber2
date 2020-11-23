@@ -21,7 +21,7 @@ public class CrewMembers extends NPC {
     /**
      * Step needs to be called in the update method, makes the NPC move and check if it has reached its next node
      */
-    public void step(float delta, TiledMapTileLayer layer) {
+    public void step(float delta) {
         this.moveNPC();
 
         this.elapsedTime += delta;

@@ -29,7 +29,7 @@ public class Infiltrator extends NPC{
     /**
      * Step needs to be called in the update method, makes the NPC move and check if it has reached its next node
      */
-    public void step(float delta, TiledMapTileLayer layer)
+    public void step(float delta)
     {
         this.moveNPC(); //Moves the npc and sets their scale
 
@@ -137,7 +137,6 @@ public class Infiltrator extends NPC{
         }
         else
         {
-            System.out.println("Moving to destroy");
             this.setGoal(keySystemNode);
         } //If Key system is being destroyed or is already destroyed, select a new key system
     }
