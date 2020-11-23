@@ -23,7 +23,7 @@ import com.mygdx.auber.Pathfinding.Node;
 public class NPC extends Sprite {
     public Vector2 velocity = new Vector2(0,0); //Velocity vector
     public int index; //Index of the NPC in its respective list
-    public final float SPEED = 1; //Speed the NPC moves at, same as the player
+    public final float SPEED = 1.3f; //Speed the NPC moves at, same as the player
     float elapsedTime = 0f; //Time elapsed since NPC last moved
 
     public MapGraph mapGraph; //Mapgraph for the NPC to reference
@@ -89,21 +89,14 @@ public class NPC extends Sprite {
     /**
      * Checks whether the NPC has made it to the next node
      */
-    public void checkCollision()
-    {
-        this.velocity.x = 0;
-        this.velocity.y = 0;
-        if(this.pathQueue.size > 0){
+    public void checkCollision() {
+        if (this.pathQueue.size > 0) {
             Node targetNode = this.pathQueue.first();
-            if(Vector2.dst(this.getX(),this.getY(),targetNode.x,targetNode.y) <= 5)
-
+            if (Vector2.dst(this.getX(), this.getY(), targetNode.x, targetNode.y) <= 5) {
                 reachNextNode(); //If the sprite is within 5 pixels of the node, it has reached the node
             }
-            else
-            {
-                setSpeedToNextNode(); //Else keep moving towards it
-            }
         }
+    }
 
     /**
      * Called when NPC has reached a node, sets the next node to be moved to, or if the path queue is empty, destination is reached

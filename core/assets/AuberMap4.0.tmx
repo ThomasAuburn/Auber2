@@ -324,6 +324,7 @@
   <tile id="3">
    <properties>
     <property name="blocked" value=""/>
+    <property name="keysystem" value=""/>
    </properties>
   </tile>
   <tile id="4">
@@ -344,6 +345,7 @@
   <tile id="7">
    <properties>
     <property name="blocked" value=""/>
+    <property name="keysystem" value=""/>
    </properties>
   </tile>
   <tile id="8">
@@ -364,6 +366,7 @@
   <tile id="11">
    <properties>
     <property name="blocked" value=""/>
+    <property name="keysystem" value=""/>
    </properties>
   </tile>
   <tile id="12">
@@ -404,6 +407,7 @@
   <tile id="19">
    <properties>
     <property name="blocked" value=""/>
+    <property name="keysystem" value=""/>
    </properties>
   </tile>
   <tile id="20">
@@ -424,6 +428,7 @@
   <tile id="23">
    <properties>
     <property name="blocked" value=""/>
+    <property name="keysystem" value=""/>
    </properties>
   </tile>
   <tile id="24">
@@ -444,6 +449,7 @@
   <tile id="27">
    <properties>
     <property name="blocked" value=""/>
+    <property name="keysystem" value=""/>
    </properties>
   </tile>
   <tile id="28">
@@ -464,6 +470,7 @@
   <tile id="31">
    <properties>
     <property name="blocked" value=""/>
+    <property name="keysystem" value=""/>
    </properties>
   </tile>
   <tile id="32">
@@ -484,6 +491,7 @@
   <tile id="35">
    <properties>
     <property name="blocked" value=""/>
+    <property name="keysystem" value=""/>
    </properties>
   </tile>
   <tile id="36">
@@ -504,6 +512,7 @@
   <tile id="39">
    <properties>
     <property name="blocked" value=""/>
+    <property name="keysystem" value=""/>
    </properties>
   </tile>
  </tileset>
@@ -527,6 +536,7 @@
   <tile id="3">
    <properties>
     <property name="blocked" value=""/>
+    <property name="keysystem" value=""/>
    </properties>
   </tile>
   <tile id="4">
@@ -547,6 +557,7 @@
   <tile id="7">
    <properties>
     <property name="blocked" value=""/>
+    <property name="keysystem" value=""/>
    </properties>
   </tile>
   <tile id="8">
@@ -567,6 +578,7 @@
   <tile id="11">
    <properties>
     <property name="blocked" value=""/>
+    <property name="keysystem" value=""/>
    </properties>
   </tile>
   <tile id="12">
@@ -587,6 +599,7 @@
   <tile id="15">
    <properties>
     <property name="blocked" value=""/>
+    <property name="keysystem" value=""/>
    </properties>
   </tile>
   <tile id="16">
@@ -607,6 +620,7 @@
   <tile id="19">
    <properties>
     <property name="blocked" value=""/>
+    <property name="keysystem" value=""/>
    </properties>
   </tile>
   <tile id="20">
@@ -627,6 +641,7 @@
   <tile id="23">
    <properties>
     <property name="blocked" value=""/>
+    <property name="keysystem" value=""/>
    </properties>
   </tile>
  </tileset>

@@ -27,7 +27,7 @@ public class CrewMembers extends NPC {
         this.elapsedTime += delta;
         this.checkCollision();
 
-        this.collision.checkForCollision(this, layer, this.velocity, this.collision);
+        //this.collision.checkForCollision(this, layer, this.velocity, this.collision);
 
         if ((this.elapsedTime >= timeToWait) && this.pathQueue.isEmpty()) {
             this.elapsedTime = 0;

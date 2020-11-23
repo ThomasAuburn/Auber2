@@ -35,7 +35,7 @@ public class PlayScreen implements Screen {
     public Player player;
 
     public static final int numberOfInfiltrators = 8;
-    public static final int numberOfCrew = 50;
+    public static final int numberOfCrew = 100;
     public static final int maxIncorrectArrests = 3;
 
     public PlayScreen(Auber game, boolean demo){
@@ -54,7 +54,7 @@ public class PlayScreen implements Screen {
         CrewMembers.createCrewSprites(); //Generates the infiltrator and crewmember sprites
 
         graphCreator = new GraphCreator((TiledMapTileLayer)map.getLayers().get(0)); //Generates all the nodes and paths for the given map layer
-        keySystemManager = new KeySystemManager((TiledMapTileLayer)map.getLayers().get(0));
+        keySystemManager = new KeySystemManager((TiledMapTileLayer)map.getLayers().get(1));
 
         for (int i = 0; i < numberOfInfiltrators; i++) {
             //System.out.println("Infiltrator created!");
@@ -148,6 +148,7 @@ public class PlayScreen implements Screen {
 
         scrollingBackground.updateRender(delta, (SpriteBatch) renderer.getBatch());//Renders the background
         renderer.renderTileLayer((TiledMapTileLayer) map.getLayers().get(0)); //Renders the bottom layer of the map
+        renderer.renderTileLayer((TiledMapTileLayer) map.getLayers().get(1));
 
         NPC.render(renderer.getBatch()); //Renders all NPCs
         player.draw(renderer.getBatch()); //Renders the player

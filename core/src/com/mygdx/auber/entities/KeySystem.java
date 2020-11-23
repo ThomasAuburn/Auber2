@@ -37,7 +37,7 @@ public class KeySystem {
             return null;
         }
         long timeElapsed = System.currentTimeMillis() - destructionStartTime;
-        if (timeElapsed <= 60*100) {
+        if (timeElapsed <= 60*1000) {
             // System is being destroyed. Less than 60 seconds remaining.
             return timeElapsed;
         }
