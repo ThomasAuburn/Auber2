@@ -58,22 +58,13 @@ public class PlayScreen implements Screen {
 
         for (int i = 0; i < numberOfInfiltrators; i++) {
             //System.out.println("Infiltrator created!");
-            double random = Math.random();
-            if(random >= 0.5f)
-            {
-                NPCCreator.createInfiltrator(Infiltrator.easySprites.random(), MapGraph.getRandomNode(), graphCreator.mapGraph);
-            }
-            else
-            {
-                NPCCreator.createInfiltrator(Infiltrator.hardSprites.random(), MapGraph.getRandomNode(), graphCreator.mapGraph);
-            }
-
+            NPCCreator.createInfiltrator(Infiltrator.easySprites.random(), MapGraph.getRandomNode(), graphCreator.mapGraph);
         } //Creates numberOfInfiltrators infiltrators, gives them a random hard or easy sprite
 
         for(int i = 0; i < numberOfCrew; i++)
         {
             //System.out.println("Crewmember created!");
-            NPCCreator.createCrew(CrewMembers.crewSprites.random(), MapGraph.getRandomNode(), graphCreator.mapGraph);
+            NPCCreator.createCrew(CrewMembers.selectSprite(), MapGraph.getRandomNode(), graphCreator.mapGraph);
         } //Creates numberOfCrew crewmembers, gives them a random sprite
 
         player = new Player(new Sprite(new Texture("AuberStand.png")),(TiledMapTileLayer)map.getLayers().get(0), demo);

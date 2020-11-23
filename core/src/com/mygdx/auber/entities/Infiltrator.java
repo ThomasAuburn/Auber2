@@ -19,7 +19,7 @@ public class Infiltrator extends NPC{
     private boolean isInvisible = false;
 
     public static Array<Sprite> easySprites = new Array<>();
-    public static Array<Sprite> hardSprites = new Array<>();
+    //public static Array<Sprite> hardSprites = new Array<>();
 
     public Infiltrator(Sprite sprite, Node node, MapGraph mapGraph) {
         super(sprite, node, mapGraph);
@@ -206,8 +206,8 @@ public class Infiltrator extends NPC{
     {
         Infiltrator.easySprites.add(new Sprite(new Texture("AlienInfiltratorStand.png")));
         Infiltrator.easySprites.add(new Sprite(new Texture("HumanInfiltratorStand.png")));
-        Infiltrator.hardSprites.add(new Sprite(new Texture("AlienStand.png")));
-        Infiltrator.hardSprites.add(new Sprite(new Texture("HumanStand.png")));
+        //Infiltrator.hardSprites.add(new Sprite(new Texture("AlienStand.png")));
+        //Infiltrator.hardSprites.add(new Sprite(new Texture("HumanStand.png")));
     }
 
     public void setIndex(int index)
@@ -218,7 +218,7 @@ public class Infiltrator extends NPC{
     public void dispose()
     {
         easySprites.clear();
-        hardSprites.clear();
+        //hardSprites.clear();
     }
 }
 

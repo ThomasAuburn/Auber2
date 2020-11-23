@@ -66,6 +66,27 @@ public class CrewMembers extends NPC {
         CrewMembers.crewSprites.add(new Sprite(new Texture("Sagiri.png")));
     }
 
+    public static Sprite selectSprite()
+    {
+        double chance = Math.random() * 20;
+        if(chance < 1)
+        {
+            return crewSprites.get(3);
+        }
+        if(chance < 2)
+        {
+            return crewSprites.get(2);
+        }
+        if(chance < 13)
+        {
+            return crewSprites.get(1);
+        }
+        else
+        {
+            return crewSprites.get(0);
+        }
+    }
+
     public void setIndex(int index) {
         this.index = index;
     }
