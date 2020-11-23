@@ -23,7 +23,7 @@ import com.mygdx.auber.Pathfinding.Node;
 public class NPC extends Sprite {
     public Vector2 velocity = new Vector2(0,0); //Velocity vector
     public int index; //Index of the NPC in its respective list
-    public final float SPEED = 1.3f; //Speed the NPC moves at, same as the player
+    public final float SPEED = 1f; //Speed the NPC moves at, same as the player
     float elapsedTime = 0f; //Time elapsed since NPC last moved
 
     public MapGraph mapGraph; //Mapgraph for the NPC to reference

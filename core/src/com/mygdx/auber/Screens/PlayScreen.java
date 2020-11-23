@@ -34,8 +34,8 @@ public class PlayScreen implements Screen {
     public static OrthographicCamera camera;
     public Player player;
 
-    public static final int numberOfInfiltrators = 8;
-    public static final int numberOfCrew = 100;
+    public static final int numberOfInfiltrators = 80;
+    public static final int numberOfCrew = 120;
     public static final int maxIncorrectArrests = 3;
 
     public PlayScreen(Auber game, boolean demo){
@@ -58,22 +58,13 @@ public class PlayScreen implements Screen {
 
         for (int i = 0; i < numberOfInfiltrators; i++) {
             //System.out.println("Infiltrator created!");
-            double random = Math.random();
-            if(random >= 0.5f)
-            {
-                NPCCreator.createInfiltrator(Infiltrator.easySprites.random(), MapGraph.getRandomNode(), graphCreator.mapGraph);
-            }
-            else
-            {
-                NPCCreator.createInfiltrator(Infiltrator.hardSprites.random(), MapGraph.getRandomNode(), graphCreator.mapGraph);
-            }
-
+            NPCCreator.createInfiltrator(Infiltrator.easySprites.random(), MapGraph.getRandomNode(), graphCreator.mapGraph);
         } //Creates numberOfInfiltrators infiltrators, gives them a random hard or easy sprite
 
         for(int i = 0; i < numberOfCrew; i++)
         {
             //System.out.println("Crewmember created!");
-            NPCCreator.createCrew(CrewMembers.crewSprites.random(), MapGraph.getRandomNode(), graphCreator.mapGraph);
+            NPCCreator.createCrew(CrewMembers.selectSprite(), MapGraph.getRandomNode(), graphCreator.mapGraph);
         } //Creates numberOfCrew crewmembers, gives them a random sprite
 
         player = new Player(new Sprite(new Texture("AuberStand.png")),(TiledMapTileLayer)map.getLayers().get(0), demo);
@@ -171,8 +162,8 @@ public class PlayScreen implements Screen {
     @Override
     public void resize(int width, int height) {
         viewport.update(width, height);
-        camera.viewportWidth = width/2f;
-        camera.viewportHeight = height/2f;
+        camera.viewportWidth = width/3f;
+        camera.viewportHeight = height/3f;
         camera.update();
         scrollingBackground.resize(width, height);
     }

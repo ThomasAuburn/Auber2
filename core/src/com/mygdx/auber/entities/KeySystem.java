@@ -7,6 +7,7 @@ public class KeySystem {
     public String name;
     final TiledMapTileLayer.Cell cell;
     private Long destructionStartTime;
+    public static float destructionTime = 60000; //milliseconds
     public Vector2 position;
 
     KeySystem(TiledMapTileLayer.Cell cell, String name, Vector2 position) {
@@ -36,7 +37,7 @@ public class KeySystem {
             return null;
         }
         long timeElapsed = System.currentTimeMillis() - destructionStartTime;
-        if (timeElapsed <= 60*1000) {
+        if (timeElapsed <= destructionTime) {
             // System is being destroyed. Less than 60 seconds remaining.
             return timeElapsed;
         }
