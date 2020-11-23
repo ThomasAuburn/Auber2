@@ -58,7 +58,7 @@ public class PlayScreen implements Screen {
         keySystemManager = new KeySystemManager((TiledMapTileLayer)map.getLayers().get(0));
 
         for (int i = 0; i < numberOfInfiltrators; i++) {
-            System.out.println("Infiltrator created!");
+            //System.out.println("Infiltrator created!");
             double random = Math.random();
             if(random >= 0.5f)
             {
@@ -73,7 +73,7 @@ public class PlayScreen implements Screen {
 
         for(int i = 0; i < numberOfCrew; i++)
         {
-            System.out.println("Crewmember created!");
+            //System.out.println("Crewmember created!");
             NPCCreator.createCrew(CrewMembers.crewSprites.random(), MapGraph.getRandomNode(), graphCreator.mapGraph);
         } //Creates numberOfCrew crewmembers, gives them a random sprite
 
