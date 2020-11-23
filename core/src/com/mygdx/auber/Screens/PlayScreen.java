@@ -12,6 +12,7 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.auber.Auber;
@@ -69,7 +70,10 @@ public class PlayScreen implements Screen {
             NPCCreator.createCrew(CrewMembers.selectSprite(), MapGraph.getRandomNode(), graphCreator.mapGraph);
         } //Creates numberOfCrew crewmembers, gives them a random sprite
 
-        player = new Player(new Sprite(new Texture("AuberStand.png")),(TiledMapTileLayer)map.getLayers().get("WallLining"), demo);
+        Array<TiledMapTileLayer> playerCollisionLayers = new Array<>();
+        playerCollisionLayers.add((TiledMapTileLayer) map.getLayers().get(0)); playerCollisionLayers.add((TiledMapTileLayer) map.getLayers().get(2)); //The layers on which the player will collide
+
+        player = new Player(new Sprite(new Texture("AuberStand.png")), playerCollisionLayers, demo);
         player.setPosition(600, 1000); //Creates a player and sets him to the given position
 
         renderer = new OrthogonalTiledMapRenderer(map); //Creates a new renderer with the given map

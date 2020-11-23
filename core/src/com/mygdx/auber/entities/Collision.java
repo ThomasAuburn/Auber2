@@ -3,6 +3,7 @@ package com.mygdx.auber.entities;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
 
 
 class Collision {
@@ -101,42 +102,44 @@ class Collision {
     /**
      * Checks for collision in the direction of movement
      * @param sprite Sprite being used by object
-     * @param collisionLayer TiledMapTileLayer to search for tiles to collide with on
+     * @param collisionLayers TiledMapTileLayer to search for tiles to collide with on
      * @param velocity Vector2 velocity of the object
      * @param collision Collision object
      * @return Returns a vector with x/y changed to account for collision
      */
-    public Vector2 checkForCollision(Sprite sprite, TiledMapTileLayer collisionLayer, Vector2 velocity, Collision collision)
+    public Vector2 checkForCollision(Sprite sprite, Array<TiledMapTileLayer> collisionLayers, Vector2 velocity, Collision collision)
     {
         float oldX = sprite.getX(), oldY = sprite.getY();
         collideX = false; collideY = false;
 
-        // Move on x
-        if(velocity.x < 0) {
-            collideX = collision.collidesLeft(sprite, collisionLayer);
-        }
-        else if(velocity.x > 0) {
-            collideX = collision.collidesRight(sprite, collisionLayer);
-        }
-        // React to x
-        if (collideX) {
-            sprite.setX(oldX);
-            velocity.x = 0;
-        }
+        for (TiledMapTileLayer collisionLayer:
+             collisionLayers) {
+            // Move on x
+            if(velocity.x < 0) {
+                collideX = collision.collidesLeft(sprite, collisionLayer);
+            }
+            else if(velocity.x > 0) {
+                collideX = collision.collidesRight(sprite, collisionLayer);
+            }
+            // React to x
+            if (collideX) {
+                sprite.setX(oldX);
+                velocity.x = 0;
+            }
 
-        // Move on y
-        if (velocity.y < 0) {
-            collideY = collision.collidesBottom(sprite, collisionLayer);
+            // Move on y
+            if (velocity.y < 0) {
+                collideY = collision.collidesBottom(sprite, collisionLayer);
+            }
+            else if(velocity.y > 0) {
+                collideY = collision.collidesTop(sprite, collisionLayer);
+            }
+            // React to y
+            if(collideY) {
+                sprite.setY(oldY);
+                velocity.y = 0;
+            }
         }
-        else if(velocity.y > 0) {
-            collideY = collision.collidesTop(sprite, collisionLayer);
-        }
-        // React to y
-        if(collideY) {
-            sprite.setY(oldY);
-            velocity.y = 0;
-        }
-
         return velocity;
     }
 }

@@ -13,6 +13,7 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.utils.Array;
 import com.mygdx.auber.Scenes.Hud;
 import com.mygdx.auber.Screens.PlayScreen;
 
@@ -21,7 +22,7 @@ public class Player extends Sprite implements InputProcessor {
     public Vector2 velocity = new Vector2(0,0);
 
     private final Collision collision;
-    public final TiledMapTileLayer collisionLayer;
+    public final Array<TiledMapTileLayer> collisionLayer;
     public static float x,y;
     public boolean demo;
 
@@ -39,7 +40,7 @@ public class Player extends Sprite implements InputProcessor {
     float alpha = 0;
     Sprite arrow;
 
-    public Player(Sprite sprite, TiledMapTileLayer collisionLayer, boolean demo) {
+    public Player(Sprite sprite, Array<TiledMapTileLayer> collisionLayer, boolean demo) {
         super(sprite);
         this.collisionLayer = collisionLayer;
         this.collision = new Collision();
