@@ -51,8 +51,8 @@ public class NPCCreator {
              infiltrators) {
             if(infiltrator.index == id)
             {
-                infiltrator.isDestroying = false;
                 infiltrator.useAbility();
+                infiltrator.isDestroying = false;
                 infiltrator.step(0.001f);
                 KeySystemManager.getClosestKeySystem(infiltrator.getX(), infiltrator.getY()).stopDestroy();
             }
