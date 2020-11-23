@@ -43,7 +43,7 @@ public class Player extends Sprite implements InputProcessor {
         this.collision = new Collision();
         this.demo = demo;
         this.arrow = new Sprite(new Texture("arrow.png"));
-        arrow.setOrigin(arrow.getWidth()/2, arrow.getWidth()/2);
+        arrow.setOrigin(arrow.getWidth()/2, 0);
 
         health = 100;
     }

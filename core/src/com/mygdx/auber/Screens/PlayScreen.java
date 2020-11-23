@@ -34,8 +34,8 @@ public class PlayScreen implements Screen {
     public static OrthographicCamera camera;
     public Player player;
 
-    public static final int numberOfInfiltrators = 8;
-    public static final int numberOfCrew = 100;
+    public static final int numberOfInfiltrators = 80;
+    public static final int numberOfCrew = 120;
     public static final int maxIncorrectArrests = 3;
 
     public PlayScreen(Auber game, boolean demo){
@@ -162,8 +162,8 @@ public class PlayScreen implements Screen {
     @Override
     public void resize(int width, int height) {
         viewport.update(width, height);
-        camera.viewportWidth = width/2f;
-        camera.viewportHeight = height/2f;
+        camera.viewportWidth = width/3f;
+        camera.viewportHeight = height/3f;
         camera.update();
         scrollingBackground.resize(width, height);
     }
