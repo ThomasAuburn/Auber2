@@ -35,10 +35,11 @@ public class PlayScreen implements Screen {
     public static OrthographicCamera camera;
     public Player player;
 
-    private final int numberOfInfiltrators = 50;
-    private final int numberOfCrew = 1;
+    public static final int numberOfInfiltrators = 8;
+    public static final int numberOfCrew = 50;
+    public static final int maxIncorrectArrests = 3;
 
-    public PlayScreen(Auber game){
+    public PlayScreen(Auber game, boolean demo){
         this.game = game;
 
         camera = new OrthographicCamera();
@@ -58,7 +59,7 @@ public class PlayScreen implements Screen {
         keySystemManager = new KeySystemManager((TiledMapTileLayer)map.getLayers().get(0));
 
         for (int i = 0; i < numberOfInfiltrators; i++) {
-            System.out.println("Infiltrator created!");
+            //System.out.println("Infiltrator created!");
             double random = Math.random();
             if(random >= 0.5f)
             {
@@ -73,11 +74,11 @@ public class PlayScreen implements Screen {
 
         for(int i = 0; i < numberOfCrew; i++)
         {
-            System.out.println("Crewmember created!");
+            //System.out.println("Crewmember created!");
             NPCCreator.createCrew(CrewMembers.crewSprites.random(), MapGraph.getRandomNode(), graphCreator.mapGraph);
         } //Creates numberOfCrew crewmembers, gives them a random sprite
 
-        player = new Player(new Sprite(new Texture("AuberStand.png")),(TiledMapTileLayer)map.getLayers().get(0));
+        player = new Player(new Sprite(new Texture("AuberStand.png")),(TiledMapTileLayer)map.getLayers().get(0), demo);
         player.setPosition(600, 1000); //Creates a player and sets him to the given position
 
         renderer = new OrthogonalTiledMapRenderer(map); //Creates a new renderer with the given map
