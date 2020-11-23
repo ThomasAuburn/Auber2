@@ -1,5 +1,6 @@
 package com.mygdx.auber.entities;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Camera;
@@ -24,7 +25,7 @@ public class Player extends Sprite implements InputProcessor {
     public static float x,y;
     public boolean demo;
 
-    public static int health;
+    public static float health;
     float SPEED = 1.3f;
 
     public static boolean canHeal = true;
@@ -45,7 +46,7 @@ public class Player extends Sprite implements InputProcessor {
         this.arrow = new Sprite(new Texture("arrow.png"));
         arrow.setOrigin(arrow.getWidth()/2, 0);
 
-        health = 100;
+        health = 100f;
     }
 
     /**
@@ -80,6 +81,20 @@ public class Player extends Sprite implements InputProcessor {
             arrow.setPosition(this.getX() + this.getWidth()/2 - arrow.getWidth()/2, this.getY() + this.getHeight()/2);
             arrow.draw(batch);
         }
+    }
+
+    /**
+     * Draws the arrest radius for Auber
+     * @param shapeRenderer Shape renderer to be used for drawing shapes
+     */
+    public void drawCircle(ShapeRenderer shapeRenderer)
+    {
+        Gdx.gl.glLineWidth(3f);
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+        shapeRenderer.setAutoShapeType(true);
+        shapeRenderer.setColor(.2f, .2f, .2f, .3f);
+        shapeRenderer.circle(this.getX() + this.getWidth()/2, this.getY() + this.getHeight()/2, 200, 900);
+        shapeRenderer.end();
     }
 
     /**
@@ -224,7 +239,7 @@ public class Player extends Sprite implements InputProcessor {
 
     @Override
     public boolean mouseMoved(int screenX, int screenY) {
-        return false;
+        return true;
     }
 
     @Override
@@ -276,7 +291,7 @@ public class Player extends Sprite implements InputProcessor {
      * Take damage for amount given
      * @param amount Amount of damage to deal
      */
-    public static void takeDamage(int amount) {
+    public static void takeDamage(float amount) {
         health -= amount;
     }
 
