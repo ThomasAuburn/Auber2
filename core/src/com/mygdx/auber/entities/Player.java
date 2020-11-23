@@ -37,7 +37,8 @@ public class Player extends Sprite implements InputProcessor {
     private boolean isSHeld;
     private boolean isDHeld;
 
-    float alpha = 0;
+    private float alpha = 0;
+    private float arrestRadius = 200;
     Sprite arrow;
 
     public Player(Sprite sprite, Array<TiledMapTileLayer> collisionLayer, boolean demo) {
@@ -105,7 +106,7 @@ public class Player extends Sprite implements InputProcessor {
         Gdx.gl.glLineWidth(3f);
         shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
         shapeRenderer.setColor(.2f, .2f, .2f, alpha);
-        shapeRenderer.circle(this.getX() + this.getWidth()/2, this.getY() + this.getHeight()/2, 200, 900);
+        shapeRenderer.circle(this.getX() + this.getWidth()/2, this.getY() + this.getHeight()/2, arrestRadius, 900);
         shapeRenderer.end(); //Rendering the circle
     }
 
@@ -222,18 +223,23 @@ public class Player extends Sprite implements InputProcessor {
         {
             if(infiltrator.getBoundingRectangle().contains(point))
             {
-                NPCCreator.removeInfiltrator(infiltrator.index);
-                Hud.ImposterCount += 1;
-                return true;
+                if(Vector2.dst(this.getX(), this.getY(), infiltrator.getX(), infiltrator.getY()) < arrestRadius)
+                {
+                    NPCCreator.removeInfiltrator(infiltrator.index);
+                    Hud.ImposterCount += 1;
+                    return true;
+                }
             }
         } //If an infiltrator was clicked, remove it from the list
 
         for(CrewMembers crewMember: NPCCreator.crew) {
             if(crewMember.getBoundingRectangle().contains(point))
             {
-                NPCCreator.removeCrewmember(crewMember.index);
-                Hud.CrewmateCount += 1;
-                return true;
+                if(Vector2.dst(this.getX(), this.getY(), crewMember.getX(), crewMember.getY()) < arrestRadius) {
+                    NPCCreator.removeCrewmember(crewMember.index);
+                    Hud.CrewmateCount += 1;
+                    return true;
+                }
             }
         }//If an crewmember was clicked, remove it from the list
         return true;
