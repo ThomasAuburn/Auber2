@@ -25,6 +25,7 @@ public class Hud {
 
     Label imposterCountLabel;
     Label crewmateCountLabel;
+    Label keySystemsCountLabel;
     Label playerHealthLabel;
 
     public Hud(SpriteBatch spritebatch){
@@ -41,6 +42,7 @@ public class Hud {
         imposterCountLabel = new Label(String.format("Imposter Arrests: %02d / %02d", ImposterCount, PlayScreen.numberOfInfiltrators), new Label.LabelStyle(new BitmapFont(), Color.GREEN));
         crewmateCountLabel = new Label(String.format("Incorrect crewmate Arrests: %02d / %02d", CrewmateCount, PlayScreen.maxIncorrectArrests), new Label.LabelStyle(new BitmapFont(), Color.RED));
         playerHealthLabel = new Label(String.format("Health: %02d", Player.health), new Label.LabelStyle(new BitmapFont(), Color.RED));
+        keySystemsCountLabel = new Label(String.format("Key systems destroyed: %02d / %02d", 1, 1), new Label.LabelStyle(new BitmapFont(), Color.RED));
 
         hudTable.add(imposterCountLabel).expandX().left().padLeft(10);
         hudTable.add(crewmateCountLabel).expandX().right().padRight(10);
@@ -48,6 +50,7 @@ public class Hud {
         hudTable.row().bottom().expandY();
         hudTable.add(playerHealthLabel).expandX().left().padLeft(10);
 
+        hudTable.add(keySystemsCountLabel).expandX().right().padRight(10);
         stage.addActor(hudTable);
     }
 
@@ -55,6 +58,7 @@ public class Hud {
         imposterCountLabel.setText(String.format("Imposter Arrests: %02d / %02d", ImposterCount, PlayScreen.numberOfInfiltrators));
         crewmateCountLabel.setText(String.format("Incorrect crewmate Arrests: %02d / %02d", CrewmateCount, PlayScreen.maxIncorrectArrests));
         playerHealthLabel.setText(String.format("Health: %02d", Player.health));
+        keySystemsCountLabel.setText(String.format("Safe key systems: %02d / %02d", KeySystemManager.safeKeySystemsCount(), KeySystemManager.keySystemsCount()));
     }
 
 }
