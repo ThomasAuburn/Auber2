@@ -12,10 +12,8 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.auber.Auber;
-import com.mygdx.auber.entities.CrewMembers;
-import com.mygdx.auber.entities.KeySystem;
-import com.mygdx.auber.entities.KeySystemManager;
-import com.mygdx.auber.entities.Player;
+import com.mygdx.auber.Screens.PlayScreen;
+import com.mygdx.auber.entities.*;
 
 public class Hud {
     public Stage stage;//2D scene graph, handles viewport and distributes input events.
@@ -40,8 +38,8 @@ public class Hud {
         hudTable.top();
         hudTable.setFillParent(true);
 
-        imposterCountLabel = new Label(String.format("Imposter Arrests: %02d", ImposterCount), new Label.LabelStyle(new BitmapFont(), Color.RED));
-        crewmateCountLabel = new Label(String.format("Crewmate Arrests: %02d", CrewmateCount), new Label.LabelStyle(new BitmapFont(), Color.RED));
+        imposterCountLabel = new Label(String.format("Imposter Arrests: %02d / %02d", ImposterCount, PlayScreen.numberOfInfiltrators), new Label.LabelStyle(new BitmapFont(), Color.RED));
+        crewmateCountLabel = new Label(String.format("Crewmate Arrests: %02d / 3", CrewmateCount), new Label.LabelStyle(new BitmapFont(), Color.RED));
         playerHealthLabel = new Label(String.format("Health: %02d", Player.health), new Label.LabelStyle(new BitmapFont(), Color.RED));
 
         hudTable.add(imposterCountLabel).expandX().left().padLeft(10);
@@ -54,8 +52,8 @@ public class Hud {
     }
 
     public void update() {
-        imposterCountLabel.setText(String.format("Imposter Arrests: %02d", ImposterCount));
-        crewmateCountLabel.setText(String.format("Crewmate Arrests: %02d", CrewmateCount));
+        imposterCountLabel.setText(String.format("Imposter Arrests: %02d / %02d", ImposterCount, PlayScreen.numberOfInfiltrators));
+        crewmateCountLabel.setText(String.format("Crewmate Arrests: %02d / 3", CrewmateCount));
         playerHealthLabel.setText(String.format("Health: %02d", Player.health));
     }
 
