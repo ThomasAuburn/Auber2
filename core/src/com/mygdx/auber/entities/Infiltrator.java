@@ -26,21 +26,10 @@ public class Infiltrator extends NPC{
         this.setPosition(node.x, node.y);
     }
 
-    public void setIndex(int index)
-    {
-        this.index = index;
-    }
-
-    public void dispose()
-    {
-        easySprites.clear();
-        hardSprites.clear();
-    }
-
     /**
      * Step needs to be called in the update method, makes the NPC move and check if it has reached its next node
      */
-    public void step(float delta, TiledMapTileLayer layer)
+    public void step(float delta)
     {
         this.moveNPC(); //Moves the npc and sets their scale
 
@@ -80,7 +69,7 @@ public class Infiltrator extends NPC{
         this.elapsedTime += delta;
         this.checkCollision(); //Add elapsed time and check collisions
 
-        this.collision.checkForCollision(this, layer, this.velocity, collision);
+        //this.collision.checkForCollision(this, layer, this.velocity, collision);
 
         if((this.elapsedTime >= timeToWait) && this.pathQueue.isEmpty()) {
             this.elapsedTime = 0;
@@ -131,20 +120,6 @@ public class Infiltrator extends NPC{
             setGoal(newGoal);
         } //Set a new goal node and start moving towards it
 
-    }
-
-    /**
-     * Checks whether the NPC has made it to the next node
-     */
-    public void checkCollision()
-    {
-        if(this.pathQueue.size > 0){
-            Node targetNode = this.pathQueue.first();
-            if(Vector2.dst(this.getX(),this.getY(),targetNode.x,targetNode.y) <= 15)
-            {
-                reachNextNode(); //If the sprite is within 5 pixels of the node, it has reached the node
-            }
-        }
     }
 
     /**
@@ -233,6 +208,17 @@ public class Infiltrator extends NPC{
         Infiltrator.easySprites.add(new Sprite(new Texture("HumanInfiltratorStand.png")));
         Infiltrator.hardSprites.add(new Sprite(new Texture("AlienStand.png")));
         Infiltrator.hardSprites.add(new Sprite(new Texture("HumanStand.png")));
+    }
+
+    public void setIndex(int index)
+    {
+        this.index = index;
+    }
+
+    public void dispose()
+    {
+        easySprites.clear();
+        hardSprites.clear();
     }
 }
 

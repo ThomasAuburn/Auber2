@@ -31,12 +31,11 @@ public class PlayScreen implements Screen {
     private final GraphCreator graphCreator;
     private final ScrollingBackground scrollingBackground;
     private final KeySystemManager keySystemManager;
-    private ShapeRenderer shapeRenderer;
     public static OrthographicCamera camera;
     public Player player;
 
     public static final int numberOfInfiltrators = 8;
-    public static final int numberOfCrew = 50;
+    public static final int numberOfCrew = 100;
     public static final int maxIncorrectArrests = 3;
 
     public PlayScreen(Auber game, boolean demo){
@@ -45,7 +44,6 @@ public class PlayScreen implements Screen {
         camera = new OrthographicCamera();
         viewport = new ExtendViewport(Auber.VirtualWidth, Auber.VirtualHeight, camera);
         hud = new Hud(game.batch);
-        shapeRenderer = new ShapeRenderer();
         scrollingBackground = new ScrollingBackground(); //Creating a new camera, viewport, hud and scrolling background, setting the viewport to camera and virtual height/width
 
         mapLoader = new TmxMapLoader();
@@ -56,7 +54,7 @@ public class PlayScreen implements Screen {
         CrewMembers.createCrewSprites(); //Generates the infiltrator and crewmember sprites
 
         graphCreator = new GraphCreator((TiledMapTileLayer)map.getLayers().get(0)); //Generates all the nodes and paths for the given map layer
-        keySystemManager = new KeySystemManager((TiledMapTileLayer)map.getLayers().get(0));
+        keySystemManager = new KeySystemManager((TiledMapTileLayer)map.getLayers().get(1));
 
         for (int i = 0; i < numberOfInfiltrators; i++) {
             //System.out.println("Infiltrator created!");
@@ -116,7 +114,7 @@ public class PlayScreen implements Screen {
      * @param time Time between last frame and this frame
      */
     public void update(float time){
-        NPC.updateNPC(time, (TiledMapTileLayer) map.getLayers().get(0));
+        NPC.updateNPC(time);
         player.update(time);
         hud.update();
         camera.update(); //Updating everything that needs to be updated
@@ -150,6 +148,7 @@ public class PlayScreen implements Screen {
 
         scrollingBackground.updateRender(delta, (SpriteBatch) renderer.getBatch());//Renders the background
         renderer.renderTileLayer((TiledMapTileLayer) map.getLayers().get(0)); //Renders the bottom layer of the map
+        renderer.renderTileLayer((TiledMapTileLayer) map.getLayers().get(1));
 
         NPC.render(renderer.getBatch()); //Renders all NPCs
         player.draw(renderer.getBatch()); //Renders the player
@@ -160,7 +159,7 @@ public class PlayScreen implements Screen {
 
         renderer.getBatch().end(); //Finishes the sprite batch
 
-        //shapeRenderer.setProjectionMatrix(camera.combined); //Ensures shapes are rendered properly
+        //graphCreator.shapeRenderer.setProjectionMatrix(camera.combined); //Ensures shapes are rendered properly
         //graphCreator.render(); //Debugging shows nodes and paths
     }
 
@@ -207,7 +206,6 @@ public class PlayScreen implements Screen {
         player.dispose();
         map.dispose();
         game.dispose();
-        shapeRenderer.dispose();
         renderer.dispose();
     }
 

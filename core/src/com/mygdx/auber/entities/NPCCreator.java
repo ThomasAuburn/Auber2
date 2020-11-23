@@ -47,6 +47,16 @@ public class NPCCreator {
      */
     public static void removeInfiltrator(int id)
     {
+        for (Infiltrator infiltrator:
+             infiltrators) {
+            if(infiltrator.index == id)
+            {
+                infiltrator.isDestroying = false;
+                infiltrator.useAbility();
+                infiltrator.step(0.001f);
+                KeySystemManager.getClosestKeySystem(infiltrator.getX(), infiltrator.getY()).stopDestroy();
+            }
+        }
         infiltrators.removeIndex(id);
         if(infiltrators.isEmpty())
         {

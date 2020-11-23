@@ -25,7 +25,7 @@ public class Player extends Sprite implements InputProcessor {
     public boolean demo;
 
     public static int health;
-    float SPEED = 1.5f;
+    float SPEED = 1.3f;
 
     public static boolean canHeal = true;
     public static float healStopTime;
@@ -43,7 +43,7 @@ public class Player extends Sprite implements InputProcessor {
         this.collision = new Collision();
         this.demo = demo;
         this.arrow = new Sprite(new Texture("arrow.png"));
-        arrow.setOrigin(arrow.getWidth()/2, arrow.getHeight()/2);
+        arrow.setOrigin(arrow.getWidth()/2, arrow.getWidth()/2);
 
         health = 100;
     }
@@ -57,6 +57,10 @@ public class Player extends Sprite implements InputProcessor {
         super.draw(batch);
     }
 
+    /**
+     * Draws arrows pointing in the direction of key systems being destroyed
+     * @param batch Batch for the arrow to be rendered in
+     */
     public void drawArrow(Batch batch)
     {
         for (KeySystem keySystem:
@@ -73,11 +77,10 @@ public class Player extends Sprite implements InputProcessor {
             }
 
             arrow.setRotation((float) -angle);
-            arrow.setPosition(this.getX(), this.getY());
+            arrow.setPosition(this.getX() + this.getWidth()/2, this.getY() + this.getHeight()/2);
             arrow.draw(batch);
         }
     }
-
 
     /**
      * Used to update the player, move in direction, change scale, and check for collision

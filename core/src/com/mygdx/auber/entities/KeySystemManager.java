@@ -20,15 +20,12 @@ public class KeySystemManager {
                 int x = (i * tileLayer.getTileWidth()) + tileLayer.getTileWidth()/2;
                 int y = (j * tileLayer.getTileHeight()) + tileLayer.getTileHeight()/2; //x,y coord of the centre of the tile
                 TiledMapTileLayer.Cell cell = tileLayer.getCell(i, j); //Returns the cell at the x,y coord
-                if(cell != null && cell.getTile() != null && !(cell.getTile().getProperties().containsKey("nodeless"))) //If ID matches floor/corridor tiles, and is not null
+                if(cell != null && cell.getTile() != null && cell.getTile().getProperties().containsKey("keysystem")) //If ID matches floor/corridor tiles, and is not null
                 {
-                    if(cell.getTile().getProperties().containsKey("keysystemnode"))
-                    {
-                        String name = (String) cell.getTile().getProperties().get("name");
-                        Vector2 position = new Vector2(x, y);
-                        KeySystem keySystem = new KeySystem(cell, name, position);
-                        keySystems.add(keySystem);
-                    }
+                    String name = (String) cell.getTile().getProperties().get("name");
+                    Vector2 position = new Vector2(x, y);
+                    KeySystem keySystem = new KeySystem(cell, name, position);
+                    keySystems.add(keySystem);
                 }
             }
         }
