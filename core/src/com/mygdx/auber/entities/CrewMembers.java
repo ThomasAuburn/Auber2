@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.utils.Array;
+import com.mygdx.auber.Pathfinding.GraphCreator;
 import com.mygdx.auber.Pathfinding.MapGraph;
 import com.mygdx.auber.Pathfinding.Node;
 
@@ -45,13 +46,23 @@ public class CrewMembers extends NPC {
         this.velocity.y = 0;
         timeToWait = Math.random() * 15;
 
-        Node newGoal;
-        do {
-            newGoal = MapGraph.nodes.random();
-        } while (newGoal == previousNode);
-        {
-            setGoal(newGoal);
 
+        double chance = Math.random();
+
+        if(chance < 0.2)
+        {
+            setGoal(GraphCreator.keySystemsNodes.random());
+        }
+        else
+        {
+            Node newGoal;
+            do {
+                newGoal = MapGraph.nodes.random();
+            } while (newGoal == previousNode);
+            {
+                setGoal(newGoal);
+
+            }
         }
     }
 
@@ -64,6 +75,27 @@ public class CrewMembers extends NPC {
         CrewMembers.crewSprites.add(new Sprite(new Texture("HumanStand.png")));
         CrewMembers.crewSprites.add(new Sprite(new Texture("Luffy.png")));
         CrewMembers.crewSprites.add(new Sprite(new Texture("Sagiri.png")));
+    }
+
+    public static Sprite selectSprite()
+    {
+        double chance = Math.random() * 20;
+        if(chance < 1)
+        {
+            return crewSprites.get(3);
+        }
+        if(chance < 2)
+        {
+            return crewSprites.get(2);
+        }
+        if(chance < 13)
+        {
+            return crewSprites.get(1);
+        }
+        else
+        {
+            return crewSprites.get(0);
+        }
     }
 
     public void setIndex(int index) {
