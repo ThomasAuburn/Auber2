@@ -41,7 +41,7 @@ public class KeySystem {
             // System is being destroyed. Less than 60 seconds remaining.
             if(timeElapsed == Math.ceil(timeElapsed))
             {
-                Player.takeDamage(0.001f);
+                Player.takeDamage(0.005f);
             }//Deals damage whilst the key system is being destroyed
             return timeElapsed;
         }

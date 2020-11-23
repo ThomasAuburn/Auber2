@@ -1,5 +1,6 @@
 package com.mygdx.auber.entities;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Camera;
@@ -80,6 +81,20 @@ public class Player extends Sprite implements InputProcessor {
             arrow.setPosition(this.getX() + this.getWidth()/2 - arrow.getWidth()/2, this.getY() + this.getHeight()/2);
             arrow.draw(batch);
         }
+    }
+
+    /**
+     * Draws the arrest radius for Auber
+     * @param shapeRenderer Shape renderer to be used for drawing shapes
+     */
+    public void drawCircle(ShapeRenderer shapeRenderer)
+    {
+        Gdx.gl.glLineWidth(3f);
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+        shapeRenderer.setAutoShapeType(true);
+        shapeRenderer.setColor(.2f, .2f, .2f, .3f);
+        shapeRenderer.circle(this.getX() + this.getWidth()/2, this.getY() + this.getHeight()/2, 200, 900);
+        shapeRenderer.end();
     }
 
     /**
@@ -224,7 +239,7 @@ public class Player extends Sprite implements InputProcessor {
 
     @Override
     public boolean mouseMoved(int screenX, int screenY) {
-        return false;
+        return true;
     }
 
     @Override

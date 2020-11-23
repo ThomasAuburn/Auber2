@@ -31,6 +31,7 @@ public class PlayScreen implements Screen {
     private final GraphCreator graphCreator;
     private final ScrollingBackground scrollingBackground;
     private final KeySystemManager keySystemManager;
+    private ShapeRenderer shapeRenderer;
     public static OrthographicCamera camera;
     public Player player;
 
@@ -44,6 +45,7 @@ public class PlayScreen implements Screen {
         camera = new OrthographicCamera();
         viewport = new ExtendViewport(Auber.VirtualWidth, Auber.VirtualHeight, camera);
         hud = new Hud(game.batch);
+        shapeRenderer = new ShapeRenderer();
         scrollingBackground = new ScrollingBackground(); //Creating a new camera, viewport, hud and scrolling background, setting the viewport to camera and virtual height/width
 
         mapLoader = new TmxMapLoader();
@@ -134,8 +136,10 @@ public class PlayScreen implements Screen {
 
         camera.position.set(player.getX() + player.getWidth()/2,player.getY() + player.getHeight()/2,0); //Sets camera to centre of player position
         game.batch.setProjectionMatrix(camera.combined); //Ensures everything is rendered properly, only renders things in viewport
+        shapeRenderer.setProjectionMatrix(camera.combined); //Ensures the shape renderer renders thing properly
 
         renderer.getBatch().begin();  //Start the sprite batch
+        /* Render sprites/textures below this line */
 
         scrollingBackground.updateRender(delta, (SpriteBatch) renderer.getBatch());//Renders the background
         renderer.renderTileLayer((TiledMapTileLayer) map.getLayers().get(0)); //Renders the bottom layer of the map
@@ -148,10 +152,19 @@ public class PlayScreen implements Screen {
         update(delta); //Updates the game camera and NPCs
         hud.stage.draw(); //Draws the HUD on the game
 
+        /* Render sprites/textures above this line */
         renderer.getBatch().end(); //Finishes the sprite batch
+        /* Render shapes below this line*/
 
+        Gdx.gl.glEnable(GL20.GL_BLEND);
+        Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA); //Allows for alpha changes in shapes
+
+        player.drawCircle(shapeRenderer);
         //graphCreator.shapeRenderer.setProjectionMatrix(camera.combined); //Ensures shapes are rendered properly
         //graphCreator.render(); //Debugging shows nodes and paths
+
+        /* Render shapes above this line */
+        Gdx.gl.glDisable(GL20.GL_BLEND);
     }
 
     /**
@@ -162,8 +175,8 @@ public class PlayScreen implements Screen {
     @Override
     public void resize(int width, int height) {
         viewport.update(width, height);
-        camera.viewportWidth = width/3f;
-        camera.viewportHeight = height/3f;
+        camera.viewportWidth = width/2f;
+        camera.viewportHeight = height/2f;
         camera.update();
         scrollingBackground.resize(width, height);
     }
