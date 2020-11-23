@@ -91,6 +91,10 @@ public class KeySystemManager {
         return keySystemsList;
     }
 
+    public static int keySystemsCount() {
+        return keySystems.size;
+    }
+
     public static void dispose()
     {
         keySystems.clear();
