@@ -69,7 +69,7 @@ public class PlayScreen implements Screen {
             NPCCreator.createCrew(CrewMembers.selectSprite(), MapGraph.getRandomNode(), graphCreator.mapGraph);
         } //Creates numberOfCrew crewmembers, gives them a random sprite
 
-        player = new Player(new Sprite(new Texture("AuberStand.png")),(TiledMapTileLayer)map.getLayers().get(0), demo);
+        player = new Player(new Sprite(new Texture("AuberStand.png")),(TiledMapTileLayer)map.getLayers().get("WallLining"), demo);
         player.setPosition(600, 1000); //Creates a player and sets him to the given position
 
         renderer = new OrthogonalTiledMapRenderer(map); //Creates a new renderer with the given map

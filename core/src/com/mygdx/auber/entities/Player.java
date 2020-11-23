@@ -36,6 +36,7 @@ public class Player extends Sprite implements InputProcessor {
     private boolean isSHeld;
     private boolean isDHeld;
 
+    float alpha = 0;
     Sprite arrow;
 
     public Player(Sprite sprite, TiledMapTileLayer collisionLayer, boolean demo) {
@@ -89,12 +90,22 @@ public class Player extends Sprite implements InputProcessor {
      */
     public void drawCircle(ShapeRenderer shapeRenderer)
     {
+        if(this.getX() != x || this.getY() != y)
+        {
+            alpha += 0.01;
+        }
+        else
+        {
+            alpha -= .01f;
+        } //If the player is moving, fade in the circle, else fade out
+
+        alpha = Math.max(0, Math.min(.3f, alpha)); //Clamp the alpha between 0 and .3
+
         Gdx.gl.glLineWidth(3f);
         shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
-        shapeRenderer.setAutoShapeType(true);
-        shapeRenderer.setColor(.2f, .2f, .2f, .3f);
+        shapeRenderer.setColor(.2f, .2f, .2f, alpha);
         shapeRenderer.circle(this.getX() + this.getWidth()/2, this.getY() + this.getHeight()/2, 200, 900);
-        shapeRenderer.end();
+        shapeRenderer.end(); //Rendering the circle
     }
 
     /**
