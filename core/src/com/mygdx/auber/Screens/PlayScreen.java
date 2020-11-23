@@ -31,7 +31,6 @@ public class PlayScreen implements Screen {
     private final GraphCreator graphCreator;
     private final ScrollingBackground scrollingBackground;
     private final KeySystemManager keySystemManager;
-    private ShapeRenderer shapeRenderer;
     public static OrthographicCamera camera;
     public Player player;
 
@@ -45,7 +44,6 @@ public class PlayScreen implements Screen {
         camera = new OrthographicCamera();
         viewport = new ExtendViewport(Auber.VirtualWidth, Auber.VirtualHeight, camera);
         hud = new Hud(game.batch);
-        shapeRenderer = new ShapeRenderer();
         scrollingBackground = new ScrollingBackground(); //Creating a new camera, viewport, hud and scrolling background, setting the viewport to camera and virtual height/width
 
         mapLoader = new TmxMapLoader();
@@ -160,7 +158,7 @@ public class PlayScreen implements Screen {
 
         renderer.getBatch().end(); //Finishes the sprite batch
 
-        //shapeRenderer.setProjectionMatrix(camera.combined); //Ensures shapes are rendered properly
+        //graphCreator.shapeRenderer.setProjectionMatrix(camera.combined); //Ensures shapes are rendered properly
         //graphCreator.render(); //Debugging shows nodes and paths
     }
 
@@ -207,7 +205,6 @@ public class PlayScreen implements Screen {
         player.dispose();
         map.dispose();
         game.dispose();
-        shapeRenderer.dispose();
         renderer.dispose();
     }
 
