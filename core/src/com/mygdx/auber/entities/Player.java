@@ -24,7 +24,7 @@ public class Player extends Sprite implements InputProcessor {
     public static float x,y;
     public boolean demo;
 
-    public static int health;
+    public static float health;
     float SPEED = 1.3f;
 
     public static boolean canHeal = true;
@@ -45,7 +45,7 @@ public class Player extends Sprite implements InputProcessor {
         this.arrow = new Sprite(new Texture("arrow.png"));
         arrow.setOrigin(arrow.getWidth()/2, 0);
 
-        health = 100;
+        health = 100f;
     }
 
     /**
@@ -276,7 +276,7 @@ public class Player extends Sprite implements InputProcessor {
      * Take damage for amount given
      * @param amount Amount of damage to deal
      */
-    public static void takeDamage(int amount) {
+    public static void takeDamage(float amount) {
         health -= amount;
     }
 

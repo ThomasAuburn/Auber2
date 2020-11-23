@@ -34,7 +34,7 @@ public class PlayScreen implements Screen {
     public static OrthographicCamera camera;
     public Player player;
 
-    public static final int numberOfInfiltrators = 80;
+    public static final int numberOfInfiltrators = 8;
     public static final int numberOfCrew = 120;
     public static final int maxIncorrectArrests = 3;
 
