@@ -77,7 +77,7 @@ public class Player extends Sprite implements InputProcessor {
             }
 
             arrow.setRotation((float) -angle);
-            arrow.setPosition(this.getX() + this.getWidth()/2, this.getY() + this.getHeight()/2);
+            arrow.setPosition(this.getX() + this.getWidth()/2 - arrow.getWidth()/2, this.getY() + this.getHeight()/2);
             arrow.draw(batch);
         }
     }
