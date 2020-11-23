@@ -36,7 +36,8 @@ public class PlayScreen implements Screen {
     public Player player;
 
     public static final int numberOfInfiltrators = 50;
-    private final int numberOfCrew = 1;
+    public static final int numberOfCrew = 1;
+    public static final int maxIncorrectArrests = 3;
 
     public PlayScreen(Auber game, boolean demo){
         this.game = game;
