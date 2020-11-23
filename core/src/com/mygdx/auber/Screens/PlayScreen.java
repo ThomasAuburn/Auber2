@@ -31,12 +31,11 @@ public class PlayScreen implements Screen {
     private final GraphCreator graphCreator;
     private final ScrollingBackground scrollingBackground;
     private final KeySystemManager keySystemManager;
-    private ShapeRenderer shapeRenderer;
     public static OrthographicCamera camera;
     public Player player;
 
-    private final int numberOfInfiltrators = 50;
-    private final int numberOfCrew = 1;
+    private final int numberOfInfiltrators = 80;
+    private final int numberOfCrew = 100;
 
     public PlayScreen(Auber game){
         this.game = game;
@@ -44,12 +43,11 @@ public class PlayScreen implements Screen {
         camera = new OrthographicCamera();
         viewport = new ExtendViewport(Auber.VirtualWidth, Auber.VirtualHeight, camera);
         hud = new Hud(game.batch);
-        shapeRenderer = new ShapeRenderer();
         scrollingBackground = new ScrollingBackground(); //Creating a new camera, viewport, hud and scrolling background, setting the viewport to camera and virtual height/width
 
         mapLoader = new TmxMapLoader();
 
-        map = mapLoader.load("AuberMap4.0.tmx"); //Creates a new map loader and loads the map into map
+        map = mapLoader.load("testmap2.tmx"); //Creates a new map loader and loads the map into map
 
         Infiltrator.createInfiltratorSprites();
         CrewMembers.createCrewSprites(); //Generates the infiltrator and crewmember sprites
@@ -154,12 +152,14 @@ public class PlayScreen implements Screen {
         player.draw(renderer.getBatch()); //Renders the player
         player.drawArrow(renderer.getBatch()); //Renders arrows towards key systems
 
+       //renderer.renderTileLayer((TiledMapTileLayer) map.getLayers().get(1));
+
         update(delta); //Updates the game camera and NPCs
         hud.stage.draw(); //Draws the HUD on the game
 
         renderer.getBatch().end(); //Finishes the sprite batch
 
-        //shapeRenderer.setProjectionMatrix(camera.combined); //Ensures shapes are rendered properly
+        //graphCreator.shapeRenderer.setProjectionMatrix(camera.combined); //Ensures shapes are rendered properly
         //graphCreator.render(); //Debugging shows nodes and paths
     }
 
@@ -206,7 +206,6 @@ public class PlayScreen implements Screen {
         player.dispose();
         map.dispose();
         game.dispose();
-        shapeRenderer.dispose();
         renderer.dispose();
     }
 
