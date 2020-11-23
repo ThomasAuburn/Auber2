@@ -39,6 +39,7 @@ public class Player extends Sprite implements InputProcessor {
 
     private float alpha = 0;
     private float arrestRadius = 200;
+    private float screenx,screeny;
     Sprite arrow;
 
     public Player(Sprite sprite, Array<TiledMapTileLayer> collisionLayer, boolean demo) {
@@ -92,7 +93,7 @@ public class Player extends Sprite implements InputProcessor {
      */
     public void drawCircle(ShapeRenderer shapeRenderer)
     {
-        if(this.getX() != x || this.getY() != y)
+        if(this.getX() != x || this.getY() != y || Gdx.input.getX() != screenx || Gdx.input.getY() != screeny)
         {
             alpha += 0.01;
         }
@@ -100,6 +101,9 @@ public class Player extends Sprite implements InputProcessor {
         {
             alpha -= .01f;
         } //If the player is moving, fade in the circle, else fade out
+
+        screeny = Gdx.input.getY();
+        screenx = Gdx.input.getX();
 
         alpha = Math.max(0, Math.min(.3f, alpha)); //Clamp the alpha between 0 and .3
 
