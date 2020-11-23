@@ -13,6 +13,7 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.utils.Array;
 import com.mygdx.auber.Scenes.Hud;
 import com.mygdx.auber.Screens.PlayScreen;
 
@@ -21,7 +22,7 @@ public class Player extends Sprite implements InputProcessor {
     public Vector2 velocity = new Vector2(0,0);
 
     private final Collision collision;
-    public final TiledMapTileLayer collisionLayer;
+    public final Array<TiledMapTileLayer> collisionLayer;
     public static float x,y;
     public boolean demo;
 
@@ -36,9 +37,11 @@ public class Player extends Sprite implements InputProcessor {
     private boolean isSHeld;
     private boolean isDHeld;
 
+    private float alpha = 0;
+    private float arrestRadius = 200;
     Sprite arrow;
 
-    public Player(Sprite sprite, TiledMapTileLayer collisionLayer, boolean demo) {
+    public Player(Sprite sprite, Array<TiledMapTileLayer> collisionLayer, boolean demo) {
         super(sprite);
         this.collisionLayer = collisionLayer;
         this.collision = new Collision();
@@ -89,12 +92,22 @@ public class Player extends Sprite implements InputProcessor {
      */
     public void drawCircle(ShapeRenderer shapeRenderer)
     {
+        if(this.getX() != x || this.getY() != y)
+        {
+            alpha += 0.01;
+        }
+        else
+        {
+            alpha -= .01f;
+        } //If the player is moving, fade in the circle, else fade out
+
+        alpha = Math.max(0, Math.min(.3f, alpha)); //Clamp the alpha between 0 and .3
+
         Gdx.gl.glLineWidth(3f);
         shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
-        shapeRenderer.setAutoShapeType(true);
-        shapeRenderer.setColor(.2f, .2f, .2f, .3f);
-        shapeRenderer.circle(this.getX() + this.getWidth()/2, this.getY() + this.getHeight()/2, 200, 900);
-        shapeRenderer.end();
+        shapeRenderer.setColor(.2f, .2f, .2f, alpha);
+        shapeRenderer.circle(this.getX() + this.getWidth()/2, this.getY() + this.getHeight()/2, arrestRadius, 900);
+        shapeRenderer.end(); //Rendering the circle
     }
 
     /**
@@ -210,18 +223,23 @@ public class Player extends Sprite implements InputProcessor {
         {
             if(infiltrator.getBoundingRectangle().contains(point))
             {
-                NPCCreator.removeInfiltrator(infiltrator.index);
-                Hud.ImposterCount += 1;
-                return true;
+                if(Vector2.dst(this.getX(), this.getY(), infiltrator.getX(), infiltrator.getY()) < arrestRadius)
+                {
+                    NPCCreator.removeInfiltrator(infiltrator.index);
+                    Hud.ImposterCount += 1;
+                    return true;
+                }
             }
         } //If an infiltrator was clicked, remove it from the list
 
         for(CrewMembers crewMember: NPCCreator.crew) {
             if(crewMember.getBoundingRectangle().contains(point))
             {
-                NPCCreator.removeCrewmember(crewMember.index);
-                Hud.CrewmateCount += 1;
-                return true;
+                if(Vector2.dst(this.getX(), this.getY(), crewMember.getX(), crewMember.getY()) < arrestRadius) {
+                    NPCCreator.removeCrewmember(crewMember.index);
+                    Hud.CrewmateCount += 1;
+                    return true;
+                }
             }
         }//If an crewmember was clicked, remove it from the list
         return true;

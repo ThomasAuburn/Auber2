@@ -12,6 +12,7 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.auber.Auber;
@@ -50,12 +51,12 @@ public class PlayScreen implements Screen {
 
         mapLoader = new TmxMapLoader();
 
-        map = mapLoader.load("AuberMap5.0.tmx"); //Creates a new map loader and loads the map into map
+        map = mapLoader.load("AuberMap4.0.tmx"); //Creates a new map loader and loads the map into map
 
         Infiltrator.createInfiltratorSprites();
         CrewMembers.createCrewSprites(); //Generates the infiltrator and crewmember sprites
 
-        graphCreator = new GraphCreator((TiledMapTileLayer)map.getLayers().get(0)); //Generates all the nodes and paths for the given map layer
+        graphCreator = new GraphCreator((TiledMapTileLayer)map.getLayers().get("Tile Layer 1")); //Generates all the nodes and paths for the given map layer
         keySystemManager = new KeySystemManager((TiledMapTileLayer)map.getLayers().get("Systems"));
 
         for (int i = 0; i < numberOfInfiltrators; i++) {
@@ -69,7 +70,10 @@ public class PlayScreen implements Screen {
             NPCCreator.createCrew(CrewMembers.selectSprite(), MapGraph.getRandomNode(), graphCreator.mapGraph);
         } //Creates numberOfCrew crewmembers, gives them a random sprite
 
-        player = new Player(new Sprite(new Texture("AuberStand.png")),(TiledMapTileLayer)map.getLayers().get(0), demo);
+        Array<TiledMapTileLayer> playerCollisionLayers = new Array<>();
+        playerCollisionLayers.add((TiledMapTileLayer) map.getLayers().get("Tile Layer 1")); playerCollisionLayers.add((TiledMapTileLayer) map.getLayers().get(2)); //The layers on which the player will collide
+
+        player = new Player(new Sprite(new Texture("AuberStand.png")), playerCollisionLayers, demo);
         player.setPosition(600, 1000); //Creates a player and sets him to the given position
 
         renderer = new OrthogonalTiledMapRenderer(map); //Creates a new renderer with the given map
