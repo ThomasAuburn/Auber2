@@ -25,7 +25,7 @@ public class Player extends Sprite implements InputProcessor {
     public boolean demo;
 
     public static int health;
-    float SPEED = 1;
+    float SPEED = 1.5f;
 
     public static boolean canHeal = true;
     public static float healStopTime;
