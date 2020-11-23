@@ -48,7 +48,7 @@ public class PlayScreen implements Screen {
 
         mapLoader = new TmxMapLoader();
 
-        map = mapLoader.load("AuberMap4.0.tmx"); //Creates a new map loader and loads the map into map
+        map = mapLoader.load("AuberMap5.0.tmx"); //Creates a new map loader and loads the map into map
 
         Infiltrator.createInfiltratorSprites();
         CrewMembers.createCrewSprites(); //Generates the infiltrator and crewmember sprites
@@ -149,6 +149,8 @@ public class PlayScreen implements Screen {
         scrollingBackground.updateRender(delta, (SpriteBatch) renderer.getBatch());//Renders the background
         renderer.renderTileLayer((TiledMapTileLayer) map.getLayers().get(0)); //Renders the bottom layer of the map
         renderer.renderTileLayer((TiledMapTileLayer) map.getLayers().get(1));
+        renderer.renderTileLayer((TiledMapTileLayer) map.getLayers().get(2));
+        renderer.renderTileLayer((TiledMapTileLayer) map.getLayers().get(3));
 
         NPC.render(renderer.getBatch()); //Renders all NPCs
         player.draw(renderer.getBatch()); //Renders the player
