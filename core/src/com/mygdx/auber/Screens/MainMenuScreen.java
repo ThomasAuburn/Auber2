@@ -27,7 +27,7 @@ public class MainMenuScreen implements Screen {
 
     private Viewport viewport;
     Stage stage;
-    TextButton playButton, exitButton, demoButton;
+    TextButton playButton, exitButton, demoButton, tutorialButton;
     TextButton.TextButtonStyle textButtonStyle;
     BitmapFont font;
     Skin skin;
@@ -58,6 +58,7 @@ public class MainMenuScreen implements Screen {
         playButton = new TextButton("PLAY", textButtonStyle);
         demoButton = new TextButton("DEMO", textButtonStyle);
         exitButton = new TextButton("EXIT", textButtonStyle);
+        tutorialButton = new TextButton("TUTORIAL", textButtonStyle);
         titleCard = new Image(title);
         playButton.setSize(200, 190);
 
@@ -117,6 +118,26 @@ public class MainMenuScreen implements Screen {
                 demoButton.setChecked(false);
             }
         });
+        tutorialButton.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                //System.out.println("Clicked");
+                game.setScreen(new TutorialScreen(game));
+            }
+
+
+            @Override
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                //System.out.println("Hovered");
+                tutorialButton.setChecked(true);
+            }
+
+            @Override
+            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
+                //System.out.println("Exited");
+                tutorialButton.setChecked(false);
+            }
+        });
 
         Table menuTable = new Table();
         menuTable.setTouchable(Touchable.enabled);
@@ -126,6 +147,8 @@ public class MainMenuScreen implements Screen {
         menuTable.add(playButton).padBottom(20);
         menuTable.row();
         menuTable.add(demoButton).padBottom(20);
+        menuTable.row();
+        menuTable.add(tutorialButton).padBottom(20);
         menuTable.row();
         menuTable.add(exitButton);
         //menuTable.debug();
