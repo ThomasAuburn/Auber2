@@ -36,8 +36,8 @@ public class PlayScreen implements Screen {
     public static OrthographicCamera camera;
     public Player player;
 
-    public static final int numberOfInfiltrators = 8;
-    public static final int numberOfCrew = 120;
+    public static final int numberOfInfiltrators = 2;
+    public static final int numberOfCrew = 2;
     public static final int maxIncorrectArrests = 3;
 
     public PlayScreen(Auber game, boolean demo){
@@ -121,11 +121,15 @@ public class PlayScreen implements Screen {
         renderer.setView(camera); //Needed for some reason
 
         if(gameOver()){
+            System.out.println("Win");
             game.setScreen(new GameOverScreen(game, false));
+            return;
         } //If game over, show game over screen and dispose of all assets
         if(gameWin())
         {
+            System.out.println("Lose");
             game.setScreen(new GameOverScreen(game, true));
+            return;
         } //If game won, show game win screen and dispose of all assets
     }
 

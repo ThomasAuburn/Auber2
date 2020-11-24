@@ -54,8 +54,12 @@ public class NPCCreator {
                 if(infiltrator.isDestroying)
                 {
                     KeySystemManager.getClosestKeySystem(infiltrator.getX(), infiltrator.getY()).stopDestroy();
+                    double chance = Math.random();
+                    if(chance > .25f)
+                    {
+                        Player.takeDamage(10);
+                    } //Random chance of player taking damage upon arresting infiltrator
                 }
-                infiltrator.useAbility();
                 infiltrator.isDestroying = false;
                 infiltrator.step(0.001f);
             }
