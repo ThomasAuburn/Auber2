@@ -62,6 +62,7 @@ public class NPCCreator {
                 }
                 infiltrator.isDestroying = false;
                 infiltrator.step(0.001f);
+                Prisoners.addPrisoner(infiltrator);
             }
         }
         infiltrators.removeIndex(id);
@@ -82,6 +83,9 @@ public class NPCCreator {
      */
     public static void removeCrewmember(int id)
     {
+        CrewMembers newPrisoner = crew.get(id);
+        Prisoners.addPrisoner(newPrisoner);
+
         crew.removeIndex(id);
         if(crew.isEmpty())
         {
