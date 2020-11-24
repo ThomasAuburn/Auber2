@@ -172,6 +172,10 @@ public class PlayScreen implements Screen {
         Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA); //Allows for alpha changes in shapes
 
         player.drawCircle(shapeRenderer);
+        if(!Player.canHeal)
+        {
+            player.drawLine(shapeRenderer);
+        }
         //graphCreator.shapeRenderer.setProjectionMatrix(camera.combined); //Ensures shapes are rendered properly
         //graphCreator.render(); //Debugging shows nodes and paths
 

@@ -121,6 +121,15 @@ public class Player extends Sprite implements InputProcessor {
         shapeRenderer.end(); //Rendering the circle
     }
 
+    public void drawLine(ShapeRenderer shapeRenderer)
+    {
+        Gdx.gl.glLineWidth(3f);
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+        shapeRenderer.setColor(.7f, .2f, .2f, .99f);
+        shapeRenderer.line(0, 30, 100, 30);
+        shapeRenderer.end();
+    }
+
     public void findHealers(TiledMapTileLayer tileLayer)
     {
         for (int i = 0; i < tileLayer.getWidth(); i++)
@@ -151,8 +160,14 @@ public class Player extends Sprite implements InputProcessor {
 
         if(!canHeal)
         {
+            System.out.println(healStopTime);
             healStopTime += delta;
         } //If cant heal, add time to healStopTime
+        if(healStopTime >= 15)
+        {
+            healStopTime = 0;
+            canHeal = true;
+        } //After 15 seconds the player can heal again
 
         if(isWHeld) {
             velocity.y += SPEED;
@@ -171,7 +186,7 @@ public class Player extends Sprite implements InputProcessor {
 
         velocity = collision.checkForCollision(this, collisionLayer, velocity, collision); //Checks for collision in the direction of movement
 
-        if(Vector2.dst(this.getX(), this.getY(), healerPosition.x, healerPosition.y) < 100)
+        if(Vector2.dst(this.getX(), this.getY(), healerPosition.x, healerPosition.y) < 100 && canHeal)
         {
             heal(1);
         }
@@ -326,11 +341,7 @@ public class Player extends Sprite implements InputProcessor {
         } //If he can heal, add health
         else
         {
-            if(System.currentTimeMillis() - healStopTime > 20 * 100)
-            {
-                canHeal = true;
-                heal(amount);
-            }
+
         } //If he cant heal, check if time has passed, if it has set canHeal to true and heal for the amount
     }
 

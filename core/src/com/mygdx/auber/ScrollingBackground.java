@@ -15,10 +15,10 @@ public class ScrollingBackground {
     {
         image = new Texture("background.png");
 
-        y1 = 400;
+        y1 = 2000;
         y2 = y1 + image.getHeight() - 40;
-        x = -100;
-        imageScale = 0;
+        x = 200;
+        imageScale = 1;
     }
 
     public void updateRender(float delta, SpriteBatch batch)
@@ -26,11 +26,11 @@ public class ScrollingBackground {
         y1 -= SPEED * delta;
         y2 -= SPEED * delta;
 
-        if(y1 + image.getHeight() * imageScale <= 0)
+        if(y1 + image.getHeight() * imageScale <= 2000)
         {
             y1 = y2 + image.getHeight() * imageScale;
         }
-        if(y2 + image.getHeight() * imageScale <= 0)
+        if(y2 + image.getHeight() * imageScale <= 2000)
         {
             y2 = y1 + image.getHeight() * imageScale;
         }

@@ -86,9 +86,12 @@ public class Infiltrator extends NPC{
         this.velocity.x = 0;
         this.velocity.y = 0;
         timeToWait = Math.random() * 15;
+        double chance = 1/ (double) NPCCreator.infiltrators.size;
 
-        if(Math.random() > .90f && !this.isDestroying && !this.isInvisible && KeySystemManager.safeKeySystemsCount() != 0) // 1/10 chance of infiltrator deciding to destroy a keysystem
+        //TODO: Make it so the chance of moving to destroy a key system increases as the amount of infiltrators decreases
+        if(Math.random() < chance  && !this.isDestroying && !this.isInvisible && KeySystemManager.safeKeySystemsCount() != 0) // 1/10 chance of infiltrator deciding to destroy a keysystem
         {
+            System.out.println("Moving to destroy");
             this.destroyKeySystem();
             return;
         } //If not invisible or currently destroying a key system, random chance to go destroying a key system
