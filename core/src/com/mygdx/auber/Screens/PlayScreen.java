@@ -33,7 +33,8 @@ public class PlayScreen implements Screen {
     private final GraphCreator graphCreator;
     private final ScrollingBackground scrollingBackground;
     private final KeySystemManager keySystemManager;
-    private ShapeRenderer shapeRenderer;
+    private Prisoners prisoners;
+    private final ShapeRenderer shapeRenderer;
     public static OrthographicCamera camera;
     public Player player;
 
@@ -62,6 +63,7 @@ public class PlayScreen implements Screen {
 
         graphCreator = new GraphCreator((TiledMapTileLayer)map.getLayers().get("Tile Layer 1")); //Generates all the nodes and paths for the given map layer
         keySystemManager = new KeySystemManager((TiledMapTileLayer)map.getLayers().get("Systems")); //Generates key systems
+        prisoners = new Prisoners((TiledMapTileLayer)map.getLayers().get("OutsideWalls+Lining"));
 
         for (int i = 0; i < numberOfInfiltrators; i++) {
             //System.out.println("Infiltrator created!");
@@ -174,12 +176,12 @@ public class PlayScreen implements Screen {
 
         scrollingBackground.updateRender(delta, (SpriteBatch) renderer.getBatch());//Renders the background
         renderer.renderTileLayer((TiledMapTileLayer) map.getLayers().get(0)); //Renders the bottom layer of the map
+        Prisoners.render(renderer.getBatch());
         renderer.renderTileLayer((TiledMapTileLayer) map.getLayers().get(1));
         renderer.renderTileLayer((TiledMapTileLayer) map.getLayers().get(2));
         renderer.renderTileLayer((TiledMapTileLayer) map.getLayers().get(3));
 
         NPC.render(renderer.getBatch()); //Renders all NPCs
-
         if(!demo)
         {
             player.draw(renderer.getBatch()); //Renders the player
@@ -196,7 +198,10 @@ public class PlayScreen implements Screen {
         Gdx.gl.glEnable(GL20.GL_BLEND);
         Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA); //Allows for alpha changes in shapes
 
-        player.drawCircle(shapeRenderer);
+        if(!demo)
+        {
+            player.drawCircle(shapeRenderer);
+        }
         //graphCreator.shapeRenderer.setProjectionMatrix(camera.combined); //Ensures shapes are rendered properly
         //graphCreator.render(); //Debugging shows nodes and paths
 
