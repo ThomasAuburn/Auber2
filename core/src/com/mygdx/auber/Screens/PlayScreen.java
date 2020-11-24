@@ -61,7 +61,7 @@ public class PlayScreen implements Screen {
 
         for (int i = 0; i < numberOfInfiltrators; i++) {
             //System.out.println("Infiltrator created!");
-            NPCCreator.createInfiltrator(Infiltrator.easySprites.random(), MapGraph.getRandomNode(), graphCreator.mapGraph);
+            NPCCreator.createInfiltrator(CrewMembers.selectSprite(), MapGraph.getRandomNode(), graphCreator.mapGraph);
         } //Creates numberOfInfiltrators infiltrators, gives them a random hard or easy sprite
 
         for(int i = 0; i < numberOfCrew; i++)
@@ -76,6 +76,7 @@ public class PlayScreen implements Screen {
         player = new Player(new Sprite(new Texture("AuberStand.png")), playerCollisionLayers, demo);
         player.setPosition(1700, 3000); //Creates a player and sets him to the given position
         player.findHealers((TiledMapTileLayer) map.getLayers().get("Systems")); //Finds infirmary
+        player.teleporters = player.getTeleporterLocations((TiledMapTileLayer) map.getLayers().get("Systems")); //Finds the teleporters
 
         renderer = new OrthogonalTiledMapRenderer(map); //Creates a new renderer with the given map
 
@@ -171,8 +172,8 @@ public class PlayScreen implements Screen {
         Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA); //Allows for alpha changes in shapes
 
         player.drawCircle(shapeRenderer);
-        graphCreator.shapeRenderer.setProjectionMatrix(camera.combined); //Ensures shapes are rendered properly
-        graphCreator.render(); //Debugging shows nodes and paths
+        //graphCreator.shapeRenderer.setProjectionMatrix(camera.combined); //Ensures shapes are rendered properly
+        //graphCreator.render(); //Debugging shows nodes and paths
 
         /* Render shapes above this line */
         Gdx.gl.glDisable(GL20.GL_BLEND);

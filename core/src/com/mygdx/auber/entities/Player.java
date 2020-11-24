@@ -47,6 +47,7 @@ public class Player extends Sprite implements InputProcessor {
     Sprite arrow;
 
     private Vector2 healerPosition = new Vector2();
+    public Array<Vector2> teleporters = new Array<>();
 
     public Player(Sprite sprite, Array<TiledMapTileLayer> collisionLayer, boolean demo) {
         super(sprite);
@@ -202,6 +203,16 @@ public class Player extends Sprite implements InputProcessor {
             case Input.Keys.S:
                 isSHeld = true;
                 break;
+            case Input.Keys.SPACE:
+                for (int i = 0; i < teleporters.size; i++) {
+                    if(teleporters.get(i).dst(this.getX(),this.getY()) < 50)
+                    {
+                        System.out.println("Teleported");
+                        this.teleport();
+                        break;
+                    }
+                }
+                break;
         } //If key is pressed, set isKeyHeld to true
         return true;
     }
@@ -351,23 +362,23 @@ public class Player extends Sprite implements InputProcessor {
 
     /**
      * Teleport player to the other teleporter. There are only 2 so player is teleported to the furthest one.
-     * @param tileLayer Tile map layer containing the teleporters.
      */
-    public static void teleport(TiledMapTileLayer tileLayer) {
-        Array<Vector2> teleporters = getTeleporterLocations(tileLayer);
+    public void teleport() {
+        System.out.println("x: " + getX() + ", y: " + getY());
         Vector2 furthestTeleporter = new Vector2();
-        for (Vector2 teleporter : teleporters) {
-            if (furthestTeleporter == null) {
-                furthestTeleporter = teleporter;
+        for (Vector2 teleporter : this.teleporters) {
+            if (furthestTeleporter.equals(Vector2.Zero)) {
+                furthestTeleporter.set(teleporter);
                 continue;
             }
-            Vector2 currentPosition = new Vector2(x, y);
+            Vector2 currentPosition = new Vector2(this.getX(), this.getY());
             if (currentPosition.dst2(teleporter) > currentPosition.dst2(furthestTeleporter)) {
-                furthestTeleporter = teleporter;
+                furthestTeleporter.set(teleporter);
             }
         }
-        Player.x = furthestTeleporter.x;
-        Player.y = furthestTeleporter.y;
+        System.out.println(furthestTeleporter);
+        setX(furthestTeleporter.x);
+        setY(furthestTeleporter.y);
     }
 
     /**
@@ -375,7 +386,7 @@ public class Player extends Sprite implements InputProcessor {
      * @param tileLayer Tile map layer containing the teleporters.
      * @return Array of the positions of teleporters.
      */
-    private static Array<Vector2> getTeleporterLocations(TiledMapTileLayer tileLayer) {
+    public static Array<Vector2> getTeleporterLocations(TiledMapTileLayer tileLayer) {
         Array<Vector2> teleporters = new Array<>();
 
         for (int i = 0; i < tileLayer.getWidth(); i++) {
