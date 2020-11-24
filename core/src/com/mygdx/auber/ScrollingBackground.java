@@ -15,8 +15,8 @@ public class ScrollingBackground {
     {
         image = new Texture("background.png");
 
-        y1 = 0;
-        y2 = image.getHeight() - 40;
+        y1 = 400;
+        y2 = y1 + image.getHeight() - 40;
         x = -100;
         imageScale = 0;
     }

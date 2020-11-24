@@ -87,7 +87,7 @@ public class Infiltrator extends NPC{
         this.velocity.y = 0;
         timeToWait = Math.random() * 15;
 
-        if(Math.random() > .95f && !this.isDestroying && !this.isInvisible && KeySystemManager.safeKeySystemsCount() != 0) // 1/10 chance of infiltrator deciding to destroy a keysystem
+        if(Math.random() > .90f && !this.isDestroying && !this.isInvisible && KeySystemManager.safeKeySystemsCount() != 0) // 1/10 chance of infiltrator deciding to destroy a keysystem
         {
             this.destroyKeySystem();
             return;
