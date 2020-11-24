@@ -2,14 +2,18 @@ package com.mygdx.auber.Screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -19,13 +23,12 @@ public class TutorialScreen implements Screen{
 
     private Viewport viewport;
     Stage stage;
-    BitmapFont font;
-    Skin skin;
-    Array<Image> images = new Array<>();
+    Array<Image> images = new Array<>();//Create array of images to be iterated through when moving through tutorial
+    Integer i = 0;//Used for tracking current tutorial image
 
     private Auber game;
 
-    public TutorialScreen(Auber game)
+    public TutorialScreen(final Auber game)
     {
         this.game = game;
 
@@ -33,15 +36,37 @@ public class TutorialScreen implements Screen{
         stage = new Stage(viewport, ((Auber) game).batch);
         Gdx.input.setInputProcessor(stage);
 
-        font = new BitmapFont();
-        skin = new Skin();
 
-        images.add(new Image(new Texture("Tutorial1.png")));
-        images.add(new Image(new Texture("Tutorial2.png")));
+        images.add(new Image(new Texture("Tutorial1.png")));//Adds each image to the images array
+        images.add(new Image(new Texture("Tutorial2.png")));//New parts of the tutorial can be easily added
         images.add(new Image(new Texture("Tutorial3.png")));
         images.add(new Image(new Texture("Tutorial4.png")));
         images.add(new Image(new Texture("Tutorial5.png")));
 
+        final Table tutTable = new Table();//Table for adding each image to so that it can be displayed
+        stage.addActor(tutTable);
+        tutTable.setFillParent(true);//Fills stage with the table to make it the correct dimensions and to resize with the screen
+        tutTable.add(images.get(i));
+        stage.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                if (i == 4){//Change i to number of tutorial images - 1
+                    game.setScreen(new MainMenuScreen(game));//Change screen to main menu if on the final tutorial image
+                }else {
+
+                    tutTable.removeActor(images.get(i));//Removes current image from the table
+                    i++;//Increases i to get the new image
+                    tutTable.add(images.get(i));//Gets the next tutorial image from the array
+                }
+
+            }
+
+        });
+
+
+
+
+        //stage.addActor(images.get(0));
 
     }
 
@@ -52,6 +77,10 @@ public class TutorialScreen implements Screen{
 
     @Override
     public void render(float delta) {
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);//Clear stage of previous renders
+        stage.draw();//Draws the new stage
+
+
 
     }
 
