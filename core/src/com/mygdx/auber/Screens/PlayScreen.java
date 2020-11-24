@@ -34,7 +34,7 @@ public class PlayScreen implements Screen {
     private final ScrollingBackground scrollingBackground;
     private final KeySystemManager keySystemManager;
     private Prisoners prisoners;
-    private ShapeRenderer shapeRenderer;
+    private final ShapeRenderer shapeRenderer;
     public static OrthographicCamera camera;
     public Player player;
 

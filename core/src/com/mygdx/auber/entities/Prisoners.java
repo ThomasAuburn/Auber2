@@ -16,6 +16,11 @@ public class Prisoners{
         prisoners = new Array<>();
     }
 
+    /**
+     * Scans every tile and adds a vector 2 with the position of the tile with the property "prison"
+     * @param tileLayer Layer to scan for tiles
+     * @return Array of positions of tiles
+     */
     public static Array<Vector2> findBrigLocations(TiledMapTileLayer tileLayer)
     {
         Array<Vector2> positions = new Array<>();
@@ -34,12 +39,20 @@ public class Prisoners{
         return positions;
     }
 
+    /**
+     * Adds a prisoner to the list of prisoners and spawns them in the brig
+     * @param sprite Sprite of npc to put in prison
+     */
     public static void addPrisoner(Sprite sprite)
     {
         prisoners.add(sprite);
         sprite.setPosition(positions.random().x, positions.random().y);
     }
 
+    /**
+     * Renders the sprites in the prison
+     * @param batch Batch to draw the sprites in
+     */
     public static void render(Batch batch)
     {
         if(!prisoners.isEmpty())
