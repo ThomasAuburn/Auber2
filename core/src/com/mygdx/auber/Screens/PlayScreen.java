@@ -36,8 +36,8 @@ public class PlayScreen implements Screen {
     public static OrthographicCamera camera;
     public Player player;
 
-    public static final int numberOfInfiltrators = 200;
-    public static final int numberOfCrew = 2;
+    public static final int numberOfInfiltrators = 8;
+    public static final int numberOfCrew = 120;
     public static final int maxIncorrectArrests = 3;
 
     public PlayScreen(Auber game, boolean demo){
