@@ -65,8 +65,16 @@ public class Hud {
     public void update() {
         imposterCountLabel.setText(String.format("Imposter Arrests: %02d / %02d", ImposterCount, PlayScreen.numberOfInfiltrators));
         crewmateCountLabel.setText(String.format("Incorrect Arrests: %02d / %02d", CrewmateCount, PlayScreen.maxIncorrectArrests));
-        playerHealthLabel.setText(String.format("Health: %02d",(int) Player.health));
         keySystemsCountLabel.setText(String.format("Safe key systems: %02d / %02d", KeySystemManager.safeKeySystemsCount(), KeySystemManager.keySystemsCount()));
+        playerHealthLabel.setText(String.format("Health: %02d",(int) Player.health));
+        if(!Player.canHeal)
+        {
+            playerHealthLabel.setStyle(new Label.LabelStyle(font, Color.FIREBRICK));
+        }
+        else
+        {
+            playerHealthLabel.setStyle(new Label.LabelStyle(font, Color.YELLOW));
+        }
     }
 
 }

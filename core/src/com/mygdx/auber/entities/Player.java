@@ -16,6 +16,7 @@ import com.badlogic.gdx.math.Vector;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
+import com.mygdx.auber.Auber;
 import com.mygdx.auber.Pathfinding.MapGraph;
 import com.mygdx.auber.Pathfinding.Node;
 import com.mygdx.auber.Scenes.Hud;
@@ -119,15 +120,6 @@ public class Player extends Sprite implements InputProcessor {
         shapeRenderer.setColor(.2f, .2f, .2f, alpha);
         shapeRenderer.circle(this.getX() + this.getWidth()/2, this.getY() + this.getHeight()/2, arrestRadius, 900);
         shapeRenderer.end(); //Rendering the circle
-    }
-
-    public void drawLine(ShapeRenderer shapeRenderer)
-    {
-        Gdx.gl.glLineWidth(3f);
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
-        shapeRenderer.setColor(.7f, .2f, .2f, .99f);
-        shapeRenderer.line(0, 30, 100, 30);
-        shapeRenderer.end();
     }
 
     public void findHealers(TiledMapTileLayer tileLayer)
