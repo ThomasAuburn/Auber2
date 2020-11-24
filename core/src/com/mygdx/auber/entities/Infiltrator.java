@@ -50,7 +50,7 @@ public class Infiltrator extends NPC{
                 this.useAbility();
                 this.isDestroying = false;
             }
-        } //If isDestroying, if the distance to the player is less than 50, use ability and stop destroying, else keep adding time
+        } //If isDestroying, if the distance to the player is less than 250, use ability and stop destroying, else keep adding time
 
         if(isInvisible)
         {
