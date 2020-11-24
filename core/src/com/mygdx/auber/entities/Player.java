@@ -98,7 +98,7 @@ public class Player extends Sprite implements InputProcessor {
      */
     public void drawCircle(ShapeRenderer shapeRenderer)
     {
-        if(Gdx.input.getX() != screenx || Gdx.input.getY() != screeny)
+        if(Gdx.input.getX() != screenx || Gdx.input.getY() != screeny || this.getX() != x || this.getY() != y)
         {
             alpha += 0.01;
         }
