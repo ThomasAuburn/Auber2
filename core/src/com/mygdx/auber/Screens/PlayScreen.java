@@ -61,7 +61,12 @@ public class PlayScreen implements Screen {
 
         for (int i = 0; i < numberOfInfiltrators; i++) {
             //System.out.println("Infiltrator created!");
-            NPCCreator.createInfiltrator(CrewMembers.selectSprite(), MapGraph.getRandomNode(), graphCreator.mapGraph);
+            if(i == numberOfInfiltrators - 1)
+            {
+                NPCCreator.createInfiltrator(Infiltrator.hardSprites.random(), MapGraph.getRandomNode(), graphCreator.mapGraph);
+                break;
+            }
+            NPCCreator.createInfiltrator(Infiltrator.easySprites.random(), MapGraph.getRandomNode(), graphCreator.mapGraph);
         } //Creates numberOfInfiltrators infiltrators, gives them a random hard or easy sprite
 
         for(int i = 0; i < numberOfCrew; i++)
