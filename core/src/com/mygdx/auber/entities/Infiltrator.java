@@ -13,13 +13,13 @@ import com.mygdx.auber.Screens.PlayScreen;
 
 public class Infiltrator extends NPC{
     public boolean isDestroying = false;
-    public double timeToWait = Math.random() * 15;
+    public double timeToWait = Math.random() * 5;
 
     private float timeInvisible;
     private boolean isInvisible = false;
 
     public static Array<Sprite> easySprites = new Array<>();
-    //public static Array<Sprite> hardSprites = new Array<>();
+    public static Array<Sprite> hardSprites = new Array<>();
 
     public Infiltrator(Sprite sprite, Node node, MapGraph mapGraph) {
         super(sprite, node, mapGraph);
@@ -85,13 +85,11 @@ public class Infiltrator extends NPC{
     {
         this.velocity.x = 0;
         this.velocity.y = 0;
-        timeToWait = Math.random() * 15;
-        double chance = 1/ (double) NPCCreator.infiltrators.size;
+        timeToWait = Math.random() * 5;
+        double chance = 1 / (double) NPCCreator.infiltrators.size;
 
-        //TODO: Make it so the chance of moving to destroy a key system increases as the amount of infiltrators decreases
-        if(Math.random() < chance  && !this.isDestroying && !this.isInvisible && KeySystemManager.safeKeySystemsCount() != 0) // 1/10 chance of infiltrator deciding to destroy a keysystem
+        if((Math.random() - 0.2f < chance)  && !this.isDestroying && !this.isInvisible && KeySystemManager.safeKeySystemsCount() != 0) // 1/10 chance of infiltrator deciding to destroy a keysystem
         {
-            System.out.println("Moving to destroy");
             this.destroyKeySystem();
             return;
         } //If not invisible or currently destroying a key system, random chance to go destroying a key system
@@ -207,10 +205,12 @@ public class Infiltrator extends NPC{
      */
     public static void createInfiltratorSprites()
     {
-        Infiltrator.easySprites.add(new Sprite(new Texture("AlienInfiltratorStand.png")));
-        Infiltrator.easySprites.add(new Sprite(new Texture("HumanInfiltratorStand.png")));
-        //Infiltrator.hardSprites.add(new Sprite(new Texture("AlienStand.png")));
-        //Infiltrator.hardSprites.add(new Sprite(new Texture("HumanStand.png")));
+        Infiltrator.easySprites.add(new Sprite(new Texture("Doctor.png")));
+        Infiltrator.easySprites.add(new Sprite(new Texture("InfiltratorEngineer.png")));
+        Infiltrator.easySprites.add(new Sprite(new Texture("InfiltratorAlien.png")));
+
+        Infiltrator.hardSprites.add(new Sprite(new Texture("AlienStand.png")));
+        Infiltrator.hardSprites.add(new Sprite(new Texture("HumanStand.png")));
     }
 
     public void setIndex(int index)
