@@ -13,6 +13,10 @@ public class KeySystemManager {
         loadKeySystems(tileLayer);
     }
 
+    /**
+     * Scans the tile layer and adds a KeySystem to keySystens upon finding a tile with they property "keysystem"
+     * @param tileLayer layer to scan for key systems
+     */
     private static void loadKeySystems(TiledMapTileLayer tileLayer) {
         for (int i = 0; i < tileLayer.getWidth(); i++) {
             //Scan every tile
@@ -64,6 +68,12 @@ public class KeySystemManager {
         return destroyed;
     }
 
+    /**
+     * Returns the closest KeySystem
+     * @param x x coord
+     * @param y y coord
+     * @return Closest KeySystem
+     */
     public static KeySystem getClosestKeySystem(float x, float y) {
         KeySystem closest = null;
         for (KeySystem keySystem : keySystems) {
@@ -78,6 +88,10 @@ public class KeySystemManager {
         return closest;
     }
 
+    /**
+     *
+     * @return An array of KeySystems being destroyed
+     */
     public static Array<KeySystem> getBeingDestroyedKeySystems()
     {
         Array<KeySystem> keySystemsList = new Array<>();

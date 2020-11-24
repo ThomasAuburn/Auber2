@@ -158,15 +158,15 @@ public class Infiltrator extends NPC{
         }
         else if(chance >= 1 && chance < 2)
         {
-            this.damageAuber((int) chance * 15);
+            this.damageAuber(15);
         }
         else
         {
             this.stopAuberHealing();
-        }
+        } // 1/3 chance of using each ability
 
         this.pathQueue.clear();
-        this.setGoal(MapGraph.getRandomNode());
+        this.setGoal(MapGraph.getRandomNode()); //After using an ability, go somewhere random
     }
 
     /**

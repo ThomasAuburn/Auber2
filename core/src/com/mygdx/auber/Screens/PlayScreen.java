@@ -57,7 +57,7 @@ public class PlayScreen implements Screen {
         CrewMembers.createCrewSprites(); //Generates the infiltrator and crewmember sprites
 
         graphCreator = new GraphCreator((TiledMapTileLayer)map.getLayers().get("Tile Layer 1")); //Generates all the nodes and paths for the given map layer
-        keySystemManager = new KeySystemManager((TiledMapTileLayer)map.getLayers().get("Systems"));
+        keySystemManager = new KeySystemManager((TiledMapTileLayer)map.getLayers().get("Systems")); //Generates key systems
 
         for (int i = 0; i < numberOfInfiltrators; i++) {
             //System.out.println("Infiltrator created!");
