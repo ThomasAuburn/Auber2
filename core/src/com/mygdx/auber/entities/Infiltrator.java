@@ -44,7 +44,7 @@ public class Infiltrator extends NPC{
                 this.setGoal(MapGraph.getRandomNode());
             }
 
-            if(Vector2.dst(Player.x, Player.y, this.getX(), this.getY()) < 150)
+            if(Vector2.dst(Player.x, Player.y, this.getX(), this.getY()) < 250)
             {
                 keySystem.stopDestroy();
                 this.useAbility();
