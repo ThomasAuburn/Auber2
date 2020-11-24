@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.maps.Map;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
@@ -40,8 +41,11 @@ public class PlayScreen implements Screen {
     public static final int numberOfCrew = 120;
     public static final int maxIncorrectArrests = 3;
 
+    private static boolean demo;
+
     public PlayScreen(Auber game, boolean demo){
         this.game = game;
+        this.demo = demo;
 
         camera = new OrthographicCamera();
         viewport = new ExtendViewport(Auber.VirtualWidth, Auber.VirtualHeight, camera);
@@ -69,9 +73,13 @@ public class PlayScreen implements Screen {
             NPCCreator.createInfiltrator(Infiltrator.easySprites.random(), MapGraph.getRandomNode(), graphCreator.mapGraph);
         } //Creates numberOfInfiltrators infiltrators, gives them a random hard or easy sprite
 
+        if(demo)
+        {
+            NPCCreator.createCrew(new Sprite(new Texture("AuberStand.png")), MapGraph.getRandomNode(), graphCreator.mapGraph);
+        }
+
         for(int i = 0; i < numberOfCrew; i++)
         {
-            //System.out.println("Crewmember created!");
             NPCCreator.createCrew(CrewMembers.selectSprite(), MapGraph.getRandomNode(), graphCreator.mapGraph);
         } //Creates numberOfCrew crewmembers, gives them a random sprite
 
@@ -149,7 +157,15 @@ public class PlayScreen implements Screen {
         Gdx.gl.glClearColor(0.09f, 0.09f, 0.09f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);// Clears the screen and sets it to the colour light blue or whatever colour it is
 
-        camera.position.set(player.getX() + player.getWidth()/2,player.getY() + player.getHeight()/2,0); //Sets camera to centre of player position
+        if(!demo)
+        {
+            camera.position.set(player.getX() + player.getWidth()/2,player.getY() + player.getHeight()/2,0); //Sets camera to centre of player position
+        }
+        else{
+            CrewMembers crew = NPCCreator.crew.get(0);
+            camera.position.set(crew.getX() + crew.getWidth()/2, crew.getY() + crew.getHeight()/2, 0);
+        }
+
         game.batch.setProjectionMatrix(camera.combined); //Ensures everything is rendered properly, only renders things in viewport
         shapeRenderer.setProjectionMatrix(camera.combined); //Ensures the shape renderer renders thing properly
 
@@ -163,8 +179,12 @@ public class PlayScreen implements Screen {
         renderer.renderTileLayer((TiledMapTileLayer) map.getLayers().get(3));
 
         NPC.render(renderer.getBatch()); //Renders all NPCs
-        player.draw(renderer.getBatch()); //Renders the player
-        player.drawArrow(renderer.getBatch()); //Renders arrows towards key systems
+
+        if(!demo)
+        {
+            player.draw(renderer.getBatch()); //Renders the player
+            player.drawArrow(renderer.getBatch()); //Renders arrows towards key systems
+        }
 
         update(delta); //Updates the game camera and NPCs
         hud.stage.draw(); //Draws the HUD on the game

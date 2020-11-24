@@ -42,6 +42,7 @@ public class TutorialScreen implements Screen{
         images.add(new Image(new Texture("Tutorial3.png")));
         images.add(new Image(new Texture("Tutorial4.png")));
         images.add(new Image(new Texture("Tutorial5.png")));
+        images.add(new Image(new Texture("Tutorial6.png")));
 
         final Table tutTable = new Table();//Table for adding each image to so that it can be displayed
         stage.addActor(tutTable);
@@ -50,7 +51,7 @@ public class TutorialScreen implements Screen{
         stage.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                if (i == 4){//Change i to number of tutorial images - 1
+                if (i == images.size - 1){//Change i to number of tutorial images - 1
                     game.setScreen(new MainMenuScreen(game));//Change screen to main menu if on the final tutorial image
                 }else {
 
