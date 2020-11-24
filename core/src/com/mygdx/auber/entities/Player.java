@@ -355,14 +355,16 @@ public class Player extends Sprite implements InputProcessor {
      */
     public static void teleport(TiledMapTileLayer tileLayer) {
         Array<Vector2> teleporters = getTeleporterLocations(tileLayer);
-        Vector2 furthestTeleporter;
+        Vector2 furthestTeleporter = new Vector2();
         for (Vector2 teleporter : teleporters) {
             if (furthestTeleporter == null) {
                 furthestTeleporter = teleporter;
                 continue;
             }
             Vector2 currentPosition = new Vector2(x, y);
-            if (currentPosition.dst2(teleporter) > currentPosition.dst2(furthestTeleporter))
+            if (currentPosition.dst2(teleporter) > currentPosition.dst2(furthestTeleporter)) {
+                furthestTeleporter = teleporter;
+            }
         }
         Player.x = furthestTeleporter.x;
         Player.y = furthestTeleporter.y;
