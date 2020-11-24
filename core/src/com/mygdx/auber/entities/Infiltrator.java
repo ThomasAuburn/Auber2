@@ -71,6 +71,7 @@ public class Infiltrator extends NPC{
 
         //this.collision.checkForCollision(this, layer, this.velocity, collision);
 
+        System.out.println(elapsedTime + " - " + timeToWait);
         if((this.elapsedTime >= timeToWait) && this.pathQueue.isEmpty()) {
             this.elapsedTime = 0;
             reachDestination();
@@ -108,7 +109,7 @@ public class Infiltrator extends NPC{
             {
                 this.isDestroying = true;
                 keySystem.startDestroy();
-                timeToWait = KeySystem.destructionTime;
+                timeToWait = KeySystem.destructionTime / 1000;
                 return;
             }
         } //If no queue, and the last node in queue was a key systems node, start destroying

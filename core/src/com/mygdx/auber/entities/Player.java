@@ -58,6 +58,10 @@ public class Player extends Sprite implements InputProcessor {
         this.arrow = new Sprite(new Texture("arrow.png"));
         arrow.setOrigin(arrow.getWidth()/2, 0);
 
+        if(demo)
+        {
+            this.setAlpha(0.01f);
+        }
         health = 100f;
     }
 
@@ -147,6 +151,11 @@ public class Player extends Sprite implements InputProcessor {
      * Used to update the player, move in direction, change scale, and check for collision
      */
     public void update(float delta) {
+        if(demo)
+        {
+            heal();
+        }
+
         velocity.x = 0; velocity.y = 0;
         Player.x = getX(); Player.y = getY(); //Set the velocity to 0 and set the current x/y to x and y
 
