@@ -1,5 +1,6 @@
 package com.mygdx.auber.Scenes;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -20,6 +21,8 @@ public class Hud {
     private Viewport viewport;
     private Table hudTable;
 
+    BitmapFont font;
+
     public static Integer ImposterCount;
     public static Integer CrewmateCount;
 
@@ -39,10 +42,13 @@ public class Hud {
         hudTable.top();
         hudTable.setFillParent(true);
 
-        imposterCountLabel = new Label(String.format("Imposter Arrests: %02d / %02d", ImposterCount, PlayScreen.numberOfInfiltrators), new Label.LabelStyle(new BitmapFont(), Color.GREEN));
-        crewmateCountLabel = new Label(String.format("Incorrect Arrests: %02d / %02d", CrewmateCount, PlayScreen.maxIncorrectArrests), new Label.LabelStyle(new BitmapFont(), Color.RED));
-        playerHealthLabel = new Label(String.format("Health: %02d", (int) Player.health), new Label.LabelStyle(new BitmapFont(), Color.RED));
-        keySystemsCountLabel = new Label(String.format("Key systems destroyed: %02d / %02d", 1, 1), new Label.LabelStyle(new BitmapFont(), Color.RED));
+        font = new BitmapFont(Gdx.files.internal("indie.fnt"), Gdx.files.internal("indie.png"), false);
+        font.getData().setScale(.5f);
+
+        imposterCountLabel = new Label(String.format("Imposter Arrests: %02d / %02d", ImposterCount, PlayScreen.numberOfInfiltrators), new Label.LabelStyle(font, Color.GREEN));
+        crewmateCountLabel = new Label(String.format("Incorrect Arrests: %02d / %02d", CrewmateCount, PlayScreen.maxIncorrectArrests), new Label.LabelStyle(font, Color.YELLOW));
+        playerHealthLabel = new Label(String.format("Health: %02d", (int) Player.health), new Label.LabelStyle(font, Color.ORANGE));
+        keySystemsCountLabel = new Label(String.format("Key systems destroyed: %02d / %02d", 1, 1), new Label.LabelStyle(font, Color.YELLOW));
 
         hudTable.add(imposterCountLabel).expandX().left().padLeft(10);
         hudTable.add(crewmateCountLabel).expandX().right().padRight(10);
