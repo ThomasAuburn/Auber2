@@ -12,6 +12,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Vector;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
@@ -341,11 +342,54 @@ public class Player extends Sprite implements InputProcessor {
     }
 
     /**
-     * Take damage for amount given
-     * @param amount Amount of damage to deal
+     * Take damage for amount given.
+     * @param amount Amount of damage to deal.
      */
     public static void takeDamage(float amount) {
         health -= amount;
+    }
+
+    /**
+     * Teleport player to the other teleporter. There are only 2 so player is teleported to the furthest one.
+     * @param tileLayer Tile map layer containing the teleporters.
+     */
+    public static void teleport(TiledMapTileLayer tileLayer) {
+        Array<Vector2> teleporters = getTeleporterLocations(tileLayer);
+        Vector2 furthestTeleporter;
+        for (Vector2 teleporter : teleporters) {
+            if (furthestTeleporter == null) {
+                furthestTeleporter = teleporter;
+                continue;
+            }
+            Vector2 currentPosition = new Vector2(x, y);
+            if (currentPosition.dst2(teleporter) > currentPosition.dst2(furthestTeleporter))
+        }
+        Player.x = furthestTeleporter.x;
+        Player.y = furthestTeleporter.y;
+    }
+
+    /**
+     * Get the location of the teleporters on the map.
+     * @param tileLayer Tile map layer containing the teleporters.
+     * @return Array of the positions of teleporters.
+     */
+    private static Array<Vector2> getTeleporterLocations(TiledMapTileLayer tileLayer) {
+        Array<Vector2> teleporters = new Array<>();
+
+        for (int i = 0; i < tileLayer.getWidth(); i++) {
+            //Scan every tile
+            for (int j = 0; j < tileLayer.getHeight(); j++) {
+                int x = (i * tileLayer.getTileWidth()) + tileLayer.getTileWidth()/2;
+                int y = (j * tileLayer.getTileHeight()) + tileLayer.getTileHeight()/2; //x,y coord of the centre of the tile
+                TiledMapTileLayer.Cell cell = tileLayer.getCell(i, j); //Returns the cell at the x,y coord
+                if(cell != null && cell.getTile() != null && cell.getTile().getProperties().containsKey("teleporter")) //If ID matches teleporter tiles, and is not null
+                {
+                    Vector2 position = new Vector2(x, y);
+                    teleporters.add(position);
+                }
+            }
+        }
+        return teleporters;
     }
 
     public void dispose()
