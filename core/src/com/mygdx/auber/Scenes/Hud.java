@@ -51,12 +51,14 @@ public class Hud {
         keySystemsCountLabel = new Label(String.format("Key systems destroyed: %02d / %02d", 1, 1), new Label.LabelStyle(font, Color.YELLOW));
 
         hudTable.add(imposterCountLabel).expandX().left().padLeft(10);
-        hudTable.add(crewmateCountLabel).expandX().right().padRight(10);
-
+        hudTable.row();
+        hudTable.add(crewmateCountLabel).expandX().left().padLeft(10);
+        hudTable.row();
+        hudTable.add(keySystemsCountLabel).expandX().left().padLeft(10);
         hudTable.row().bottom().expandY();
         hudTable.add(playerHealthLabel).expandX().left().padLeft(10);
 
-        hudTable.add(keySystemsCountLabel).expandX().right().padRight(10);
+
         stage.addActor(hudTable);
     }
 
