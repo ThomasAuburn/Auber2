@@ -42,7 +42,7 @@ public class Hud {
         hudTable.top();
         hudTable.setFillParent(true);
 
-        font = new BitmapFont(Gdx.files.internal("indie.fnt"), Gdx.files.internal("indie.png"), false);
+        font = new BitmapFont(Gdx.files.internal("montserrat.fnt"), Gdx.files.internal("montserrat.png"), false);
         font.getData().setScale(.5f);
 
         imposterCountLabel = new Label(String.format("Imposter Arrests: %02d / %02d", ImposterCount, PlayScreen.numberOfInfiltrators), new Label.LabelStyle(font, Color.GREEN));
