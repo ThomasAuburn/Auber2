@@ -50,7 +50,7 @@ public class Infiltrator extends NPC{
                 this.useAbility();
                 this.isDestroying = false;
             }
-        } //If isDestroying, if the distance to the player is less than 50, use ability and stop destroying, else keep adding time
+        } //If isDestroying, if the distance to the player is less than 250, use ability and stop destroying, else keep adding time
 
         if(isInvisible)
         {
@@ -158,15 +158,15 @@ public class Infiltrator extends NPC{
         }
         else if(chance >= 1 && chance < 2)
         {
-            this.damageAuber((int) chance * 15);
+            this.damageAuber(15);
         }
         else
         {
             this.stopAuberHealing();
-        }
+        } // 1/3 chance of using each ability
 
         this.pathQueue.clear();
-        this.setGoal(MapGraph.getRandomNode());
+        this.setGoal(MapGraph.getRandomNode()); //After using an ability, go somewhere random
     }
 
     /**

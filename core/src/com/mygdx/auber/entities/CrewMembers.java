@@ -28,13 +28,12 @@ public class CrewMembers extends NPC {
         this.elapsedTime += delta;
         this.checkCollision();
 
-        //this.collision.checkForCollision(this, layer, this.velocity, this.collision);
+        //this.collision.checkForCollision(this, layer, this.velocity, this.collision); //This line enables collision, need to give same layers as player though, wouldn't recommend
 
-        if ((this.elapsedTime >= timeToWait) && this.pathQueue.isEmpty()) {
+        if ((this.elapsedTime >= timeToWait) && this.pathQueue.isEmpty()) { //If wait time has elapsed and no where else to go in path
             this.elapsedTime = 0;
             reachDestination();
         }
-
     }
 
     /**
@@ -52,7 +51,7 @@ public class CrewMembers extends NPC {
         if(chance < 0.2)
         {
             setGoal(GraphCreator.keySystemsNodes.random());
-        }
+        } // 1/5 chance of going to a key system
         else
         {
             Node newGoal;
@@ -62,7 +61,7 @@ public class CrewMembers extends NPC {
             {
                 setGoal(newGoal);
 
-            }
+            } //4/5 chance of going to a random node
         }
     }
 
@@ -77,6 +76,10 @@ public class CrewMembers extends NPC {
         CrewMembers.crewSprites.add(new Sprite(new Texture("Sagiri.png")));
     }
 
+    /**
+     * Returns a crew member sprite, low chance of anime
+     * @return A Sprite
+     */
     public static Sprite selectSprite()
     {
         double chance = Math.random() * 20;
@@ -96,7 +99,7 @@ public class CrewMembers extends NPC {
         {
             return crewSprites.get(0);
         }
-    }
+    } //Low chance of anime sprites (Always innocent) and high chance of construction worker or alien
 
     public void setIndex(int index) {
         this.index = index;

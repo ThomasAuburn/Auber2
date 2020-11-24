@@ -5,7 +5,6 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 
-
 class Collision {
 
     public boolean collideX, collideY;
@@ -110,9 +109,9 @@ class Collision {
     public Vector2 checkForCollision(Sprite sprite, Array<TiledMapTileLayer> collisionLayers, Vector2 velocity, Collision collision)
     {
         float oldX = sprite.getX(), oldY = sprite.getY();
-        collideX = false; collideY = false;
+        collideX = false; collideY = false; //Recording the old x,y coords and setting the bool values to false
 
-        for (TiledMapTileLayer collisionLayer:
+        for (TiledMapTileLayer collisionLayer: //Checks across all layers in the array of layers given as an argument
              collisionLayers) {
             // Move on x
             if(velocity.x < 0) {

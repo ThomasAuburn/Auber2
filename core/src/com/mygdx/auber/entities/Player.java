@@ -3,6 +3,7 @@ package com.mygdx.auber.entities;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
@@ -14,6 +15,8 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
+import com.mygdx.auber.Pathfinding.MapGraph;
+import com.mygdx.auber.Pathfinding.Node;
 import com.mygdx.auber.Scenes.Hud;
 import com.mygdx.auber.Screens.PlayScreen;
 
@@ -41,6 +44,8 @@ public class Player extends Sprite implements InputProcessor {
     private float arrestRadius = 200;
     private float screenx,screeny;
     Sprite arrow;
+
+    private Vector2 healerPosition = new Vector2();
 
     public Player(Sprite sprite, Array<TiledMapTileLayer> collisionLayer, boolean demo) {
         super(sprite);
@@ -93,7 +98,7 @@ public class Player extends Sprite implements InputProcessor {
      */
     public void drawCircle(ShapeRenderer shapeRenderer)
     {
-        if(Gdx.input.getX() != screenx || Gdx.input.getY() != screeny)
+        if(Gdx.input.getX() != screenx || Gdx.input.getY() != screeny || this.getX() != x || this.getY() != y)
         {
             alpha += 0.01;
         }
@@ -112,6 +117,27 @@ public class Player extends Sprite implements InputProcessor {
         shapeRenderer.setColor(.2f, .2f, .2f, alpha);
         shapeRenderer.circle(this.getX() + this.getWidth()/2, this.getY() + this.getHeight()/2, arrestRadius, 900);
         shapeRenderer.end(); //Rendering the circle
+    }
+
+    public void findHealers(TiledMapTileLayer tileLayer)
+    {
+        for (int i = 0; i < tileLayer.getWidth(); i++)
+        {
+            for(int j = 0; j < tileLayer.getHeight(); j++) //Scans every tile
+            {
+                int x = (i * tileLayer.getTileWidth()) + tileLayer.getTileWidth()/2;
+                int y = (j * tileLayer.getTileHeight()) + tileLayer.getTileHeight()/2; //x,y coord of the centre of the tile
+                TiledMapTileLayer.Cell cell = tileLayer.getCell(i, j); //Returns the cell at the x,y coord
+                if(cell != null && cell.getTile() != null && cell.getTile().getProperties().containsKey("healer")) //If matches key, and is not null
+                {
+                    System.out.println("found");
+                    healerPosition.x = x;
+                    healerPosition.y = y;
+                }
+            }
+        }
+
+        System.out.println(x);
     }
 
     /**
@@ -142,6 +168,11 @@ public class Player extends Sprite implements InputProcessor {
         } //Add or subtract speed from the x velocity depending on which key is held (if both held velocity.x = 0) and set the scale to flip the sprite depending on movement
 
         velocity = collision.checkForCollision(this, collisionLayer, velocity, collision); //Checks for collision in the direction of movement
+
+        if(Vector2.dst(this.getX(), this.getY(), healerPosition.x, healerPosition.y) < 100)
+        {
+            heal(1);
+        }
 
         setX(getX() + velocity.x);
         setY(getY() + velocity.y); //Set the player position to current position + velocity

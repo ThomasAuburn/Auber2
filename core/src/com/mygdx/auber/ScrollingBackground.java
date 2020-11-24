@@ -17,7 +17,7 @@ public class ScrollingBackground {
 
         y1 = 0;
         y2 = image.getHeight() - 40;
-        x = -image.getWidth() / 2f;
+        x = -100;
         imageScale = 0;
     }
 

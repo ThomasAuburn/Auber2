@@ -83,6 +83,7 @@ public class NPC extends Sprite {
         {
             this.pathQueue.addLast(graphPath.get(i));
         }
+
         setSpeedToNextNode();
     }
 
