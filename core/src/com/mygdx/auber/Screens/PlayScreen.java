@@ -36,7 +36,7 @@ public class PlayScreen implements Screen {
     public static OrthographicCamera camera;
     public Player player;
 
-    public static final int numberOfInfiltrators = 2;
+    public static final int numberOfInfiltrators = 200;
     public static final int numberOfCrew = 2;
     public static final int maxIncorrectArrests = 3;
 
@@ -75,6 +75,7 @@ public class PlayScreen implements Screen {
 
         player = new Player(new Sprite(new Texture("AuberStand.png")), playerCollisionLayers, demo);
         player.setPosition(600, 1000); //Creates a player and sets him to the given position
+        player.findHealers((TiledMapTileLayer) map.getLayers().get("Systems")); //Finds infirmary
 
         renderer = new OrthogonalTiledMapRenderer(map); //Creates a new renderer with the given map
 
