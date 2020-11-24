@@ -16,6 +16,7 @@ import com.badlogic.gdx.math.Vector;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
+import com.mygdx.auber.Auber;
 import com.mygdx.auber.Pathfinding.MapGraph;
 import com.mygdx.auber.Pathfinding.Node;
 import com.mygdx.auber.Scenes.Hud;
@@ -151,8 +152,14 @@ public class Player extends Sprite implements InputProcessor {
 
         if(!canHeal)
         {
+            System.out.println(healStopTime);
             healStopTime += delta;
         } //If cant heal, add time to healStopTime
+        if(healStopTime >= 15)
+        {
+            healStopTime = 0;
+            canHeal = true;
+        } //After 15 seconds the player can heal again
 
         if(isWHeld) {
             velocity.y += SPEED;
@@ -171,7 +178,7 @@ public class Player extends Sprite implements InputProcessor {
 
         velocity = collision.checkForCollision(this, collisionLayer, velocity, collision); //Checks for collision in the direction of movement
 
-        if(Vector2.dst(this.getX(), this.getY(), healerPosition.x, healerPosition.y) < 100)
+        if(Vector2.dst(this.getX(), this.getY(), healerPosition.x, healerPosition.y) < 100 && canHeal)
         {
             heal(1);
         }
@@ -326,11 +333,7 @@ public class Player extends Sprite implements InputProcessor {
         } //If he can heal, add health
         else
         {
-            if(System.currentTimeMillis() - healStopTime > 20 * 100)
-            {
-                canHeal = true;
-                heal(amount);
-            }
+
         } //If he cant heal, check if time has passed, if it has set canHeal to true and heal for the amount
     }
 
