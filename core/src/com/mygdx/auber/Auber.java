@@ -15,6 +15,7 @@ public class Auber extends Game {
 	public void create () {
 		batch = new SpriteBatch();
 		setScreen(new MainMenuScreen(this));
+		//hello
 	}
 
 	@Override
