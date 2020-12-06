@@ -20,6 +20,7 @@ import com.mygdx.auber.Auber;
 import com.mygdx.auber.Pathfinding.MapGraph;
 import com.mygdx.auber.Pathfinding.Node;
 import com.mygdx.auber.Scenes.Hud;
+import com.mygdx.auber.Screens.MainMenuScreen;
 import com.mygdx.auber.Screens.PlayScreen;
 
 
@@ -185,10 +186,7 @@ public class Player extends Sprite implements InputProcessor {
             velocity.x += SPEED;
             this.setScale(1,1);
         } //Add or subtract speed from the x velocity depending on which key is held (if both held velocity.x = 0) and set the scale to flip the sprite depending on movement
-        if(isESCAPEHeld) {
-            velocity.x += SPEED;
-            this.setScale(1,1);
-        }
+
         velocity = collision.checkForCollision(this, collisionLayer, velocity, collision); //Checks for collision in the direction of movement
 
         if(Vector2.dst(this.getX(), this.getY(), healerPosition.x, healerPosition.y) < 100 && canHeal)
@@ -222,9 +220,6 @@ public class Player extends Sprite implements InputProcessor {
                 break;
             case Input.Keys.S:
                 isSHeld = true;
-                break;
-            case Input.Keys.ESCAPE:
-                isESCAPEHeld = true;
                 break;
             case Input.Keys.SPACE:
                 for (int i = 0; i < teleporters.size; i++) {
@@ -262,9 +257,6 @@ public class Player extends Sprite implements InputProcessor {
                 break;
             case Input.Keys.D:
                 isDHeld = false;
-                break;
-            case Input.Keys.ESCAPE:
-                isESCAPEHeld = false;
                 break;
         } //Set key lifted to false
         return true;

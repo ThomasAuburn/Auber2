@@ -1,6 +1,7 @@
 package com.mygdx.auber.Screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -39,7 +40,7 @@ public class PlayScreen implements Screen {
     public Player player;
 
     public static final int numberOfInfiltrators = 8;
-    public static final int numberOfCrew = 120;
+    public static final int numberOfCrew = 20;
     public static final int maxIncorrectArrests = 3;
 
     private static boolean demo;
@@ -207,6 +208,9 @@ public class PlayScreen implements Screen {
 
         /* Render shapes above this line */
         Gdx.gl.glDisable(GL20.GL_BLEND);
+        if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
+            Gdx.app.exit();
+        }
     }
 
     /**
