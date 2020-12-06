@@ -63,6 +63,27 @@ public class MainMenuScreen implements Screen {
         titleCard = new Image(title);
         playButton.setSize(200, 190);
 
+
+
+        loadButton.addListener(new ClickListener(){
+               @Override
+               public void clicked(InputEvent event, float x, float y) {
+                   //System.out.println("Clicked");
+                   game.setScreen(new PlayScreen(game, false));
+               }
+
+               @Override
+               public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                   //System.out.println("Hovered");
+                   playButton.setChecked(true);
+               }
+
+               @Override
+               public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
+                   //System.out.println("Exited");
+                   playButton.setChecked(false);
+               }
+           });
         playButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
