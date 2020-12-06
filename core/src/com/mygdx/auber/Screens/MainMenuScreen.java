@@ -75,13 +75,13 @@ public class MainMenuScreen implements Screen {
                @Override
                public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
                    //System.out.println("Hovered");
-                   playButton.setChecked(true);
+                   loadButton.setChecked(true);
                }
 
                @Override
                public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
                    //System.out.println("Exited");
-                   playButton.setChecked(false);
+                   loadButton.setChecked(false);
                }
            });
         playButton.addListener(new ClickListener(){
@@ -164,7 +164,7 @@ public class MainMenuScreen implements Screen {
         Table menuTable = new Table();
         menuTable.setTouchable(Touchable.enabled);
         menuTable.setFillParent(true);
-        menuTable.add(titleCard).padBottom(20);
+        menuTable.add(titleCard).padBottom(10);
         menuTable.row();
         menuTable.add(playButton).padBottom(20);
         menuTable.row();
@@ -172,7 +172,10 @@ public class MainMenuScreen implements Screen {
         menuTable.row();
         menuTable.add(tutorialButton).padBottom(20);
         menuTable.row();
+        menuTable.add(loadButton).padBottom(20);
+        menuTable.row();
         menuTable.add(exitButton);
+
         //menuTable.debug();
 
         stage.addActor(menuTable);
