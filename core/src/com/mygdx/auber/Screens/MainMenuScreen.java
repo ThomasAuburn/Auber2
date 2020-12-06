@@ -27,7 +27,7 @@ public class MainMenuScreen implements Screen {
 
     private Viewport viewport;
     Stage stage;
-    TextButton playButton, exitButton, demoButton, tutorialButton;
+    TextButton playButton, exitButton, demoButton, tutorialButton,loadButton;
     TextButton.TextButtonStyle textButtonStyle;
     BitmapFont font;
     Skin skin;
@@ -57,6 +57,7 @@ public class MainMenuScreen implements Screen {
         textButtonStyle.checked = skin.getDrawable("checked-button");
         playButton = new TextButton("PLAY", textButtonStyle);
         demoButton = new TextButton("DEMO", textButtonStyle);
+        loadButton = new TextButton("LOAD", textButtonStyle);
         exitButton = new TextButton("EXIT", textButtonStyle);
         tutorialButton = new TextButton("TUTORIAL", textButtonStyle);
         titleCard = new Image(title);
