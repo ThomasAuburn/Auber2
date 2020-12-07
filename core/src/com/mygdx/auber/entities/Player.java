@@ -42,7 +42,7 @@ public class Player extends Sprite implements InputProcessor {
     private boolean isAHeld;
     private boolean isSHeld;
     private boolean isDHeld;
-    private boolean isESCAPEHeld;
+
 
     private float alpha = 0;
     private float arrestRadius = 200;
@@ -139,14 +139,14 @@ public class Player extends Sprite implements InputProcessor {
                 TiledMapTileLayer.Cell cell = tileLayer.getCell(i, j); //Returns the cell at the x,y coord
                 if(cell != null && cell.getTile() != null && cell.getTile().getProperties().containsKey("healer")) //If matches key, and is not null
                 {
-                    System.out.println("found");
+                    //System.out.println("found");
                     healerPosition.x = x;
                     healerPosition.y = y;
                 }
             }
         }
 
-        System.out.println(x);
+        //.out.println(x);
     }
 
     /**
@@ -163,7 +163,7 @@ public class Player extends Sprite implements InputProcessor {
 
         if(!canHeal)
         {
-            System.out.println(healStopTime);
+            //System.out.println(healStopTime);
             healStopTime += delta;
         } //If cant heal, add time to healStopTime
         if(healStopTime >= 15)
@@ -225,7 +225,7 @@ public class Player extends Sprite implements InputProcessor {
                 for (int i = 0; i < teleporters.size; i++) {
                     if(teleporters.get(i).dst(this.getX(),this.getY()) < 50)
                     {
-                        System.out.println("Teleported");
+                        //System.out.println("Teleported");
                         this.teleport();
                         break;
                     }
@@ -378,7 +378,7 @@ public class Player extends Sprite implements InputProcessor {
      * Teleport player to the other teleporter. There are only 2 so player is teleported to the furthest one.
      */
     public void teleport() {
-        System.out.println("x: " + getX() + ", y: " + getY());
+        //System.out.println("x: " + getX() + ", y: " + getY());
         Vector2 furthestTeleporter = new Vector2();
         for (Vector2 teleporter : this.teleporters) {
             if (furthestTeleporter.equals(Vector2.Zero)) {
@@ -390,7 +390,7 @@ public class Player extends Sprite implements InputProcessor {
                 furthestTeleporter.set(teleporter);
             }
         }
-        System.out.println(furthestTeleporter);
+        //System.out.println(furthestTeleporter);
         setX(furthestTeleporter.x);
         setY(furthestTeleporter.y);
     }

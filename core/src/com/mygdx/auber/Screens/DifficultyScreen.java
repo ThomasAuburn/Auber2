@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -19,13 +20,14 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.auber.Auber;
+import com.mygdx.auber.ScrollingBackground;
 
 
-public class PauseScreen implements Screen {
+public class DifficultyScreen implements Screen {
 
     private Viewport viewport;
     Stage stage;
-    TextButton resumeButton, exitButton, demoButton, saveButton,loadButton;
+    TextButton easyButton, mediumButton, hardButton, backButton;
     TextButton.TextButtonStyle textButtonStyle;
     BitmapFont font;
     Skin skin;
@@ -35,7 +37,7 @@ public class PauseScreen implements Screen {
     Texture background;
     private Auber game;
 
-    public PauseScreen(final Auber game, final PlayScreen currentScreen){
+    public DifficultyScreen (final Auber game){
         this.game = game;
 
         viewport = new ExtendViewport(Auber.VirtualWidth, Auber.VirtualHeight, new OrthographicCamera());
@@ -53,87 +55,89 @@ public class PauseScreen implements Screen {
         textButtonStyle.up = skin.getDrawable("up-button");
         textButtonStyle.down = skin.getDrawable("down-button");
         textButtonStyle.checked = skin.getDrawable("checked-button");
-        resumeButton = new TextButton("RESUME", textButtonStyle);
-        demoButton = new TextButton("DEMO", textButtonStyle);
-        loadButton = new TextButton("LOAD", textButtonStyle);
-        exitButton = new TextButton("EXIT", textButtonStyle);
-        saveButton = new TextButton("SAVE", textButtonStyle);
+        easyButton = new TextButton("EASY", textButtonStyle);
+        mediumButton = new TextButton("MEDIUM", textButtonStyle);
+        hardButton = new TextButton("HARD", textButtonStyle);
+        backButton = new TextButton("BACK", textButtonStyle);
         titleCard = new Image(title);
-        resumeButton.setSize(200, 190);
+        easyButton.setSize(200, 190);
 
 
 
-        loadButton.addListener(new ClickListener(){
+        easyButton.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                //System.out.println("Clicked");
+                game.setScreen(new PlayScreen(game, false,6,15,5));
+            }
+
+            @Override
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                //System.out.println("Hovered");
+                easyButton.setChecked(true);
+            }
+
+            @Override
+            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
+                //System.out.println("Exited");
+                easyButton.setChecked(false);
+            }
+        });
+        mediumButton.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                //System.out.println("Clicked");
+                game.setScreen(new PlayScreen(game, false,8,25,3));
+            }
+
+            @Override
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                //System.out.println("Hovered");
+                mediumButton.setChecked(true);
+            }
+
+            @Override
+            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
+                //System.out.println("Exited");
+                mediumButton.setChecked(false);
+            }
+        });
+        hardButton.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                game.setScreen(new PlayScreen(game, false,8,40,3));
+            }
+            @Override
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                //System.out.println("Hovered");
+                hardButton.setChecked(true);
+            }
+
+            @Override
+            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
+                //System.out.println("Exited");
+                hardButton.setChecked(false);
+            }
+        });
+        backButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 //System.out.println("Clicked");
                 game.setScreen(new MainMenuScreen(game));
             }
 
+
             @Override
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
                 //System.out.println("Hovered");
-                loadButton.setChecked(true);
+                backButton.setChecked(true);
             }
 
             @Override
             public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
                 //System.out.println("Exited");
-                loadButton.setChecked(false);
+                backButton.setChecked(false);
             }
-        });
-        resumeButton.addListener(new ClickListener(){
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                //System.out.println("Clicked");
-                game.setScreen(currentScreen);
-            }
-
-            @Override
-            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                //System.out.println("Hovered");
-                resumeButton.setChecked(true);
-            }
-
-            @Override
-            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
-                //System.out.println("Exited");
-                resumeButton.setChecked(false);
-            }
-        });
-        exitButton.addListener(new ClickListener(){
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new MainMenuScreen(game));
-            }
-            @Override
-            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                //System.out.println("Hovered");
-                exitButton.setChecked(true);
-            }
-
-            @Override
-            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
-                //System.out.println("Exited");
-                exitButton.setChecked(false);
-            }
-        });
-         saveButton.addListener(new ClickListener(){
-                @Override
-                public void clicked(InputEvent event, float x, float y) {
-                    game.setScreen(new MainMenuScreen(game));
-                }
-                @Override
-                public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                    //System.out.println("Hovered");
-                    exitButton.setChecked(true);
-                }
-
-                @Override
-                public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
-                    //System.out.println("Exited");
-                    exitButton.setChecked(false);
-                }
         });
 
 
@@ -142,13 +146,14 @@ public class PauseScreen implements Screen {
         menuTable.setFillParent(true);
         menuTable.add(titleCard).padBottom(10);
         menuTable.row();
-        menuTable.add(resumeButton).padBottom(20);
+        menuTable.add(easyButton).padBottom(20);
         menuTable.row();
-        menuTable.add(loadButton).padBottom(20);
+        menuTable.add(mediumButton).padBottom(20);
         menuTable.row();
-        menuTable.add(saveButton).padBottom(20);
+        menuTable.add(hardButton).padBottom(20);
         menuTable.row();
-        menuTable.add(exitButton);
+        menuTable.add(backButton).padBottom(20);
+
 
         //menuTable.debug();
 

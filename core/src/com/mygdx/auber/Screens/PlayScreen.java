@@ -39,16 +39,18 @@ public class PlayScreen implements Screen {
     public static OrthographicCamera camera;
     public Player player;
 
-    public static final int numberOfInfiltrators = 8;
-    public static final int numberOfCrew = 20;
-    public static final int maxIncorrectArrests = 3;
+    public static int numberOfInfiltrators = 8;
+    public static int numberOfCrew = 20;
+    public static int maxIncorrectArrests = 3;
 
     private static boolean demo;
 
-    public PlayScreen(Auber game, boolean demo){
+    public PlayScreen(Auber game, boolean demo,int setNumberOfInfiltrators,int setNumberOfCrew,int setMaxIncorrectArrests){
         this.game = game;
         this.demo = demo;
-
+        numberOfInfiltrators = setNumberOfInfiltrators;
+        numberOfCrew = setNumberOfCrew;
+        maxIncorrectArrests = setMaxIncorrectArrests;
         camera = new OrthographicCamera();
         viewport = new ExtendViewport(Auber.VirtualWidth, Auber.VirtualHeight, camera);
         hud = new Hud(game.batch);
@@ -67,7 +69,7 @@ public class PlayScreen implements Screen {
         prisoners = new Prisoners((TiledMapTileLayer)map.getLayers().get("OutsideWalls+Lining"));
 
         for (int i = 0; i < numberOfInfiltrators; i++) {
-            //System.out.println("Infiltrator created!");
+            System.out.println("Infiltrator created!");
             if(i == numberOfInfiltrators - 1)
             {
                 NPCCreator.createInfiltrator(Infiltrator.hardSprites.random(), MapGraph.getRandomNode(), graphCreator.mapGraph);
@@ -103,7 +105,7 @@ public class PlayScreen implements Screen {
 
     @Override
     public void show() {
-
+        Gdx.input.setInputProcessor(player);
 
     }
 
@@ -209,7 +211,7 @@ public class PlayScreen implements Screen {
         /* Render shapes above this line */
         Gdx.gl.glDisable(GL20.GL_BLEND);
         if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
-            Gdx.app.exit();
+            game.setScreen(new PauseScreen(game,this));
         }
     }
 
@@ -239,10 +241,10 @@ public class PlayScreen implements Screen {
 
     @Override
     public void hide() {
-        graphCreator.dispose();
-        NPC.disposeNPC();
-        KeySystemManager.dispose();
-        player.dispose();
+//        graphCreator.dispose();
+//        NPC.disposeNPC();
+//        KeySystemManager.dispose();
+//        player.dispose();
     }
 
     /**
@@ -250,6 +252,10 @@ public class PlayScreen implements Screen {
      */
     @Override
     public void dispose() {
+        graphCreator.dispose();
+        NPC.disposeNPC();
+        KeySystemManager.dispose();
+        player.dispose();
         graphCreator.dispose();
         NPC.disposeNPC();
         KeySystemManager.dispose();
