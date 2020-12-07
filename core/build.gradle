@@ -6,6 +6,7 @@ project(":core") {
     dependencies {
         compile "com.badlogicgames.gdx:gdx-ai:1.8.1"
         //classpath "com.badlogicgames.gdx:gdx-ai:1.8.1"
+        compile  'com.google.code.gson:gson:2.8.6'
     }
 }
 repositories {

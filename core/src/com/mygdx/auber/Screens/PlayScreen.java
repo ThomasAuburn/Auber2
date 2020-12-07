@@ -69,7 +69,7 @@ public class PlayScreen implements Screen {
         prisoners = new Prisoners((TiledMapTileLayer)map.getLayers().get("OutsideWalls+Lining"));
 
         for (int i = 0; i < numberOfInfiltrators; i++) {
-            System.out.println("Infiltrator created!");
+            //System.out.println("Infiltrator created!");
             if(i == numberOfInfiltrators - 1)
             {
                 NPCCreator.createInfiltrator(Infiltrator.hardSprites.random(), MapGraph.getRandomNode(), graphCreator.mapGraph);
