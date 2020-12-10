@@ -2,6 +2,7 @@ package com.mygdx.auber.Screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -17,12 +18,15 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.google.gson.JsonElement;
 import com.mygdx.auber.Auber;
 import com.mygdx.auber.Pathfinding.GraphCreator;
 import com.mygdx.auber.Pathfinding.MapGraph;
+import com.mygdx.auber.PlayerInfo;
 import com.mygdx.auber.Scenes.Hud;
 import com.mygdx.auber.ScrollingBackground;
 import com.mygdx.auber.entities.*;
+import com.google.gson.Gson;
 
 public class PlayScreen implements Screen {
     private final Auber game;
@@ -45,7 +49,7 @@ public class PlayScreen implements Screen {
 
     private static boolean demo;
 
-    public PlayScreen(Auber game, boolean demo,int setNumberOfInfiltrators,int setNumberOfCrew,int setMaxIncorrectArrests){
+    public PlayScreen(Auber game, boolean demo,int setNumberOfInfiltrators,int setNumberOfCrew,int setMaxIncorrectArrests,boolean loadingGame){
         this.game = game;
         this.demo = demo;
         numberOfInfiltrators = setNumberOfInfiltrators;
@@ -92,7 +96,17 @@ public class PlayScreen implements Screen {
         playerCollisionLayers.add((TiledMapTileLayer) map.getLayers().get("Tile Layer 1")); playerCollisionLayers.add((TiledMapTileLayer) map.getLayers().get(2)); //The layers on which the player will collide
 
         player = new Player(new Sprite(new Texture("AuberStand.png")), playerCollisionLayers, demo);
-        player.setPosition(1700, 3000); //Creates a player and sets him to the given position
+        if(! loadingGame) {
+            player.setPosition(1700, 3000); //Creates a player and sets him to the given position
+        }
+        else{
+            Gson gson = new Gson();
+            String playerSave = Gdx.app.getPreferences("Saved Game").getString("playerInfo");
+            PlayerInfo playerInfo = gson.fromJson(playerSave, PlayerInfo.class);
+            //System.out.println(playerInfo.x);
+            player.setPosition(playerInfo.x, playerInfo.y);
+            player.health = playerInfo.health;
+        }
         player.findHealers((TiledMapTileLayer) map.getLayers().get("Systems")); //Finds infirmary
         player.teleporters = player.getTeleporterLocations((TiledMapTileLayer) map.getLayers().get("Systems")); //Finds the teleporters
 
@@ -213,6 +227,12 @@ public class PlayScreen implements Screen {
         if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
             game.setScreen(new PauseScreen(game,this));
         }
+    }
+    public void fakeHide(){
+        graphCreator.dispose();
+        NPC.disposeNPC();
+        KeySystemManager.dispose();
+        player.dispose();
     }
 
     /**

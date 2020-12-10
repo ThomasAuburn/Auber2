@@ -19,6 +19,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.auber.Auber;
+import com.mygdx.auber.LoadingGame;
 import com.mygdx.auber.SavingGame;
 import com.mygdx.auber.entities.Player;
 
@@ -69,7 +70,8 @@ public class PauseScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 //System.out.println("Clicked");
-                game.setScreen(new MainMenuScreen(game));
+                currentScreen.fakeHide();
+                new LoadingGame().loadGame(game);
             }
 
             @Override
@@ -106,6 +108,7 @@ public class PauseScreen implements Screen {
         exitButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                currentScreen.fakeHide();
                 game.setScreen(new MainMenuScreen(game));
             }
             @Override
@@ -123,7 +126,7 @@ public class PauseScreen implements Screen {
          saveButton.addListener(new ClickListener(){
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
-                    new SavingGame().testing();
+                    new SavingGame().playerSave();
                 }
                 @Override
                 public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {

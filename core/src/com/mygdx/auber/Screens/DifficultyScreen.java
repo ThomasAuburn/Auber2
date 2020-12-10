@@ -68,7 +68,9 @@ public class DifficultyScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 //System.out.println("Clicked");
-                game.setScreen(new PlayScreen(game, false,6,15,5));
+
+                game.setScreen(new PlayScreen(game, false,6,15,5,false));
+
             }
 
             @Override
@@ -87,7 +89,7 @@ public class DifficultyScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 //System.out.println("Clicked");
-                game.setScreen(new PlayScreen(game, false,8,25,3));
+                game.setScreen(new PlayScreen(game, false,8,25,3,false));
             }
 
             @Override
@@ -105,7 +107,7 @@ public class DifficultyScreen implements Screen {
         hardButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(new PlayScreen(game, false,8,40,3));
+                game.setScreen(new PlayScreen(game, false,8,40,3,false));
             }
             @Override
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
