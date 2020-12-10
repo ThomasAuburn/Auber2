@@ -15,7 +15,7 @@ public class LoadingGame {
 //        String player = gson.toJson(playerInfo);
 //        System.out.println(player);
 //        Preferences prefs = Gdx.app.getPreferences("Saved Game");
-        String player = Gdx.app.getPreferences("Saved Game").getString("playerInfo");
+//        String player = Gdx.app.getPreferences("Saved Game").getString("playerInfo");
 //        System.out.println(player);
         game.setScreen(new PlayScreen(game, false,6,15,5,true));
 

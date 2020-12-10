@@ -20,6 +20,7 @@ import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.google.gson.JsonElement;
 import com.mygdx.auber.Auber;
+import com.mygdx.auber.NPCInfo;
 import com.mygdx.auber.Pathfinding.GraphCreator;
 import com.mygdx.auber.Pathfinding.MapGraph;
 import com.mygdx.auber.PlayerInfo;
@@ -86,12 +87,19 @@ public class PlayScreen implements Screen {
         {
             NPCCreator.createCrew(new Sprite(new Texture("AuberStand.png")), MapGraph.getRandomNode(), graphCreator.mapGraph);
         }
-
-        for(int i = 0; i < numberOfCrew; i++)
-        {
-            NPCCreator.createCrew(CrewMembers.selectSprite(), MapGraph.getRandomNode(), graphCreator.mapGraph);
-        } //Creates numberOfCrew crewmembers, gives them a random sprite
-
+        if(! loadingGame) {
+            for (int i = 0; i < numberOfCrew; i++) {
+                NPCCreator.createCrew(CrewMembers.selectSprite(), MapGraph.getRandomNode(), graphCreator.mapGraph);
+            } //Creates numberOfCrew crewmembers, gives them a random sprite
+        }
+        else{
+            Gson gson = new Gson();
+            String npcSave = Gdx.app.getPreferences("Saved Game").getString("npcInfo");
+            NPCInfo npcInfo = gson.fromJson(npcSave, NPCInfo.class);
+            System.out.println(npcInfo);
+            //System.out.println(playerInfo.x);
+            //NPCCreator.crew = npcInfo.crew;
+        }
         Array<TiledMapTileLayer> playerCollisionLayers = new Array<>();
         playerCollisionLayers.add((TiledMapTileLayer) map.getLayers().get("Tile Layer 1")); playerCollisionLayers.add((TiledMapTileLayer) map.getLayers().get(2)); //The layers on which the player will collide
 

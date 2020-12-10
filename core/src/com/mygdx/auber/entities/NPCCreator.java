@@ -6,9 +6,12 @@ import com.badlogic.gdx.utils.Array;
 import com.mygdx.auber.Pathfinding.MapGraph;
 import com.mygdx.auber.Pathfinding.Node;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class NPCCreator {
     public static Array<Infiltrator> infiltrators = new Array<>();
-    public static Array<CrewMembers> crew = new Array<>(); //Arrays which hold each instance of Crewmembers and infiltrators
+    public static List<CrewMembers> crew = new ArrayList<>(); //Arrays which hold each instance of Crewmembers and infiltrators
 
     private static int lastInfiltratorIndex = 0;
     private static int lastCrewIndex = 0; //Last index given to an infiltrator and crewmember
@@ -86,12 +89,12 @@ public class NPCCreator {
         CrewMembers newPrisoner = crew.get(id);
         Prisoners.addPrisoner(newPrisoner);
 
-        crew.removeIndex(id);
+        crew.remove(id);
         if(crew.isEmpty())
         {
             return;
         }
-        for(int i = id; i < crew.size; i++)
+        for(int i = id; i < crew.size(); i++)
         {
             CrewMembers crewMember = crew.get(i);
             crewMember.index -= 1;

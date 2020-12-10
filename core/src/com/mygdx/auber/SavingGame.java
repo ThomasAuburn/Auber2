@@ -12,11 +12,21 @@ public class SavingGame {
     public void playerSave(){
         Preferences prefs = Gdx.app.getPreferences("Saved Game");
         Gson gson = new Gson();
+
+        //saves player info
         PlayerInfo playerInfo = new PlayerInfo();
         String player = gson.toJson(playerInfo);
         prefs.putString("playerInfo",player);
+
+        //saves NPC info
+        NPCInfo npcInfo = new NPCInfo();
+        String npc = gson.toJson(npcInfo);
+        prefs.putString("npcInfo",npc);
         prefs.flush();
-        System.out.println(player);
+
+
+
+        System.out.println(npc);
     }
 
 }

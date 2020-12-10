@@ -54,7 +54,7 @@ public class NPC extends Sprite {
      */
     public static void updateNPC(float delta)
     {
-        if(NPCCreator.crew.notEmpty())
+        if(!NPCCreator.crew.isEmpty())
         {
             for (CrewMembers crewMember:
                     NPCCreator.crew) {
