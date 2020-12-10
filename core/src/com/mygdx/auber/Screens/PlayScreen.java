@@ -72,22 +72,22 @@ public class PlayScreen implements Screen {
         graphCreator = new GraphCreator((TiledMapTileLayer)map.getLayers().get("Tile Layer 1")); //Generates all the nodes and paths for the given map layer
         keySystemManager = new KeySystemManager((TiledMapTileLayer)map.getLayers().get("Systems")); //Generates key systems
         prisoners = new Prisoners((TiledMapTileLayer)map.getLayers().get("OutsideWalls+Lining"));
-
-        for (int i = 0; i < numberOfInfiltrators; i++) {
-            //System.out.println("Infiltrator created!");
-            if(i == numberOfInfiltrators - 1)
-            {
-                NPCCreator.createInfiltrator(Infiltrator.hardSprites.random(), MapGraph.getRandomNode(), graphCreator.mapGraph);
-                break;
-            }
-            NPCCreator.createInfiltrator(Infiltrator.easySprites.random(), MapGraph.getRandomNode(), graphCreator.mapGraph);
-        } //Creates numberOfInfiltrators infiltrators, gives them a random hard or easy sprite
-
-        if(demo)
-        {
-            NPCCreator.createCrew(new Sprite(new Texture("AuberStand.png")), MapGraph.getRandomNode(), graphCreator.mapGraph);
-        }
         if(! loadingGame) {
+            for (int i = 0; i < numberOfInfiltrators; i++) {
+                //System.out.println("Infiltrator created!");
+                if(i == numberOfInfiltrators - 1)
+                {
+                    NPCCreator.createInfiltrator(Infiltrator.hardSprites.random(), MapGraph.getRandomNode(), graphCreator.mapGraph);
+                    break;
+                }
+                NPCCreator.createInfiltrator(Infiltrator.easySprites.random(), MapGraph.getRandomNode(), graphCreator.mapGraph);
+            } //Creates numberOfInfiltrators infiltrators, gives them a random hard or easy sprite
+
+            if(demo)
+            {
+                NPCCreator.createCrew(new Sprite(new Texture("AuberStand.png")), MapGraph.getRandomNode(), graphCreator.mapGraph);
+            }
+
             for (int i = 0; i < numberOfCrew; i++) {
                 NPCCreator.createCrew(CrewMembers.selectSprite(), MapGraph.getRandomNode(), graphCreator.mapGraph);
             } //Creates numberOfCrew crewmembers, gives them a random sprite
@@ -96,9 +96,10 @@ public class PlayScreen implements Screen {
             Gson gson = new Gson();
             String npcSave = Gdx.app.getPreferences("Saved Game").getString("npcInfo");
             NPCInfo npcInfo = gson.fromJson(npcSave, NPCInfo.class);
-            System.out.println(npcInfo);
+            //System.out.println(npcInfo);
             //System.out.println(playerInfo.x);
-            //NPCCreator.crew = npcInfo.crew;
+            NPCCreator.crew = npcInfo.crew;
+            NPCCreator.infiltrators = npcInfo.infiltrators;
         }
         Array<TiledMapTileLayer> playerCollisionLayers = new Array<>();
         playerCollisionLayers.add((TiledMapTileLayer) map.getLayers().get("Tile Layer 1")); playerCollisionLayers.add((TiledMapTileLayer) map.getLayers().get(2)); //The layers on which the player will collide
@@ -190,7 +191,7 @@ public class PlayScreen implements Screen {
         }
         else{
             CrewMembers crew = NPCCreator.crew.get(0);
-            camera.position.set(crew.getX() + crew.getWidth()/2, crew.getY() + crew.getHeight()/2, 0);
+            camera.position.set(crew.getX() + crew.getWidth()/2, crew.getY() + crew.getWidth()/2, 0);
         }
 
         game.batch.setProjectionMatrix(camera.combined); //Ensures everything is rendered properly, only renders things in viewport

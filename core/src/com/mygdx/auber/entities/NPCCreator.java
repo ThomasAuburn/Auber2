@@ -1,7 +1,6 @@
 package com.mygdx.auber.entities;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.auber.Pathfinding.MapGraph;
 import com.mygdx.auber.Pathfinding.Node;
@@ -10,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class NPCCreator {
-    public static Array<Infiltrator> infiltrators = new Array<>();
+    public static List<Infiltrator> infiltrators = new ArrayList<>();
     public static List<CrewMembers> crew = new ArrayList<>(); //Arrays which hold each instance of Crewmembers and infiltrators
 
     private static int lastInfiltratorIndex = 0;
@@ -68,12 +67,12 @@ public class NPCCreator {
                 Prisoners.addPrisoner(infiltrator);
             }
         }
-        infiltrators.removeIndex(id);
+        infiltrators.remove(id);
         if(infiltrators.isEmpty())
         {
             return;
         }
-        for(int i = id; i < infiltrators.size; i++)
+        for(int i = id; i < infiltrators.size(); i++)
         {
             Infiltrator infiltrator = infiltrators.get(i);
             infiltrator.index -= 1;

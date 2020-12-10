@@ -1,16 +1,12 @@
 package com.mygdx.auber.entities;
 
 import com.badlogic.gdx.ai.pfa.GraphPath;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Queue;
-import com.mygdx.auber.Pathfinding.GraphCreator;
 import com.mygdx.auber.Pathfinding.MapGraph;
 import com.mygdx.auber.Pathfinding.Node;
 
@@ -20,7 +16,8 @@ import com.mygdx.auber.Pathfinding.Node;
  * Crewmember is very simple, they walk around randomly and wait for a random amount of time
  * Infiltrator is more complex, they sometimes go to destroy keysystems, and can use abilities
  */
-public class NPC extends Sprite {
+public class NPC  {
+    private final transient Sprite sprite;
     public Vector2 velocity = new Vector2(0,0); //Velocity vector
     public int index; //Index of the NPC in its respective list
     public final float SPEED = 1f; //Speed the NPC moves at, same as the player
@@ -39,11 +36,11 @@ public class NPC extends Sprite {
      * @param mapGraph mapGraph for the NPC to reference
      */
     public NPC(Sprite sprite, Node start, MapGraph mapGraph){
-        super(sprite);
 
+        this.sprite = sprite;
         this.mapGraph = mapGraph;
         this.previousNode = start;
-        this.setPosition(start.x ,start.y);
+        this.sprite.setPosition(start.x ,start.y);
         this.setGoal(MapGraph.getRandomNode());
         this.collision = new Collision();
     }
@@ -62,7 +59,7 @@ public class NPC extends Sprite {
             }
         }
 
-        if(NPCCreator.infiltrators.notEmpty())
+        if(! NPCCreator.infiltrators.isEmpty())
         {
             for (Infiltrator infiltrator:
                     NPCCreator.infiltrators) {
@@ -93,7 +90,7 @@ public class NPC extends Sprite {
     public void checkCollision() {
         if (this.pathQueue.size > 0) {
             Node targetNode = this.pathQueue.first();
-            if (Vector2.dst(this.getX(), this.getY(), targetNode.x, targetNode.y) <= 5) {
+            if (Vector2.dst(this.sprite.getX(), this.sprite.getY(), targetNode.x, targetNode.y) <= 5) {
                 reachNextNode(); //If the sprite is within 5 pixels of the node, it has reached the node
             }
         }
@@ -130,7 +127,7 @@ public class NPC extends Sprite {
         }
 
         Node nextNode = this.pathQueue.first();
-        double angle = MathUtils.atan2(this.getY() - nextNode.y, this.getX() - nextNode.x);
+        double angle = MathUtils.atan2(this.sprite.getY() - nextNode.y, this.sprite.getX() - nextNode.x);
         this.velocity.x -= (MathUtils.cos((float) angle) * SPEED);
         this.velocity.y -= (MathUtils.sin((float) angle) * SPEED);
     }
@@ -140,19 +137,41 @@ public class NPC extends Sprite {
      */
     public void moveNPC()
     {
-        this.setX(this.getX() + this.velocity.x);
-        this.setY(this.getY() + this.velocity.y);
+        this.sprite.setX(this.sprite.getX() + this.velocity.x);
+        this.sprite.setY(this.sprite.getY() + this.velocity.y);
 
         if(this.velocity.x < 0)
         {
-            this.setScale(-1,1);
+            this.sprite.setScale(-1,1);
         }
         else if(this.velocity.x > 0)
         {
-            this.setScale(1,1);
+            this.sprite.setScale(1,1);
         }
     }
+    public void draw(Batch batch){
+        this.sprite.draw(batch);
+    }
+    public void setPosition(float x, float y){
+        this.sprite.setPosition(x,y);
 
+    }
+    public float getX(){
+        return sprite.getX();
+    }
+    public float getY(){
+        return sprite.getY();
+    }
+    public float getWidth(){
+        return sprite.getWidth();
+    }
+    public void setAlpha(float alpha){
+        this.sprite.setAlpha(alpha);
+    }
+
+    public Rectangle getBoundingRectangle(){
+        return sprite.getBoundingRectangle();
+    }
     /**
      * Render method for rendering all NPCs
      * @param batch Batch for the NPCs to render in
@@ -170,6 +189,7 @@ public class NPC extends Sprite {
             crewMember.draw(batch);
         }
     }
+
 
     /**
      * Dispose method to be called in dispose method of screen
