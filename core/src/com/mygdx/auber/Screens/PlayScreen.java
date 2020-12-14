@@ -73,7 +73,7 @@ public class PlayScreen implements Screen {
         {
             NPCCreator.createCrew(new Sprite(new Texture("AuberStand.png")), MapGraph.closest(1700,3000), graphCreator.mapGraph, (double) 0,(float) 1,(float) 1);
         }
-        if(! loadingGame) {
+        if(! loadingGame) {//if not loading a game then make everything fresh
             for (int i = 0; i < numberOfInfiltrators; i++) {
                 //System.out.println("Infiltrator created!");
                 double chance = Math.random() * 20;

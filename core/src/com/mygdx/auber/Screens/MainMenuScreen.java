@@ -1,6 +1,7 @@
 package com.mygdx.auber.Screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -20,7 +21,10 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.auber.Auber;
+import com.mygdx.auber.LoadingGame;
 import com.mygdx.auber.ScrollingBackground;
+
+import java.util.Map;
 
 
 public class MainMenuScreen implements Screen {
@@ -69,7 +73,7 @@ public class MainMenuScreen implements Screen {
                @Override
                public void clicked(InputEvent event, float x, float y) {
                    //System.out.println("Clicked");
-                   game.setScreen(new DifficultyScreen(game));
+                   new LoadingGame().loadGame(game);
                }
 
                @Override
