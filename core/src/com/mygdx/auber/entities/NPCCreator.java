@@ -1,6 +1,7 @@
 package com.mygdx.auber.entities;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.auber.Pathfinding.MapGraph;
 import com.mygdx.auber.Pathfinding.Node;
@@ -9,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class NPCCreator {
-    public static List<Infiltrator> infiltrators = new ArrayList<>();
+    public static Array<Infiltrator> infiltrators = new Array<>();
     public static List<CrewMembers> crew = new ArrayList<>(); //Arrays which hold each instance of Crewmembers and infiltrators
 
     private static int lastInfiltratorIndex = 0;
@@ -21,7 +22,7 @@ public class NPCCreator {
      * @param start Start node for infiltrator
      * @param graph MapGraph for the infiltrator to reference
      */
-    public static void createInfiltrator(Sprite sprite, Node start, MapGraph graph)
+    public static void createInfiltrator(Sprite sprite, Node start, MapGraph graph,Boolean loading)
     {
         Infiltrator infiltrator = new Infiltrator(sprite, start, graph);
         infiltrators.add(infiltrator);
@@ -35,9 +36,9 @@ public class NPCCreator {
      * @param start
      * @param graph
      */
-    public static void createCrew(Sprite sprite, Node start, MapGraph graph)
+    public static void createCrew(Sprite sprite, Node start, MapGraph graph,Double chance,Float goalX,Float goalY)
     {
-        CrewMembers crewMember = new CrewMembers(sprite, start, graph);
+        CrewMembers crewMember = new CrewMembers(sprite, start, graph,chance,goalX,goalY);
         crew.add(crewMember);
         crewMember.setIndex(lastCrewIndex);
         lastCrewIndex++;
@@ -67,12 +68,12 @@ public class NPCCreator {
                 Prisoners.addPrisoner(infiltrator);
             }
         }
-        infiltrators.remove(id);
+        infiltrators.removeIndex(id);
         if(infiltrators.isEmpty())
         {
             return;
         }
-        for(int i = id; i < infiltrators.size(); i++)
+        for(int i = id; i < infiltrators.size; i++)
         {
             Infiltrator infiltrator = infiltrators.get(i);
             infiltrator.index -= 1;

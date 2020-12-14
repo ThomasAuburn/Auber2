@@ -1,18 +1,19 @@
 package com.mygdx.auber.entities;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 
 public class Prisoners{
     private static Array<Vector2> positions;
-    private static Array<NPC> prisoners;
+    private static Array<Sprite> prisoners;
 
     public Prisoners(TiledMapTileLayer layer)
     {
         positions = findBrigLocations(layer);
-        prisoners = new Array<NPC>();
+        prisoners = new Array<>();
     }
 
     /**
@@ -40,12 +41,12 @@ public class Prisoners{
 
     /**
      * Adds a prisoner to the list of prisoners and spawns them in the brig
-     * @param npc npc to put in prison
+     * @param sprite Sprite of npc to put in prison
      */
-    public static void addPrisoner(NPC npc)
+    public static void addPrisoner(Sprite sprite)
     {
-        prisoners.add(npc);
-        npc.setPosition(positions.random().x, positions.random().y);
+        prisoners.add(sprite);
+        sprite.setPosition(positions.random().x, positions.random().y);
     }
 
     /**
@@ -56,7 +57,7 @@ public class Prisoners{
     {
         if(!prisoners.isEmpty())
         {
-            for (NPC prisoner:
+            for (Sprite prisoner:
                     prisoners) {
                 prisoner.draw(batch);
             }

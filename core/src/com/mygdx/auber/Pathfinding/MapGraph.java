@@ -32,6 +32,33 @@ public class MapGraph implements IndexedGraph<Node> {
         nodes.add(node);
     }
 
+
+    public static Node closest(float x, float y){
+        float closest = 999999999;
+        Node closestNode = null;
+        float distX,distY,distC;
+        for (Node node: nodes){
+            System.out.println(node.x);
+            System.out.println(node.y);
+            distX = node.x - x;
+            distY = node.y - y;
+            distC = (float) Math.pow(distX,2) + (float) Math.pow(distY,2);
+            distC = (float) Math.pow(distC,.5);
+
+            if(distC < closest){
+                closestNode = node;
+                closest = distC;
+            }
+        }
+        return closestNode;}
+
+//    public Node closest(float x, float y){
+//        Node temp = null;
+//        for (Node node: nodes){
+//           temp = node;
+//        }
+//        return temp;
+//    }
     /**
      * Returns a node based on the x,y position of the node
      * @param x X coord of the node to find

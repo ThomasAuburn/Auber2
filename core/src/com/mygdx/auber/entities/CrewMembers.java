@@ -7,16 +7,29 @@ import com.badlogic.gdx.utils.Array;
 import com.mygdx.auber.Pathfinding.GraphCreator;
 import com.mygdx.auber.Pathfinding.MapGraph;
 import com.mygdx.auber.Pathfinding.Node;
+import com.sun.org.apache.bcel.internal.generic.IAND;
 
 import java.util.Random;
 
 public class CrewMembers extends NPC {
     public double timeToWait = Math.random() * 15;
     public static Array<Sprite> crewSprites = new Array<>();
+    public double currentImage;
+    public Node currentGoal;
 
-    public CrewMembers(Sprite sprite, Node node, MapGraph mapGraph) {
+    public CrewMembers(Sprite sprite, Node node, MapGraph mapGraph,double chance,Float goalX,Float goalY) {
         super(sprite, node, mapGraph);
-        this.setPosition(node.x, node.y);
+            this.currentImage = chance;
+            this.setPosition(node.x, node.y);
+            if ((goalX != 1) & (goalY != 1)){
+                //this.setGoal(MapGraph.getNode(goalX,goalY));
+                Node current = MapGraph.getNode(goalX,goalY);
+                setGoal(current);
+                this.currentGoal = current;
+            }
+            else{
+                reachDestination();
+            }
     }
 
     /**
@@ -50,7 +63,10 @@ public class CrewMembers extends NPC {
 
         if(chance < 0.2)
         {
-            setGoal(GraphCreator.keySystemsNodes.random());
+            Node current = GraphCreator.keySystemsNodes.random();
+            setGoal(current);
+            this.currentGoal = current;
+            System.out.println(currentGoal.x);
         } // 1/5 chance of going to a key system
         else
         {
@@ -60,7 +76,7 @@ public class CrewMembers extends NPC {
             } while (newGoal == previousNode);
             {
                 setGoal(newGoal);
-
+                this.currentGoal =newGoal;
             } //4/5 chance of going to a random node
         }
     }
@@ -80,9 +96,10 @@ public class CrewMembers extends NPC {
      * Returns a crew member sprite, low chance of anime
      * @return A Sprite
      */
-    public static Sprite selectSprite()
+    public static Sprite selectSprite(double chance)
     {
-        double chance = Math.random() * 20;
+        //double chance = Math.random() * 20;
+
         if(chance < 1)
         {
             return crewSprites.get(3);
@@ -100,6 +117,7 @@ public class CrewMembers extends NPC {
             return crewSprites.get(0);
         }
     } //Low chance of anime sprites (Always innocent) and high chance of construction worker or alien
+
 
     public void setIndex(int index) {
         this.index = index;

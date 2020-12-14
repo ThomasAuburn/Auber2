@@ -87,7 +87,7 @@ public class Infiltrator extends NPC{
         this.velocity.x = 0;
         this.velocity.y = 0;
         timeToWait = Math.random() * 5;
-        double chance = 1 / (double) NPCCreator.infiltrators.size();
+        double chance = 1 / (double) NPCCreator.infiltrators.size;
 
         if((Math.random() - 0.2f < chance)  && !this.isDestroying && !this.isInvisible && KeySystemManager.safeKeySystemsCount() != 0) // 1/10 chance of infiltrator deciding to destroy a keysystem
         {
@@ -210,8 +210,8 @@ public class Infiltrator extends NPC{
         Infiltrator.easySprites.add(new Sprite(new Texture("InfiltratorEngineer.png")));
         Infiltrator.easySprites.add(new Sprite(new Texture("InfiltratorAlien.png")));
 
-        Infiltrator.hardSprites.add(new Sprite(new Texture("AlienStand.png")));
-        Infiltrator.hardSprites.add(new Sprite(new Texture("HumanStand.png")));
+        //Infiltrator.hardSprites.add(new Sprite(new Texture("AlienStand.png")));
+        //Infiltrator.hardSprites.add(new Sprite(new Texture("HumanStand.png")));
     }
 
     public void setIndex(int index)
