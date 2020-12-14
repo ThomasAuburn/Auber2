@@ -69,6 +69,10 @@ public class PlayScreen implements Screen {
         graphCreator = new GraphCreator((TiledMapTileLayer)map.getLayers().get("Tile Layer 1")); //Generates all the nodes and paths for the given map layer
         keySystemManager = new KeySystemManager((TiledMapTileLayer)map.getLayers().get("Systems")); //Generates key systems
         prisoners = new Prisoners((TiledMapTileLayer)map.getLayers().get("OutsideWalls+Lining"));
+        if(demo)
+        {
+            NPCCreator.createCrew(new Sprite(new Texture("AuberStand.png")), MapGraph.closest(1700,3000), graphCreator.mapGraph, (double) 0,(float) 1,(float) 1);
+        }
         if(! loadingGame) {
             for (int i = 0; i < numberOfInfiltrators; i++) {
                 //System.out.println("Infiltrator created!");
@@ -114,10 +118,6 @@ public class PlayScreen implements Screen {
                 }
             }
         }
-        if(demo)
-        {
-            NPCCreator.createCrew(new Sprite(new Texture("AuberStand.png")), MapGraph.getRandomNode(), graphCreator.mapGraph, (double) 0,(float) 1,(float) 1);
-        }
 
 
 
@@ -143,6 +143,9 @@ public class PlayScreen implements Screen {
             player.setPosition(playerInfo.x, playerInfo.y);
             player.health = playerInfo.health;
         }
+
+
+
         player.findHealers((TiledMapTileLayer) map.getLayers().get("Systems")); //Finds infirmary
         player.teleporters = player.getTeleporterLocations((TiledMapTileLayer) map.getLayers().get("Systems")); //Finds the teleporters
 
@@ -192,12 +195,14 @@ public class PlayScreen implements Screen {
 
         if(gameOver()){
             System.out.println("Win");
+            this.fakeHide();
             game.setScreen(new GameOverScreen(game, false));
             return;
         } //If game over, show game over screen and dispose of all assets
         if(gameWin())
         {
             System.out.println("Lose");
+            this.fakeHide();
             game.setScreen(new GameOverScreen(game, true));
             return;
         } //If game won, show game win screen and dispose of all assets
@@ -261,7 +266,13 @@ public class PlayScreen implements Screen {
         /* Render shapes above this line */
         Gdx.gl.glDisable(GL20.GL_BLEND);
         if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
-            game.setScreen(new PauseScreen(game,this));
+            if (! demo){
+                game.setScreen(new PauseScreen(game,this));
+            }
+            else{
+                this.fakeHide();
+                game.setScreen(new MainMenuScreen(game));
+            }
         }
     }
     public void fakeHide(){
