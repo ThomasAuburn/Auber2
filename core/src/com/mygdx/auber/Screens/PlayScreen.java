@@ -79,37 +79,47 @@ public class PlayScreen implements Screen {
                 }
                 NPCCreator.createInfiltrator(Infiltrator.selectSprite(chance), MapGraph.getRandomNode(), graphCreator.mapGraph,(double) 0,(float) 1,(float) 1,false);
             } //Creates numberOfInfiltrators infiltrators, gives them a random hard or easy sprite
-        }
-        else{
-            Gson gson = new Gson();
-            String infSave = Gdx.app.getPreferences("Saved Game").getString("infInfo");
-            INFInfo infInfo = gson.fromJson(infSave, INFInfo.class);
-            for(CrewModel inf:infInfo.data){
-                //System.out.println(inf);
-                NPCCreator.createInfiltrator(Infiltrator.selectSprite(inf.chance), MapGraph.closest(inf.x,inf.y), graphCreator.mapGraph,inf.chance,inf.goalX,inf.goalY,inf.destoying);
-            }
 
-        }
-        if(demo)
-        {
-            NPCCreator.createCrew(new Sprite(new Texture("AuberStand.png")), MapGraph.getRandomNode(), graphCreator.mapGraph, (double) 0,(float) 1,(float) 1);
-        }
-        if(! loadingGame) {
-            for (int i = 0; i < numberOfCrew; i++) {
+            for (int i = 0; i < numberOfCrew; i++) { //creates the crewmates
                 double chance = Math.random() * 20;
                 NPCCreator.createCrew(CrewMembers.selectSprite(chance), MapGraph.getRandomNode(), graphCreator.mapGraph,chance,(float) 1,(float) 1);
             } //Creates numberOfCrew crewmembers, gives them a random sprite
         }
         else{
-            Gson gson = new Gson();
+            Gson gson = new Gson();//reloads old infiltrators
+            String infSave = Gdx.app.getPreferences("Saved Game").getString("infInfo");
+            INFInfo infInfo = gson.fromJson(infSave, INFInfo.class);
+            for(CrewModel inf:infInfo.data){
+                NPCCreator.createInfiltrator(Infiltrator.selectSprite(inf.chance), MapGraph.closest(inf.x,inf.y), graphCreator.mapGraph,inf.chance,inf.goalX,inf.goalY,inf.destoying);
+            }
+
+            Gson gsoon = new Gson();//reloads old crewmates
             String npcSave = Gdx.app.getPreferences("Saved Game").getString("npcInfo");
-            NPCInfo npcInfo = gson.fromJson(npcSave, NPCInfo.class);
+            NPCInfo npcInfo = gsoon.fromJson(npcSave, NPCInfo.class);
 
             for(CrewModel crew:npcInfo.data){
                 NPCCreator.createCrew(CrewMembers.selectSprite(crew.chance), MapGraph.closest(crew.x,crew.y), graphCreator.mapGraph,crew.chance,crew.goalX,crew.goalY);
-//                System.out.println(MapGraph.closest(1700,3000).x);
-//                System.out.println(MapGraph.closest(1700,3000).y);
-            } //Creates numberOfCrew crewmembers, gives them a random sprite
+            }
+            Gson gsooon = new Gson();//reloads old prisoners
+            String prisSave = Gdx.app.getPreferences("Saved Game").getString("prisInfo");
+            PrisonerInfo prisInfo = gsooon.fromJson(prisSave, PrisonerInfo.class);
+            for (PrisonerModel pris:prisInfo.data){
+                if (! pris.side){
+                    Prisoners.addPrisoner(pris.chance,pris.side);
+                    Hud.CrewmateCount += 1;
+                }
+                else{
+                    Prisoners.addPrisoner(pris.chance,pris.side);
+                    Hud.ImposterCount += 1;
+                }
+            }
+        }
+        if(demo)
+        {
+            NPCCreator.createCrew(new Sprite(new Texture("AuberStand.png")), MapGraph.getRandomNode(), graphCreator.mapGraph, (double) 0,(float) 1,(float) 1);
+        }
+
+
 
 //            Gson gson = new Gson();
 //            String npcSave = Gdx.app.getPreferences("Saved Game").getString("npcInfo");
@@ -117,7 +127,7 @@ public class PlayScreen implements Screen {
 //            System.out.println(npcInfo);
             //System.out.println(playerInfo.x);
             //NPCCreator.crew = npcInfo.crew;
-        }
+
         Array<TiledMapTileLayer> playerCollisionLayers = new Array<>();
         playerCollisionLayers.add((TiledMapTileLayer) map.getLayers().get("Tile Layer 1")); playerCollisionLayers.add((TiledMapTileLayer) map.getLayers().get(2)); //The layers on which the player will collide
 

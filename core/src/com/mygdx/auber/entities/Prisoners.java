@@ -6,14 +6,20 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 
+import java.util.ArrayList;
+
 public class Prisoners{
     private static Array<Vector2> positions;
     private static Array<Sprite> prisoners;
+    public static  ArrayList<Double> prisonerChance;
+    public static ArrayList<Boolean> prisonerSide;
 
     public Prisoners(TiledMapTileLayer layer)
     {
         positions = findBrigLocations(layer);
         prisoners = new Array<>();
+        prisonerChance = new ArrayList<>();
+        prisonerSide = new ArrayList<>();
     }
 
     /**
@@ -41,12 +47,15 @@ public class Prisoners{
 
     /**
      * Adds a prisoner to the list of prisoners and spawns them in the brig
-     * @param sprite Sprite of npc to put in prison
      */
     public static void addPrisoner(Double chance,Boolean side)
     {
 //        prisoners.add(sprite);
 //        sprite.setPosition(positions.random().x, positions.random().y);
+        prisonerSide.add(side);
+        prisonerChance.add(chance);
+//        System.out.println(side);
+//        System.out.println(chance);
         if (side) {
             prisoners.add(Infiltrator.selectSprite(chance));
             Infiltrator.selectSprite(chance).setPosition(positions.random().x, positions.random().y);

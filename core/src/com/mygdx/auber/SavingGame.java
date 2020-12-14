@@ -27,11 +27,16 @@ public class SavingGame {
         INFInfo infInfo = new INFInfo();
         String inf = gson.toJson(infInfo);
         prefs.putString("infInfo",inf);
+
+        //saves prisoner info
+        PrisonerInfo prisInfo = new PrisonerInfo();
+        String pris = gson.toJson(prisInfo);
+        prefs.putString("prisInfo",pris);
         prefs.flush();
 
 
 
-        System.out.println(inf);
+        System.out.println(pris);
     }
 
 }
