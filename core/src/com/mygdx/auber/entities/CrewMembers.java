@@ -24,6 +24,8 @@ public class CrewMembers extends NPC {
             if ((goalX != 1) & (goalY != 1)){
                 //this.setGoal(MapGraph.getNode(goalX,goalY));
                 Node current = MapGraph.getNode(goalX,goalY);
+                //System.out.println(goalX);
+                //Node current = MapGraph.closest(1700,3000);
                 setGoal(current);
                 this.currentGoal = current;
             }
@@ -66,7 +68,7 @@ public class CrewMembers extends NPC {
             Node current = GraphCreator.keySystemsNodes.random();
             setGoal(current);
             this.currentGoal = current;
-            System.out.println(currentGoal.x);
+            //System.out.println(currentGoal.x);
         } // 1/5 chance of going to a key system
         else
         {

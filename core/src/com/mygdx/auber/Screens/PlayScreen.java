@@ -69,17 +69,27 @@ public class PlayScreen implements Screen {
         graphCreator = new GraphCreator((TiledMapTileLayer)map.getLayers().get("Tile Layer 1")); //Generates all the nodes and paths for the given map layer
         keySystemManager = new KeySystemManager((TiledMapTileLayer)map.getLayers().get("Systems")); //Generates key systems
         prisoners = new Prisoners((TiledMapTileLayer)map.getLayers().get("OutsideWalls+Lining"));
-
-        for (int i = 0; i < numberOfInfiltrators; i++) {
-            //System.out.println("Infiltrator created!");
-            if(i == numberOfInfiltrators - 1)
-            {
-                NPCCreator.createInfiltrator(Infiltrator.easySprites.random(), MapGraph.getRandomNode(), graphCreator.mapGraph,false);
-                break;
+        if(! loadingGame) {
+            for (int i = 0; i < numberOfInfiltrators; i++) {
+                //System.out.println("Infiltrator created!");
+                double chance = Math.random() * 20;
+                if (i == numberOfInfiltrators - 1) {
+                    NPCCreator.createInfiltrator(Infiltrator.selectSprite(chance), MapGraph.getRandomNode(), graphCreator.mapGraph,(double) 0,(float) 1,(float) 1,false);
+                    break;
+                }
+                NPCCreator.createInfiltrator(Infiltrator.selectSprite(chance), MapGraph.getRandomNode(), graphCreator.mapGraph,(double) 0,(float) 1,(float) 1,false);
+            } //Creates numberOfInfiltrators infiltrators, gives them a random hard or easy sprite
+        }
+        else{
+            Gson gson = new Gson();
+            String infSave = Gdx.app.getPreferences("Saved Game").getString("infInfo");
+            INFInfo infInfo = gson.fromJson(infSave, INFInfo.class);
+            for(CrewModel inf:infInfo.data){
+                //System.out.println(inf);
+                NPCCreator.createInfiltrator(Infiltrator.selectSprite(inf.chance), MapGraph.closest(inf.x,inf.y), graphCreator.mapGraph,inf.chance,inf.goalX,inf.goalY,inf.destoying);
             }
-            NPCCreator.createInfiltrator(Infiltrator.easySprites.random(), MapGraph.getRandomNode(), graphCreator.mapGraph,false);
-        } //Creates numberOfInfiltrators infiltrators, gives them a random hard or easy sprite
 
+        }
         if(demo)
         {
             NPCCreator.createCrew(new Sprite(new Texture("AuberStand.png")), MapGraph.getRandomNode(), graphCreator.mapGraph, (double) 0,(float) 1,(float) 1);

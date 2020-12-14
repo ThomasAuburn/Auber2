@@ -17,14 +17,35 @@ public class Infiltrator extends NPC{
 
     private float timeInvisible;
     private boolean isInvisible = false;
+    public Node currentGoal;
+    public double currentImage;
 
     public static Array<Sprite> easySprites = new Array<>();
     public static Array<Sprite> hardSprites = new Array<>();
 
-    public Infiltrator(Sprite sprite, Node node, MapGraph mapGraph) {
+    public Infiltrator(Sprite sprite, Node node, MapGraph mapGraph,Double chance,Float goalX, Float goalY,Boolean destroying) {
         super(sprite, node, mapGraph);
+        this.currentImage = chance;
         this.setPosition(node.x, node.y);
+        if ((goalX != 1) & (goalY != 1)){
+            if (destroying){
+                this.isDestroying = true;
+                reachDestination();
+            }
+            else{
+                //this.setGoal(MapGraph.getNode(goalX,goalY));
+                Node current = MapGraph.getNode(goalX,goalY);
+                //System.out.println(goalX);
+                //Node current = MapGraph.closest(1700,3000);
+                setGoal(current);
+                this.currentGoal = current;
+            }
+        }
+        else{
+            reachDestination();
+        }
     }
+
 
     /**
      * Step needs to be called in the update method, makes the NPC move and check if it has reached its next node
@@ -41,7 +62,9 @@ public class Infiltrator extends NPC{
             {
                 this.isDestroying = false;
                 this.pathQueue.clear();
-                this.setGoal(MapGraph.getRandomNode());
+                Node newGoal = MapGraph.getRandomNode();
+                this.setGoal(newGoal);
+                this.currentGoal =newGoal;
             }
 
             if(Vector2.dst(Player.x, Player.y, this.getX(), this.getY()) < 250)
@@ -102,7 +125,11 @@ public class Infiltrator extends NPC{
             if(keySystem == null)
             {
                 this.isDestroying = false;
+
                 setGoal(MapGraph.getRandomNode());
+                Node goal = MapGraph.getRandomNode();
+                this.setGoal(goal);
+                this.currentGoal =goal;
                 return;
             }
             if(keySystem.isSafe())
@@ -120,6 +147,7 @@ public class Infiltrator extends NPC{
         }while(newGoal == previousNode);
         {
             setGoal(newGoal);
+            this.currentGoal =newGoal;
         } //Set a new goal node and start moving towards it
 
     }
@@ -139,7 +167,9 @@ public class Infiltrator extends NPC{
         }
         else
         {
+
             this.setGoal(keySystemNode);
+            this.currentGoal =keySystemNode;
         } //If Key system is being destroyed or is already destroyed, select a new key system
     }
 
@@ -168,7 +198,9 @@ public class Infiltrator extends NPC{
         } // 1/3 chance of using each ability
 
         this.pathQueue.clear();
-        this.setGoal(MapGraph.getRandomNode()); //After using an ability, go somewhere random
+        Node goal = MapGraph.getRandomNode();
+        this.setGoal(goal); //After using an ability, go somewhere random
+        this.currentGoal = goal;
     }
 
     /**
@@ -213,7 +245,23 @@ public class Infiltrator extends NPC{
         //Infiltrator.hardSprites.add(new Sprite(new Texture("AlienStand.png")));
         //Infiltrator.hardSprites.add(new Sprite(new Texture("HumanStand.png")));
     }
+    public static Sprite selectSprite(double chance)
+    {
+        //double chance = Math.random() * 20;
 
+        if(chance < 2)
+        {
+            return easySprites.get(2);
+        }
+        if(chance < 13)
+        {
+            return easySprites.get(1);
+        }
+        else
+        {
+            return easySprites.get(0);
+        }
+    } //Low chance of anime sprites (Always innocent) and high chance of construction worker or alien
     public void setIndex(int index)
     {
         this.index = index;

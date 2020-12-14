@@ -22,11 +22,16 @@ public class SavingGame {
         NPCInfo npcInfo = new NPCInfo();
         String npc = gson.toJson(npcInfo);
         prefs.putString("npcInfo",npc);
+
+        //saves infiltrator info
+        INFInfo infInfo = new INFInfo();
+        String inf = gson.toJson(infInfo);
+        prefs.putString("infInfo",inf);
         prefs.flush();
 
 
 
-        System.out.println(npc);
+        System.out.println(inf);
     }
 
 }

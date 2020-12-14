@@ -43,10 +43,19 @@ public class Prisoners{
      * Adds a prisoner to the list of prisoners and spawns them in the brig
      * @param sprite Sprite of npc to put in prison
      */
-    public static void addPrisoner(Sprite sprite)
+    public static void addPrisoner(Double chance,Boolean side)
     {
-        prisoners.add(sprite);
-        sprite.setPosition(positions.random().x, positions.random().y);
+//        prisoners.add(sprite);
+//        sprite.setPosition(positions.random().x, positions.random().y);
+        if (side) {
+            prisoners.add(Infiltrator.selectSprite(chance));
+            Infiltrator.selectSprite(chance).setPosition(positions.random().x, positions.random().y);
+        }
+        else{
+            prisoners.add(CrewMembers.selectSprite(chance));
+            CrewMembers.selectSprite(chance).setPosition(positions.random().x, positions.random().y);
+        }
+
     }
 
     /**

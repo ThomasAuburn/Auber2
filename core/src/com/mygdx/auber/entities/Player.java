@@ -65,6 +65,7 @@ public class Player extends Sprite implements InputProcessor {
             this.setAlpha(0.01f);
         }
         health = 100f;
+        //health = 100000000000000000000000000f;
     }
 
     /**

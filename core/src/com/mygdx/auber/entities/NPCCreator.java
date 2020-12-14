@@ -22,9 +22,9 @@ public class NPCCreator {
      * @param start Start node for infiltrator
      * @param graph MapGraph for the infiltrator to reference
      */
-    public static void createInfiltrator(Sprite sprite, Node start, MapGraph graph,Boolean loading)
+    public static void createInfiltrator(Sprite sprite, Node start, MapGraph graph,Double chance,Float goalX, Float goalY,Boolean destroying)
     {
-        Infiltrator infiltrator = new Infiltrator(sprite, start, graph);
+        Infiltrator infiltrator = new Infiltrator(sprite, start, graph,chance,goalX,goalY,destroying);
         infiltrators.add(infiltrator);
         infiltrator.setIndex(lastInfiltratorIndex);
         lastInfiltratorIndex++;
@@ -65,7 +65,7 @@ public class NPCCreator {
                 }
                 infiltrator.isDestroying = false;
                 infiltrator.step(0.001f);
-                Prisoners.addPrisoner(infiltrator);
+                Prisoners.addPrisoner(infiltrator.currentImage,true);
             }
         }
         infiltrators.removeIndex(id);
@@ -87,7 +87,7 @@ public class NPCCreator {
     public static void removeCrewmember(int id)
     {
         CrewMembers newPrisoner = crew.get(id);
-        Prisoners.addPrisoner(newPrisoner);
+        Prisoners.addPrisoner(newPrisoner.currentImage,false);
 
         crew.remove(id);
         if(crew.isEmpty())

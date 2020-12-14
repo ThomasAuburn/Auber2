@@ -15,7 +15,7 @@ public class NPCInfo {
     public NPCInfo() {
 
         for (CrewMembers crew: NPCCreator.crew){
-            data.add(new CrewModel(crew.getX(),crew.getY(),crew.currentImage,crew.currentGoal.x,crew.currentGoal.y));
+            data.add(new CrewModel(crew.getX(),crew.getY(),crew.currentImage,crew.currentGoal.x,crew.currentGoal.y,false));
             //,crew.currentGoal.x,crew.currentGoal.y
         }
         this.npcNumber = PlayScreen.numberOfCrew;
