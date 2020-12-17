@@ -13,7 +13,10 @@ public class LoadingGame {
 
     public void loadGame(Auber game){
         if (if_exists("Saved Game")){
-            game.setScreen(new PlayScreen(game, false,6,15,5,true));
+            Gson gson = new Gson();
+            String playerSave = Gdx.app.getPreferences("Saved Game").getString("playerInfo");
+            PlayerInfo playerInfo = gson.fromJson(playerSave, PlayerInfo.class);
+            game.setScreen(new PlayScreen(game, false,playerInfo.numberOfInfiltrators,playerInfo.numberOfCrew,playerInfo.maxIncorrectArrests,true));
         }
 
     }
