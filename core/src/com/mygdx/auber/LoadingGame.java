@@ -16,6 +16,7 @@ public class LoadingGame {
             Gson gson = new Gson();
             String playerSave = Gdx.app.getPreferences("Saved Game").getString("playerInfo");
             PlayerInfo playerInfo = gson.fromJson(playerSave, PlayerInfo.class);
+            //sets the starting game setting to be correct on creation
             game.setScreen(new PlayScreen(game, false,playerInfo.numberOfInfiltrators,playerInfo.numberOfCrew,playerInfo.maxIncorrectArrests,true));
         }
 
