@@ -167,7 +167,7 @@ public class PlayScreen implements Screen {
      * @return Boolean if the game is over or not
      */
     public boolean gameOver() {
-        return Player.health <= 0 || Hud.CrewmateCount >= 3 || KeySystemManager.destroyedKeySystemsCount() >= 15 ;
+        return Player.health <= 0 || Hud.CrewmateCount >= PlayScreen.maxIncorrectArrests || KeySystemManager.destroyedKeySystemsCount() >= 15 ;
     }
 
     /**
