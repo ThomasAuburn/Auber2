@@ -5,7 +5,7 @@ name: Java CI with Gradle
 
 on:
   push:
-    branches: [ main, Adam,  David, clara, ethan, george, lakhan]
+    branches: [ main, Adam,  David, clara, ethan, george, lakhan, mostly_broken, changing_saving]
   pull_request:
     branches: [ main]
 
